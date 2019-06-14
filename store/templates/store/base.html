@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<title>
+  Bra!nstorm
+</title>
+<link href="https://fonts.googleapis.com/css?family=Athiti|Carrois+Gothic|Podkova|Sarabun&display=swap" rel="stylesheet">
+<link href="{% static 'store/main.css' %}"  rel="stylesheet" type="text/css">
+<head>
+</head> 
+<body>
+<ul id="menu">
+  <div id="logo_holder">
+    <img id="logo" src="{% static 'store/brainstorm_logo.jpg' %}">
+  </div>
+    <li class="dropdown menu_left">
+    <a href="javascript:void(0)" class="menu_item" id="Teachers">Look for Teachers▼</a>
+    <div class="dropdown-content">
+      <a href="#">Popular</a>
+      <a href="#">Cheapest</a>
+      <a href="#">Cutest</a>
+      <a href="#">Most experienced</a>
+    </div>
+  </li>
+  <li class="dropdown menu_left">
+    <a href="javascript:void(0)" class="menu_item" id="Students">Look for Students▼</a>
+    <div class="dropdown-content">
+      <a href="#">Underage</a>
+      <a href="#">Loli</a>
+      <a href="#">Waifu</a>
+    </div>
+  </li>
+  <li class="dropdown menu_right" id="Account">
+    <a href="signup_form.html">Register as Teacher</a>
+  </li>
+  <li class="menu_right">
+    <div>
+      <button id="search_btn"><img src="{% static 'store/search_icon.gif' %}" width="20px"></button>
+      <input id="search_bar" type="text" placeholder=" Search...">
+    </div>
+  </li>
+ </ul>
+
+<div id="main">
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>
