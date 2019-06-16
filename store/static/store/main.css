@@ -140,15 +140,28 @@ li.dropdown {
 }
 
 #main {
-  padding-top: 60px;
   color: rgb(39, 41, 65);
   font-family: 'Athiti', sans-serif;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 5%; 
 }
-#main h1 {
 
+#profile_pic {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #231;
+  border-radius: 50%;
+  padding: 5px;
+  position: inherit;
 }
 
-#main input {
-  margin: 10px;
+#profile_icon {
+  position: inherit;
+  border-radius: 50%;
+  border: 1px solid #231;
+  width: 35px;
+  height: 35px;
+  bottom: 10px;
 }
 
