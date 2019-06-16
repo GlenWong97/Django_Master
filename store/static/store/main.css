@@ -2,7 +2,7 @@ body {
   color: black;
   padding: 0;
   margin: 0;
-  background-image: linear-gradient(-90deg, rgba(200,200,255),white);
+  background-image: linear-gradient(180deg, rgb(221, 223, 142),rgb(194, 183, 233));
 }
 #menu {
   list-style-type: cambodian;
@@ -142,9 +142,12 @@ li.dropdown {
 #main {
   color: rgb(39, 41, 65);
   font-family: 'Athiti', sans-serif;
-  padding-left: 20%;
-  padding-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding-left: 5%;
+  padding-right: 5%;
   padding-top: 5%; 
+  background-image: linear-gradient(-135deg, rgba(200,200,255),white);
 }
 
 #profile_pic {
