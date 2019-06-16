@@ -1,4 +1,10 @@
 {% extends "store/base.html" %}
 {% block content %}
-    <h1>Welcome, {{ user.username }}</h1>
+    <div>
+        <img src="{{ user.profile.image.url }}">
+        <h2>{{ user.username }}</h2>
+        <p> {{ user.email }}</p>
+        <p> {{ user.profile.gender }}</p>
+        <p> {{ user.profile.bio }}</p>
+    </div>
 {% endblock content %}
