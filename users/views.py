@@ -15,6 +15,10 @@ def register(request):
         form =  UserRegisterForm
     return render(request, 'users/register.html', {'form' : form})
 
+def login(request):
+    if login.method == 'POST':
+        messages.success(request, f'Welcome {username}, great to have you back!')
+
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
