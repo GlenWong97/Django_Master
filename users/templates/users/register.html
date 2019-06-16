@@ -1,0 +1,21 @@
+{% extends "store/base.html" %}
+{% block content %}
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Join today</legend>
+                {{ form.as_p }}
+            </fieldset>
+            <div>
+                <button type= "submit">Sign Up</button>
+            </div>
+        </form>
+        <div>
+            <small>
+                Already a teacher? 
+                <a href="{% url 'login'%}">Sign in</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
