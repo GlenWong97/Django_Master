@@ -163,12 +163,12 @@ li.dropdown {
   height: 150px;
   border: 1px solid #231;
   border-radius: 50%;
+  object-fit: cover;
   padding: 5px;
-  position: inherit;
 }
 
 #profile_icon {
-  position: inherit;
+  object-fit: cover;
   border-radius: 50%;
   border: 1px solid #231;
   width: 35px;
