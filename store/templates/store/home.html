@@ -1,3 +1,30 @@
 {% extends "store/base.html" %}
 {% block content %}
+    {% if user.is_authenticated %}
+    <div>
+        <h1>{{ user.username }}'s School</h1>
+        <img id="profile_pic" src="{{ user.profile.image.url }}">
+        <p></p>    
+        <div>
+            <!-- TEST CONTENT -->
+            <a href="#" size='20pt'>General Uploads</a>
+            <h2>Subjects</h2>
+            <li> Math </li>
+            <li> English </li>
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <p>
+            Brainstorm is a platform for teachers to design lessons, create quizes, 
+            record screen-cast, upload learning materials and much more! 
+        </p> 
+        <p>
+            Join today as a teacher and enjoy our user-friendly interface! 
+        </p>
+        <p>
+            Or, Sign up now as a student to enjoy carefully crafted lessons by our teachers!
+        </p>
+    </div> 
+    {% endif %}
 {% endblock content %}

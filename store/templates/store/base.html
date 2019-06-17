@@ -12,7 +12,9 @@
 <body>
 <ul id="menu">
   <div id="logo_holder">
-    <img id="logo" src="{% static 'store/brainstorm_logo.gif' %}">
+    <a href="{% url 'store-home' %}">
+      <img id="logo" src="{% static 'store/brainstorm_logo.gif' %}">
+    </a>
   </div>
     <li class="dropdown menu_left">
     <a href="javascript:void(0)" class="menu_item" id="Teachers">Look for Teachers▼</a>
