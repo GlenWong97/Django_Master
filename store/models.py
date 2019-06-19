@@ -10,7 +10,7 @@ class Post(models.Model):
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
-
+	
 	def __str___(self):
 		return self.title
 

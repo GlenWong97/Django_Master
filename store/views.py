@@ -7,25 +7,25 @@ from django.views.generic import (
 )
 from .models import Post
 
-class PostListView(ListView):
-	model = Post
-	template_name = 'store/home.html'
-	context_object_name = 'post'
-	ordering = ['-date_posted']
-
-class PostCreateView(CreateView):
-	model = Post
-	fields = ['title', 'description', 'price']
-
-	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
-
 def home(request):
 	context = {
 		'post': Post.objects.all()
 	}
 	return render (request, 'store/home.html')
+
+class PostListView(ListView):
+	model = Post
+	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'post'
+	ordering = ['-date_posted']
+
+class PostCreateView(CreateView):
+	model = Post
+	fields = ['title', 'description', 'price', 'date_posted']
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
 def about(request):
 	return render (request, 'store/about.html')
