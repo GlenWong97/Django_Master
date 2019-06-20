@@ -13,27 +13,63 @@
 <head>
 </head> 
 <body>
-  <div class="topnav" id="myTopnav">
-  <a style="padding-top: 7px;" class="left">
-    <img src="../../static/store/brainstorm_logo.gif" height="30px">
-  </a> 
-  <a href="{% url 'store-home' %}" class="left select">Home</a>
-  <a href="{% url 'store-about' %}" class="left select">About</a>
-  {% if user.is_authenticated %}
-      <a href="{% url 'logout'%}" class="right select">logout</a>
-      <a href="{% url 'profile'%}"  style="padding-top: 7px;" class="right">  
-        <img id="profile_icon" src="{{ user.profile.image.url }}" height="30px">
+  <div id="nav_bar">
+    <div class="topnav">
+      <a style="padding-top: 7px;" class="left">
+        <img src="../../static/store/brainstorm_logo.gif" height="30px">
+      </a> 
+      <a href="{% url 'store-home' %}" class="left select">Home</a>
+      <a href="{% url 'store-about' %}" class="left select">About</a>
+      {% if user.is_authenticated %}
+          <a href="{% url 'logout'%}" class="right select">logout</a>
+          <a href="{% url 'profile'%}"  style="padding-top: 7px;" class="right">  
+            <img id="profile_icon" src="{{ user.profile.image.url }}" height="30px">
+          </a>
+        {% else %}
+          <a href="{% url 'register'%}" class="right select">Register as Teacher</a>
+          <a href="{% url 'login'%}" class="right select">login</a>
+        {% endif %}
+      <input type="text" placeholder="Search.." class="right">
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <img src="../../static/store/menu_icon.gif" width="20px">
       </a>
-    {% else %}
-      <a href="{% url 'register'%}" class="right select">Register as Teacher</a>
-      <a href="{% url 'login'%}" class="right select">login</a>
-    {% endif %}
-  <input type="text" placeholder="Search.." class="right">
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <img src="../../static/store/menu_icon.gif" width="20px">
-  </a>
-</div>
-  
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">Level</button>
+      <div class="dropdown-content">
+        <a href="#">Lower Primary</a>
+        <a href="#">Upper Primary</a>
+        <a href="#">Lower Secondary</a>
+        <a href="#">Upper Secondary</a>
+        <a href="#">L</a>
+        <a href="#">Link 3</a>
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+    </div>
+      <div class="dropdown">
+      <button class="dropbtn">Courses</button>
+      <div class="dropdown-content">
+        <a href="#">Bible studies</a>
+        <a href="#">Crucification</a>
+        <a href="#">Prostitution</a>
+        <a href="#">Li</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+      </div>
+      <button class="brk-btn">GO</button>
+
 <div id="main">
   {% if messages %}
     {% for message in messages %}
