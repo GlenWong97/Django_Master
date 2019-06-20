@@ -6,7 +6,9 @@ from django.conf.urls.static import static
 from .views import (
 	PostListView, 
 	PostDetailView,
-	PostCreateView
+	PostCreateView,
+	PostUpdateView,
+	PostDeleteView
 )
 from . import views
 
@@ -14,6 +16,8 @@ urlpatterns = [
     path('', PostListView.as_view(), name='store-home'),
     path('about/', views.about, name='store-about'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
