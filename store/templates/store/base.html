@@ -5,7 +5,7 @@
 <title>
   Bra!nstorm
 </title>
-<script type="text/javascript" src="/static/store/main.js"></script>
+<script type="text/javascript" src="../../static/store/main.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Athiti|Carrois+Gothic|Podkova|Sarabun&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -13,7 +13,8 @@
 <head>
 </head> 
 <body>
-  <div class="topnav" id="myTopnav">
+  <div id="nav_bar" >
+  <div class="topnav">
   <a style="padding-top: 7px;" class="left">
     <img src="/static/store/brainstorm_logo.gif" height="30px">
   </a> 
@@ -24,6 +25,7 @@
       <a href="{% url 'profile'%}"  style="padding-top: 7px;" class="right">  
         <img id="profile_icon" src="{{ user.profile.image.url }}" height="30px">
       </a>
+    
     {% else %}
       <a href="{% url 'register'%}" class="right select">Register as Teacher</a>
       <a href="{% url 'login'%}" class="right select">login</a>
@@ -33,8 +35,33 @@
     <img src="/static/store/menu_icon.gif" width="20px">
   </a>
 </div>
-  
-<div id="main">
+  <div class="nav2">
+    <select class="select-css">
+    <option>Level</option>
+    <option>Primary 1</option>
+    <option>Primary 2</option>
+    <option>Primary 3</option>
+    <option>Primary 4</option>
+    <option>Primary 5</option>
+    <option>Primary 6</option>
+    <option>Secondary 1</option>
+    <option>Secondary 2</option>
+    <option>Secondary 3</option>
+    <option>Secondary 4</option>
+    <option>Tertiary 1</option>
+    <option>Tertiary 2</option>
+</select>
+    <select class="select-css">
+    <option>Course</option>
+    <option>Bible studies</option>
+    <option>Devil worship</option>
+    <option>Taoist 18 levels</option>
+    <option>Karma</option>
+    </select>
+      <button class="go">GO</button>
+    </div>
+  </div>
+ <div id="main">
   {% if messages %}
     {% for message in messages %}
       <div class = "alert alert-{{ message.tags }}">
