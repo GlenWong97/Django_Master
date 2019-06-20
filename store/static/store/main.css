@@ -94,13 +94,13 @@ body {
 
 /* Style The Dropdown Button */
 .dropbtn {
-  background-color: white;
-  color: rgb(65, 0, 168);
+  color: rgb(92, 91, 94);
   border-bottom: solid black;
-  padding: 0px;
+  padding: 2px;
   font-size: 16px;
-  border: none;
   cursor: pointer;
+  marg
+  width: 20vw; 
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -141,6 +141,23 @@ body {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   text-decoration: underline; 
+}
+
+.nav2 {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: rgb(194, 203, 221);
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  height: 40px;
+}
+
+.go {
+  float: right;
+  padding-right: 2px;
+  background-color: rgba(0,0,0,0);
 }
 
 #main {
