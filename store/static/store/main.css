@@ -111,10 +111,15 @@ body {
 .go {
   float: left;
   color: rgb(24, 0, 131);
-  size: 20pt;
+  size: 12pt;
   border: solid rgb(16, 197, 230);
   background-color: white;
   /* margin-top: 7px; */
+}
+
+.go:hover {
+  border: solid #333;
+  color: black;
 }
 
 .select-css {
@@ -139,7 +144,7 @@ body {
     display: none;
 }
 .select-css:hover {
-    border-color: #888;
+    border-color: #333;
 }
 .select-css:focus {
     border-color: #aaa;
