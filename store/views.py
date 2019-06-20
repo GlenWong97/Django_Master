@@ -11,7 +11,7 @@ def home(request):
 	context = {
 		'post': Post.objects.all()
 	}
-	return render (request, 'store/home.html')
+	return render (request, 'store/home.html', context)
 
 class PostListView(ListView):
 	model = Post
@@ -19,6 +19,9 @@ class PostListView(ListView):
 	context_object_name = 'post'
 	ordering = ['-date_posted']
 
+class PostDetailView(DetailView):
+	model = Post
+	
 class PostCreateView(CreateView):
 	model = Post
 	fields = ['title', 'description', 'price', 'date_posted']

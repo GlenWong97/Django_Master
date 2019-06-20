@@ -1,0 +1,55 @@
+{% extends "store/base.html" %}
+{% block content %}
+   
+<section class="text-center mb-4">
+
+<!--Grid row-->
+
+
+<!--Grid column-->
+<div class="col-lg-3 col-md-6 mb-4">
+
+  <!--Card-->
+  <div class="card">
+
+    <!--Card image-->
+    <div class="view overlay">
+      <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    <!--Card image-->              
+   
+    <!--Card content-->
+    <div class="card-body text-left">
+      <!--Category & Title-->
+      <a href="" class="grey-text">
+        <h5> {{ object.author }}</h5>
+      </a>
+      <h5>
+        <strong>
+          <a href="" class="dark-grey-text"> {{ object.title }} 
+            <span class="badge badge-pill danger-color">NEW</span>
+          
+          </a>
+        </strong>
+      </h5>
+
+      <h6>
+        <strong> S${{ object.price }}</strong>
+      </h6>
+
+      <h6>
+         {{ object.date_posted|date:'d F y'}}
+      </h6>
+
+    </div>
+    <!--Card content-->
+
+  </div>
+  <!--Card-->
+
+</div>
+<!--Grid column-->    
+{% endblock content %}
