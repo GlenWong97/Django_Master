@@ -88,11 +88,6 @@ body {
     display: block;
     text-align: left;
   }
-  .topnav .responsive input[type=text] {
-    width: 30%;
-    float: none;
-    display: block;
-  }
 }
 
 .nav2 {
