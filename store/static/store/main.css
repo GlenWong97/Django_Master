@@ -9,12 +9,15 @@ body {
 }
 /* Add a black background color to the top navigation */
 #nav_bar {
+  padding-bottom: 10px;
   border-bottom: solid;
+  position: fixed;
+  width: 100%;
+  background-color: white;
 }
 
 .topnav {
   overflow: hidden;
-  background-color: rgb(255, 255, 255);
   font-family: 'Carrois Gothic', sans-serif;
 }
 
@@ -39,7 +42,7 @@ body {
 
 .topnav input[type=text] {
   float: right;
-  padding: 6px;
+  padding: 3px;
   border: 1px solid #ccc;
   margin-top: 8px;
   margin-right: 16px;
@@ -92,62 +95,74 @@ body {
   }
 }
 
-/* Style The Dropdown Button */
-.dropbtn {
-  background-color: white;
-  color: rgb(65, 0, 168);
-  border-bottom: solid black;
-  padding: 0px;
-  font-size: 16px;
+.nav2 {
+  background-color: rgb(174, 216, 255);
+  display: block;
+  margin-top: -5px;
+  padding-top: 0;
+  width: 100%;
   border: none;
+  font-size: 16px;
   cursor: pointer;
+  text-align: center;
+  margin-left: 27.5%;
 }
 
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
- border-bottom: solid;  
- float: left;
+.go {
+  float: left;
+  color: rgb(24, 0, 131);
+  size: 20pt;
+  border: solid rgb(16, 197, 230);
+  background-color: white;
+  /* margin-top: 7px; */
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+.select-css {
+    float: left;
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgb(24, 0, 131);
+    /* padding: .6em 1.4em .5em .8em; */
+    margin-right: 3%;
+    width: 15%;
+    height: 30px;
+    box-sizing: border-box;
+    border: solid rgb(16, 197, 230);
+    /* box-shadow: 0 1px 0 1px rgb(16, 197, 230); */
+    border-radius: .5em;
+    background-color: rgba(255, 255, 255, 0.815);
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+      linear-gradient(to bottom, white 0%, white 100%);
+   }
+.select-css::-ms-expand {
+    display: none;
+}
+.select-css:hover {
+    border-color: #888;
+}
+.select-css:focus {
+    border-color: #aaa;
+    /* box-shadow: 0 0 1px 3px rgba(4, 163, 255, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring; */
+    color: rgb(0, 0, 0); 
+    outline: none;
+}
+.select-css option {
+    font-weight:normal;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-  max-height: 200px;
-  overflow: auto;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-  text-decoration: underline; 
-}
 
 #main {
   color: rgb(39, 41, 65);
   font-family: 'Athiti', sans-serif;
   margin: 1.5%;
+  margin-top: 0%;
   padding: 2%;
+  padding-top: 100px;
+ 
   border-style: solid;
   border-width: medium;
   background-color: white;
@@ -177,10 +192,11 @@ body {
   background: none;
   color: rgb(16, 197, 230);
   text-transform: uppercase;
+  font-weight: 600;
   text-decoration: none;
   border: 0.2em solid rgb(16, 197, 230);
-  padding: 0.5em 1em;
-  margin-top: 10px;
+  padding: 0.2em 0.5em;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
