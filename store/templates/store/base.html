@@ -5,7 +5,7 @@
 <title>
   Bra!nstorm
 </title>
-<script type="text/javascript" src="../../static/store/main.js"></script>
+<script type="text/javascript" src="{% static 'store/main.js' %}"></script>
 <link href="https://fonts.googleapis.com/css?family=Athiti|Carrois+Gothic|Podkova|Sarabun&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -15,7 +15,7 @@
 <body>
   <div class="topnav" id="myTopnav">
   <a style="padding-top: 7px;" class="left">
-    <img src="../../static/store/brainstorm_logo.gif" height="30px">
+    <img src="/static/store/brainstorm_logo.gif" height="30px">
   </a> 
   <a href="{% url 'store-home' %}" class="left select">Home</a>
   <a href="{% url 'store-about' %}" class="left select">About</a>
@@ -30,7 +30,7 @@
     {% endif %}
   <input type="text" placeholder="Search.." class="right">
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <img src="../../static/store/menu_icon.gif" width="20px">
+    <img src="{% static 'store/menu_icon.gif' %}" width="20px">
   </a>
 </div>
   
