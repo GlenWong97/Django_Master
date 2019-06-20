@@ -1,55 +1,25 @@
 {% extends "store/base.html" %}
 {% block content %}
    
-<section class="text-center mb-4">
-
-<!--Grid row-->
-
-
-<!--Grid column-->
-<div class="col-lg-3 col-md-6 mb-4">
-
-  <!--Card-->
-  <div class="card">
-
-    <!--Card image-->
-    <div class="view overlay">
-      <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
-      <a>
-        <div class="mask rgba-white-slight"></div>
-      </a>
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ object.author }}</a>
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        <p>
+          <h6> ${{ object.price}} </h6>
+        </p>
+        {% if object.author == user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">{{ object.title }}</h2>
+      <p class="article-content">{{ object.description|linebreaks }}</p>
     </div>
-    <!--Card image-->              
-   
-    <!--Card content-->
-    <div class="card-body text-left">
-      <!--Category & Title-->
-      <a href="" class="grey-text">
-        <h5> {{ object.author }}</h5>
-      </a>
-      <h5>
-        <strong>
-          <a href="" class="dark-grey-text"> {{ object.title }} 
-            <span class="badge badge-pill danger-color">NEW</span>
-          
-          </a>
-        </strong>
-      </h5>
-
-      <h6>
-        <strong> S${{ object.price }}</strong>
-      </h6>
-
-      <h6>
-         {{ object.date_posted|date:'d F y'}}
-      </h6>
-
-    </div>
-    <!--Card content-->
-
-  </div>
-  <!--Card-->
-
-</div>
+  </article>
 <!--Grid column-->    
 {% endblock content %}
