@@ -26,49 +26,44 @@
             Or, Sign up now as a student to enjoy carefully crafted lessons by our teachers!
         </p>
     </div>
-    
-    
-      
-      
-      <section class="text-center mb-4">
-        <div class="row">    
-        {% for post in post %}      
-        
-          <div class="col-lg-3 col-md-6 mb-4">            
-            <div class="card">            
-              <div class="view overlay">
-                <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>                                    
-              <div class="card-body text-left">                
-                <a href="" class="grey-text">
-                  <h5> {{ post.author }}</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="{% url 'post-detail' post.id %}" class="dark-grey-text"> {{ post.title }} 
-                      <span class="badge badge-pill danger-color">NEW
-                      </span> 
-                    </a>
-                  </strong>
-                </h5>
-                <h6>
-                  <strong>S${{ post.price }}
-                  </strong>
-                </h6>
-                <small class="text-muted">
-                   {{ post.date_posted|date:'d F y'}}
-                </small>
-              </div>            
-            </div>            
-          </div>          
-        
-        {% endfor %}
-        </div>
-      </section>
-    
-   
     {% endif %}
+      
+    <section class="text-center mb-4">
+      <div class="row">    
+      {% for post in post %}      
+      
+        <div class="col-lg-3 col-md-6 mb-4">            
+          <div class="card">            
+            <div class="view overlay">
+              <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>                                    
+            <div class="card-body text-left">                
+              <a href="" class="grey-text">
+                <h5> {{ post.author }}</h5>
+              </a>
+              <h5>
+                <strong>
+                  <a href="{% url 'post-detail' post.id %}" class="dark-grey-text"> {{ post.title }} 
+                    <span class="badge badge-pill danger-color">NEW
+                    </span> 
+                  </a>
+                </strong>
+              </h5>
+              <h6>
+                <strong>S${{ post.price }}
+                </strong>
+              </h6>
+              <small class="text-muted">
+                 {{ post.date_posted|date:'d F, Y'}}
+              </small>
+            </div>            
+          </div>            
+        </div>          
+      
+      {% endfor %}
+      </div>
+    </section>        
 {% endblock content %}

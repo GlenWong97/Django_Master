@@ -21,6 +21,7 @@
   <a href="{% url 'store-home' %}" class="left select">Home</a>
   <a href="{% url 'store-about' %}" class="left select">About</a>
   {% if user.is_authenticated %}
+      <a href="{% url 'post-create'%}" class="right select">New Post</a>      
       <a href="{% url 'logout'%}" class="right select">logout</a>
       <a href="{% url 'profile'%}"  style="padding-top: 7px;" class="right">  
         <img id="profile_icon" src="{{ user.profile.image.url }}" height="30px">
