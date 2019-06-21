@@ -241,3 +241,11 @@ body {
   background-color: rgb(16, 197, 230);
   /* border: 0.2em solid black; */
 }
+
+#useless img {
+  width: 100%;
+}
+
+#useless {
+  padding-top: 100px;
+}
