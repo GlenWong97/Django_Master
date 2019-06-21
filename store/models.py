@@ -5,6 +5,11 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+#class Lesson(models.Model):
+#	title = models.CharField(maxlength=100)
+#	pdf = models.FileField()
+
+
 class Post(models.Model):
 	title = models.CharField(max_length=100)
 	image = models.ImageField(default = 'default0.jpg', upload_to='course_image')

@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.files.storage import FileSystemStorage
 from django.views.generic import (
 	ListView, 
 	DetailView, 
@@ -14,6 +15,16 @@ def home(request):
 		'post': Post.objects.all()
 	}
 	return render (request, 'store/home.html', context)
+
+def upload(request):
+	if request.method == 'POST':
+		uploaded_file = request.FILES['document']
+		fs = FileSystemStorage()
+		name = fs.save(uploaded_file.name, uploaded_file)
+		url = fs.url(name)
+		print(uploaded_file.name)
+		print(uploaded_file.size)
+	return render(request, 'store/upload.html')
 
 class PostListView(ListView):
 	model = Post

@@ -1,0 +1,10 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div id="main">
+	<form method="post" enctype="multipart/form-data">
+	  {% csrf_token %}
+		  <input type="file" name="document" style="float:left;">
+		  <button class="btn btn-secondary" type="submit" >Upload File</button>
+	</form>
+</div>
+{% endblock %}
