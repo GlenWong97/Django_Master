@@ -83,36 +83,41 @@
           </button>
       </div>
       <p style="padding: 20px;"></p>
-      <div id="main" >
+      <div style="padding-top: 20px;" id="main" >
       <section class="text-center mb-4">
         <div class="row">    
         {% for post in post %}      
         
           <div class="col-lg-3 col-md-6 mb-4">            
-            <div class="card">            
+            <div id="course_card">            
               <div class="view overlay">
-                <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
+                <img style="margin-left: -10px;" src="{{ post.image.url }}" alt="">
               </div>                                    
-              <div class="card-body text-left">                
-                <a href="" class="grey-text">
-                  <h5> {{ post.author }}</h5>
-                </a>
-                <h5>
+              <div>                
+                
+                <div>
                   <strong>
-                    <a href="{% url 'post-detail' post.id %}" class="dark-grey-text"> {{ post.title }} 
-                      <span class="badge badge-pill danger-color">NEW
+                    <a class="title" href="{% url 'post-detail' post.id %}" > <span>{{ post.title }}</span> 
+                      <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
                       </span> 
                     </a>
                   </strong>
-                </h5>
-                <h6>
-                  <strong>S${{ post.price }}
+                </div>
+                <a class="author">
+                  {{ post.author }} 
+                </a>
+                <div class="rating">
+               <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+               <span class="fa fa-star"></span>
+                </div>
+                <div>
+                  <strong style="text-align: right;" class="price">S${{ post.price }}
                   </strong>
-                </h6>
-                <small class="text-muted">
+                </div>
+                <small class="date">
                    {{ post.date_posted|date:'d F y'}}
                 </small>
               </div>            
