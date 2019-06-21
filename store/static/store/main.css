@@ -243,9 +243,19 @@ body {
 }
 
 #useless img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
 }
 
+.cover_holder {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  background: black;
+}
+
 #useless {
-  padding-top: 100px;
+  padding-top: 70px;
 }

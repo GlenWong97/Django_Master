@@ -1,4 +1,5 @@
 {% extends "store/base.html" %}
+
 {% block content %}
     {% if user.is_authenticated %}
     <!-- <div>
@@ -26,27 +27,32 @@
     <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
-      <img src="/static/store/c2.jpg" alt="c0">
+      <div class="cover_holder">
+      <img src="/static/store/kids.jpg" alt="c0">
       <div class="carousel-caption">
-        <h3>Dont believe in Karma</h3>
-        <p>Just do what's right</p>
+        <h3>User-Friendly Interface</h3>
+        <p>get started now</p>
       </div>
-    </div>
-
-
-    <div class="item">
-      <img src="/static/store/c0.jpg" alt="c1">
-      <div class="carousel-caption">
-        <h3>Bra!nstorm</h3>
-        <p>For all your paedophile-needs</p>
       </div>
     </div>
 
     <div class="item">
-      <img src="/static/store/c1.jpg" alt="c2">
+      <div class="cover_holder">
+      <img src="/static/store/teachers.jpg" alt="c1">
       <div class="carousel-caption">
-        <h3>Jesus</h3>
-        <p>Why credit everything that's good on this?</p>
+        <h3>Teacher-approved</h3>
+        <p>for all your paedophile-needs</p>
+      </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="cover_holder">
+      <img src="/static/store/badges.jpg" alt="c2">
+      <div class="carousel-caption">
+        <h3>Tons of Content and Categories</h3>
+        <p>browse our content now</p>
+      </div>
       </div>
     </div>
   </div>
@@ -62,42 +68,44 @@
   </a>
 </div>
       </div>
-      
-    <section class="text-center mb-4">
-      <div class="row">    
-      {% for post in post %}      
-      
-        <div class="col-lg-3 col-md-6 mb-4">            
-          <div class="card">            
-            <div class="view overlay">
-              <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>                                    
-            <div class="card-body text-left">                
-              <a href="" class="grey-text">
-                <h5> {{ post.author }}</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="{% url 'post-detail' post.id %}" class="dark-grey-text"> {{ post.title }} 
-                    <span class="badge badge-pill danger-color">NEW
-                    </span> 
-                  </a>
-                </strong>
-              </h5>
-              <h6>
-                <strong>S${{ post.price }}
-                </strong>
-              </h6>
-              <small class="text-muted">
-                 {{ post.date_posted|date:'d F, Y'}}
-              </small>
+      <div id="main" >
+      <section class="text-center mb-4">
+        <div class="row">    
+        {% for post in post %}      
+        
+          <div class="col-lg-3 col-md-6 mb-4">            
+            <div class="card">            
+              <div class="view overlay">
+                <img id="profile_pic" src="{{ post.author.profile.image.url }}" class="card-img-top" alt="">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>                                    
+              <div class="card-body text-left">                
+                <a href="" class="grey-text">
+                  <h5> {{ post.author }}</h5>
+                </a>
+                <h5>
+                  <strong>
+                    <a href="{% url 'post-detail' post.id %}" class="dark-grey-text"> {{ post.title }} 
+                      <span class="badge badge-pill danger-color">NEW
+                      </span> 
+                    </a>
+                  </strong>
+                </h5>
+                <h6>
+                  <strong>S${{ post.price }}
+                  </strong>
+                </h6>
+                <small class="text-muted">
+                   {{ post.date_posted|date:'d F y'}}
+                </small>
+              </div>            
             </div>            
           </div>          
         
         {% endfor %}
         </div>
       </section>
+</div>
 {% endblock content %}
