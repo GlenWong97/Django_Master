@@ -17,6 +17,29 @@ body {
   z-index: 999999;
 }
 
+#search_icon {
+  width: 20px;
+  float: right;
+  margin-right: 8px;
+  margin-top: 1px;
+}
+
+#search_holder {
+  float: right;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+#search {
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  float: right;
+  padding: 3px;
+  margin-top: 8px;
+  margin-right: 16px;
+}
+
 .topnav {
   overflow: hidden;
   font-family: 'Carrois Gothic', sans-serif;
@@ -42,12 +65,10 @@ body {
 }
 
 .topnav input[type=text] {
-  float: right;
-  padding: 3px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
-  margin-right: 16px;
-  font-size: 17px;
+  font-size: 10pt;
+  outline: none;
+  margin: 0.25em 0.5em 0.25em 0.5em;
+  border: none;
 }
 /* Change the color of links on hover */
 .topnav .select:hover {
@@ -69,7 +90,7 @@ body {
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
-  .topnav input[type=text] {display: none;}
+  .topnav input[type=text] {float: left;}
   .topnav a.icon {
     float: right;
     display: block;
@@ -160,13 +181,10 @@ body {
   z-index: -1;
   color: rgb(39, 41, 65);
   font-family: 'Athiti', sans-serif;
-  margin: 1.5%;
   margin-top: 0%;
-  padding: 2%;
+  font-size: 15pt;
+  padding: 15px;
   padding-top: 100px;
- 
-  border-style: solid;
-  border-width: medium;
   background-color: white;
   /* background-image: linear-gradient(-135deg, rgba(200,200,255),white); */
 }
@@ -258,26 +276,41 @@ body {
 
 #useless {
   padding-top: 70px;
+  border: none;
 }
 
 .panel{
-  margin-left: 15%;
-  padding-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  /* padding-top: 10px; */
+  margin-top: 10px;
+  border: none;
 }
 
 .panel button{
+  /* font-family: 'Arimo', sans-serif; */
   float: left;
+  width: 33.3%;
   background-color: white;
   display: block;
   color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
-  border: none;
-  margin-left: 10%;
+  font-size: 15px;
+  border: 0.5pt solid grey;
+  border-radius: 25px;
+  outline: none;
 }
 .panel button:hover{
-  background-color: rgb(0, 225, 255);
-  color: black;
+  color: rgb(16, 197, 230);
+}
+
+.panel img {
+  margin-top: -4px;
+  width: 25px;
+}
+.panel button:focus{
+  color: rgb(16, 197, 230);
+  text-decoration: underline;
 }
