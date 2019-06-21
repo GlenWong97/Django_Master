@@ -1,6 +1,7 @@
 {% extends "store/base.html" %}
 {% block content %}
-   
+
+<div id="main">   
 <article class="media content-section">
   <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
   <div class="media-body">
@@ -21,5 +22,5 @@
     <p class="article-content">{{ object.description|linebreaks }}</p>
   </div>
 </article>
-
+</div>
 {% endblock content %}
