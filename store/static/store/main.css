@@ -259,3 +259,25 @@ body {
 #useless {
   padding-top: 70px;
 }
+
+.panel{
+  margin-left: 15%;
+  padding-top: 10px;
+}
+
+.panel button{
+  float: left;
+  background-color: white;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border: none;
+  margin-left: 10%;
+}
+.panel button:hover{
+  background-color: rgb(0, 225, 255);
+  color: black;
+}
