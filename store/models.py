@@ -4,10 +4,13 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-#class Lesson(models.Model):
-#	title = models.CharField(maxlength=100)
-#	pdf = models.FileField()
+class Lesson(models.Model):
+	title = models.CharField(max_length=100)
+	pdf = models.FileField(upload_to="lesson/pdf")
+	date_posted = models.DateTimeField(default=timezone.now)
 
+	def __str__(self):
+		return self.title
 
 class Post(models.Model):
 	title = models.CharField(max_length=100)

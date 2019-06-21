@@ -6,9 +6,10 @@ from django.views.generic import (
 	DetailView, 
 	CreateView,
 	UpdateView,
-	DeleteView
+	DeleteView,
+	TemplateView
 )
-from .models import Post
+from .models import Post, Lesson
 
 def home(request):
 	context = {
@@ -17,14 +18,21 @@ def home(request):
 	return render (request, 'store/home.html', context)
 
 def upload(request):
+	context = {}
 	if request.method == 'POST':
 		uploaded_file = request.FILES['document']
 		fs = FileSystemStorage()
 		name = fs.save(uploaded_file.name, uploaded_file)
-		url = fs.url(name)
-		print(uploaded_file.name)
-		print(uploaded_file.size)
-	return render(request, 'store/upload.html')
+		context['url'] = fs.url(name)
+	return render(request, 'store/upload.html', context)
+
+class LessonListView(ListView):
+	model = Lesson
+	template_name = 'store/upload.html'
+	context_object_name = 'lesson'
+
+	def get_queryset(self):
+		return Lesson.objects.all()
 
 class PostListView(ListView):
 	model = Post
@@ -34,7 +42,12 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
 	model = Post
-	
+
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+		context['Lesson'] = Lesson.objects.all()
+		return context
+
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['title', 'description', 'price']

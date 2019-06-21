@@ -15,6 +15,16 @@
           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
           <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
         </div>
+        <div id="main">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="document" style="float:left;">
+            <button class="btn btn-secondary" type="submit" >Upload File</button>
+          </form>
+          {% if url %}
+            <p>Uploaded file: <a href="{{ url }}">{{ url }}</a> </p>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
     <h2 class="article-title">{{ object.title }}</h2>
