@@ -9,7 +9,8 @@ from .views import (
 	PostCreateView,
 	PostUpdateView,
 	PostDeleteView,
-    LessonListView
+    LessonListView,
+    UploadLessonView
 )
 from . import views
 
@@ -18,8 +19,9 @@ urlpatterns = [
     path('about/', views.about, name='store-about'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),
     #path('upload/', LessonListView.as_view(), name='lesson'),
-    path('post/<int:pk>/lesson-update', LessonListView.as_view(), name='lesson-update'),
+    path('post/<int:pk>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('register/', user_views.register, name='register'),

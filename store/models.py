@@ -5,13 +5,7 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-class Lesson(models.Model):
-	title = models.CharField(max_length=100)
-	pdf = models.FileField(upload_to="lesson/pdf")
-	date_posted = models.DateTimeField(default=timezone.now)
 
-	def __str__(self):
-		return self.title
 
 class Post(models.Model):
 	title = models.CharField(max_length=100)
@@ -34,3 +28,15 @@ class Post(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+class Lesson(models.Model):
+	title = models.CharField(max_length=100)
+	file = models.FileField(upload_to="lesson/pdf")
+	date_posted = models.DateTimeField(default=timezone.now)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True, default=None)
+
+	def __str__(self):
+		return self.title
+
+	def get_absolute_url(self):
+		return reverse('lesson_upload', kwargs={'pk': self.pk})
