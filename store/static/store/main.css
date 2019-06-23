@@ -405,3 +405,10 @@ body {
   height: 120px;
   width: 200px
 }
+
+.centre {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
