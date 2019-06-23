@@ -11,6 +11,8 @@ from django.views.generic import (
 	TemplateView
 )
 from .models import Post, Lesson
+from .forms import LessonForm
+from django.urls import reverse, reverse_lazy
 
 def home(request):
 	context = {
@@ -27,13 +29,33 @@ def upload(request):
 		context['url'] = fs.url(name)
 	return render(request, 'store/upload.html', context)
 
+# def upload_lesson(request):
+# 	if request.method == 'POST':
+# 		form = LessonForm(request.POST, request.FILES)
+# 		if form.is_valid():
+# 			form.save()
+# 			return redirect('')
+# 		else:
+# 			form = LessonForm()
+# 		return render(request, 'upload_lesson.html', {'form' : form})
+
 class LessonListView(ListView):
 	model = Lesson
-	template_name = 'store/upload.html'
+	template_name = 'store/uploaded_lesson.html'
 	context_object_name = 'lesson'
 
 	def get_queryset(self):
 		return Lesson.objects.all()
+
+class UploadLessonView(CreateView):
+	model = Lesson
+	fields = ['title', 'file']	
+	template_name = 'store/upload_lesson.html'
+	success_url = '../'
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
 class PostListView(ListView):
 	model = Post
@@ -56,9 +78,9 @@ class PostDetailView(DetailView):
 	model = Post
 
 	def get_context_data(self, *args, **kwargs):
-		context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-		context["Lesson"] = ""
-		return context
+	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+	 	context['Lesson'] = Lesson.objects.all()
+	 	return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post

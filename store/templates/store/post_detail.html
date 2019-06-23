@@ -30,13 +30,15 @@
           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
           <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
         </div>
-      {% else %}
-      
-    
-
-      {% endif %}
-      {{ Lesson }}
-    </div>
+        
+        <div>
+          <a class="btn btn-default" href="{% url 'lesson_upload' object.id %}">Upload material</a>
+        </div>
+        <div>
+          <a class="btn btn-default" href="{% url 'lesson_uploaded' object.id %}">Currently uploaded material</a>
+        </div>    
+      {% endif %}      
+    {{ object.Lesson.title }}
     <h2 class="article-title">{{ object.title }}</h2>
 
 

@@ -1,0 +1,27 @@
+{% extends "store/base.html" %}
+{% block content %}
+	<div id="main">
+		<table class="table mb-0">
+	    <thead>
+	      <tr>	        
+	        <th>Title</th>
+	        <th>Author</th>
+	        <th>Download</th>
+	        <th>Delete</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      {% for lesson in lesson %}
+	      <tr>
+          	<td>
+		      	{% if lesson.file %}
+	              	<img src="{{ lesson.file.url }}"  style="width:100px;">
+	           	{% else %}   
+	            {% endif %}
+	        </td>
+	      </tr>
+	      {% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+{% endblock %}
