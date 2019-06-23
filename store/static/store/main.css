@@ -10,7 +10,7 @@ body {
 /* Add a black background color to the top navigation */
 #nav_bar {
   padding-bottom: 10px;
-  border-bottom: solid;
+  box-shadow: 1px 3px 13px grey;
   position: fixed;
   width: 100%;
   background-color: white;
@@ -329,6 +329,7 @@ body {
   color: black;
   border-radius: 12pt;
   overflow: hidden;
+  position: relative;
 }
 
 #course_card .title{
@@ -338,8 +339,8 @@ body {
 #course_card .price {
   font-size: 10pt;
   position: absolute;
-  bottom: 10px;
-  right: 105px;
+  bottom: 8px;
+  right: 10px;
 }
 
 #course_card .date {
