@@ -1,11 +1,15 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html>
+
 <title>
   Bra!nstorm
 </title>
+
 <script type="text/javascript" src="../../static/store/main.js"></script>
+
 <link href="https://fonts.googleapis.com/css?family=Athiti|Carrois+Gothic|Podkova|Sarabun&display=swap|Arimo&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -13,8 +17,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <link href="{% static 'store/main.css' %}"  rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <head>
-</head> 
+</head>
+
 <body>
   <div id="nav_bar" >
   <div class="topnav">
@@ -24,14 +30,14 @@
   <a href="{% url 'store-home' %}" class="left select">Home</a>
   <a href="{% url 'store-about' %}" class="left select">About</a>
   {% if user.is_authenticated %}
-      <a href="{% url 'logout'%}" class="right select">Logout</a>
-      <a href="{% url 'post-create'%}" class="right select">New Post</a>      
-      <a href="{% url 'profile'%}"  style="padding-top: 7px;" class="right">  
+      <a href="{% url 'logout' %}" class="right select">Logout</a>
+      <a href="{% url 'post-create' %}" class="right select">New Post</a>      
+      <a href="{% url 'profile' %}"  style="padding-top: 7px;" class="right">  
         <img id="profile_icon" src="{{ user.profile.image.url }}" height="30px">
       </a>
     {% else %}
-      <a href="{% url 'register'%}" class="right select">Register</a>
-      <a href="{% url 'login'%}" class="right select">Login</a>
+      <a href="{% url 'register' %}" class="right select">Register</a>
+      <a href="{% url 'login' %}" class="right select">Login</a>
     {% endif %}
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <img src="/static/store/menu_icon.gif" width="20px">
