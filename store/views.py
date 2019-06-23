@@ -44,8 +44,8 @@ class PostDetailView(DetailView):
 	model = Post
 
 	def get_context_data(self, *args, **kwargs):
-		context = super().get_context_data(*args, **kwargs)
-		context['Lesson'] = Lesson.objects.all()
+		context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+		context["Lesson"] = ""
 		return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
