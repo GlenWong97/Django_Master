@@ -69,18 +69,18 @@
 </div>
       </div>
       <div class="panel">
-          <button>
+          <a style="background-color: white; color: rgb(16, 197, 230);">
             <img src="/static/store/random.gif" alt="">
             Random Finds
-          </button>
-          <button>
+          </a>
+          <a href="#">
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
-          </button>
-          <button>
+          </a>
+          <a  href="{% url 'user-posts' user.username %}">
             <img src="/static/store/content.gif" alt="">
             My Content
-          </button>
+          </a>
       </div>
       <p style="padding: 20px;"></p>
       <div style="padding-top: 20px;" id="main" >

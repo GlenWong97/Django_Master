@@ -2,7 +2,7 @@ body {
   color: black;
   padding: 0;
   margin: 0;
-  background-color: rgb(240, 239, 239);
+  background-color: rgb(230, 230, 230);
   height: 100%;
   margin: 0;
   background-attachment: fixed;
@@ -177,7 +177,8 @@ body {
 
 #main {
   z-index: -1;
-  color: rgb(163, 169, 241);
+  color: black;
+  background-color: rgb(255, 255, 255); 
   font-family: 'Athiti', sans-serif;
   margin-top: 0%;
   font-size: 15pt;
@@ -281,30 +282,41 @@ body {
 .panel{
   margin-left: auto;
   margin-right: auto;
+  width: 50%;
+  background-color: rgb(230, 230, 230);
+  overflow: hidden;
   /* padding-top: 10px; */
   margin-top: 10px;
+  margin-bottom: -50px;
   border: none;
+  z-index: 0;
+  position: relative;
 }
 
-.panel button{
+.panel a{
   /* font-family: 'Arimo', sans-serif; */
+  
   float: left;
-  width: 23.3%;
-  margin-right: 5%;
-  margin-left: 5%;
-  background-color: white;
+  width: 28%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  background-color: rgb(200, 200, 200);
   display: block;
   color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 15px;
-  border: 0.5pt solid grey;
-  border-radius: 25px;
+  font-size: 12px;
+  /* border-radius: 25px; */
   outline: none;
 }
-.panel button:hover{
+.panel a:hover{
+  color: rgb(117, 255, 255);
+}
+
+.panel a:active {
   color: rgb(16, 197, 230);
+  border-bottom: none;
 }
 
 .panel img {
@@ -372,7 +384,7 @@ body {
   font-family: FontAwesome;
   display: inline-block;
   content: "\f005";
-}5
+}
 .rating > .half:before { 
   content: "\f089";
   position: absolute;
@@ -412,3 +424,4 @@ body {
   margin-right: auto;
   text-align: center;
 }
+
