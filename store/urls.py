@@ -10,7 +10,8 @@ from .views import (
 	PostUpdateView,
 	PostDeleteView,
     LessonListView,
-    UploadLessonView
+    UploadLessonView,
+    UserPostListView
 )
 from . import views
 
