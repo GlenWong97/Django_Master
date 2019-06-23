@@ -15,11 +15,12 @@ class Lesson(models.Model):
 
 class Post(models.Model):
 	title = models.CharField(max_length=100)
-	image = models.ImageField(default = 'default0.jpg', upload_to='course_image')
+	image = models.ImageField(default = 'default0.jpg', upload_to='course_image/')
 	description = models.TextField()
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	rating = models.IntegerField(default = 0)
 	
 	def __str__(self):
 		return self.title
