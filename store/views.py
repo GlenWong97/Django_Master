@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.models import User
 from django.views.generic import (
 	ListView, 
 	DetailView, 
@@ -61,6 +62,17 @@ class PostListView(ListView):
 	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
 	ordering = ['-date_posted']
+	paginate_by = 8
+
+class UserPostListView(ListView):
+	model = Post
+	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'post'
+	paginate_by = 8
+
+	def get_queryset(self):
+		user = get_object_or_404(User, username=self.kwargs.get('username'))
+		return Post.objects.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
 	model = Post

@@ -68,8 +68,8 @@
   </a>
 </div>
       </div>
-      <div class="panel">
-          <a style="background-color: white; color: rgb(16, 197, 230);">
+       <div class="panel">
+          <a href = "{% url 'store-home'%}">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>
@@ -77,13 +77,17 @@
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
           </a>
-          <a  href="{% url 'user-posts' user.username %}">
+          <a style="background-color: white; color: rgb(16, 197, 230);">
             <img src="/static/store/content.gif" alt="">
             My Content
           </a>
       </div>
       <p style="padding: 20px;"></p>
       <div style="padding-top: 20px;" id="main" >
+          {% if view.kwargs.username != user.username %}
+        <h1 class="mb-3">Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>  
+          {% endif %}
+        
       <section class="text-center mb-4">
         <div class="row">    
         {% for post in post %}      
@@ -103,7 +107,7 @@
                     </a>
                   </strong>
                 </div>
-                <a  href="{% url 'user-posts' post.author.username %}" class="author">
+                <a href="{% url 'user-posts' post.author.username %}" class="author">
                   {{ post.author }} 
                 </a>
                 <div class="rating">
