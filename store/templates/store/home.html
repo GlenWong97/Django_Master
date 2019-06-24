@@ -68,19 +68,31 @@
   </a>
 </div>
       </div>
+
       <div class="panel">
-          <a style="background-color: white; color: rgb(16, 197, 230);">
+        <span class="shape">
+          <a style="background-color: white; color: rgb(16, 197, 230); border-top: solid 2px rgb(16, 197, 230);">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>
+          </span>
+          <span class="shape">
           <a href="#">
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
           </a>
+          </span>
+          
+          <span class="shape">
+          {% if user.is_authenticated %}
           <a  href="{% url 'user-posts' user.username %}">
+          {% else %}
+          <a  href="{% url 'login' %}">
+          {% endif %}
             <img src="/static/store/content.gif" alt="">
             My Content
           </a>
+          </span>
       </div>
       <p style="padding: 20px;"></p>
       <div style="padding-top: 20px;" id="main" >
@@ -158,6 +170,8 @@
         
         {% endfor %}
  </div>
+
+
       </section>
       <span class="centre">
         {% if is_paginated %}

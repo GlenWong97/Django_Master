@@ -295,12 +295,11 @@ body {
 
 .panel a{
   /* font-family: 'Arimo', sans-serif; */
-  
   float: left;
   width: 28%;
+  background-color:  rgb(200, 200, 200);
   margin-right: 2.5%;
   margin-left: 2.5%;
-  background-color: rgb(200, 200, 200);
   display: block;
   color: black;
   text-align: center;
@@ -310,6 +309,7 @@ body {
   /* border-radius: 25px; */
   outline: none;
 }
+
 .panel a:hover{
   color: rgb(117, 255, 255);
 }
@@ -330,6 +330,8 @@ body {
 }
 
 #course_card {
+  margin-left: auto;
+  margin-right: auto;
   background-color: white;
   padding-left: 10px;
   padding-right: 10px;
@@ -341,6 +343,7 @@ body {
   color: black;
   border-radius: 12pt;
   overflow: hidden;
+  display: block;
   position: relative;
 }
 
@@ -424,4 +427,3 @@ body {
   margin-right: auto;
   text-align: center;
 }
-
