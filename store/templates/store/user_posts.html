@@ -2,17 +2,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    <!-- <div>
-        <h1>{{ user.username }}'s School</h1>
-        <img id="profile_pic" src="{{ user.profile.image.url }}">
-        <p></p>    
-        <div>
-          <a href="#" size='20pt'>General Uploads</a>
-            <h2>Subjects</h2>
-            <li> Math </li>
-            <li> English </li>
-        </div>
-    </div> -->
+    
     {% else %}
     {% endif %}
       <div id="useless">
@@ -69,7 +59,7 @@
 </div>
       </div>
        <div class="panel">
-          <a href = "{% url 'store-home'%}">
+          <a href = "{% url 'store-home' %}">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>
