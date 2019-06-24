@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -11,7 +12,8 @@ from .views import (
 	PostDeleteView,
     LessonListView,
     UploadLessonView,
-    UserPostListView
+    UserPostListView,
+    change_sub
 )
 from . import views
 
@@ -37,7 +39,8 @@ urlpatterns = [
      auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),   
     path('password-reset-complete/',
      auth_views.PasswordResetView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),   
-   
+    url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_sub,
+         name='change_sub'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
 ] 
 

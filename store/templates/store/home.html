@@ -30,8 +30,8 @@
       <div class="cover_holder">
       <img src="/static/store/kids.jpg" alt="c0">
       <div class="carousel-caption">
-        <h3>User-Friendly Interface</h3>
-        <p>get started now</p>
+        <!-- <h3>User-Friendly Interface</h3>
+        <p>get started now</p> -->
       </div>
       </div>
     </div>
@@ -40,8 +40,8 @@
       <div class="cover_holder">
       <img src="/static/store/teachers.jpg" alt="c1">
       <div class="carousel-caption">
-        <h3>Teacher-approved</h3>
-        <p>for all your paedophile-needs</p>
+        <!-- <h3>Teacher-approved</h3>
+        <p>for all your paedophile-needs</p> -->
       </div>
       </div>
     </div>
@@ -50,8 +50,8 @@
       <div class="cover_holder">
       <img src="/static/store/badges.jpg" alt="c2">
       <div class="carousel-caption">
-        <h3>Tons of Content and Categories</h3>
-        <p>browse our content now</p>
+        <!-- <h3>Tons of Content and Categories</h3>
+        <p>browse our content now</p> -->
       </div>
       </div>
     </div>
@@ -169,8 +169,18 @@
           </div>          
         
         {% endfor %}
- </div>
 
+ </div>
+ <h1>subs
+   {% for sub in subs %}
+    {{ sub }}
+    hi
+   {% endfor %}
+   <!-- {% for post in post %}
+   {{ post.title }}
+    hi
+   {% endfor %} -->
+ </h1>
 
       </section>
       <span class="centre">

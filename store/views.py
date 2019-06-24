@@ -10,13 +10,13 @@ from django.views.generic import (
 	DeleteView,
 	TemplateView
 )
-from .models import Post, Lesson
+from .models import Post, Lesson, Subscriber
 from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
 
 def home(request):
 	context = {
-		'post': Post.objects.all()
+		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
 
@@ -63,7 +63,7 @@ class PostListView(ListView):
 	context_object_name = 'post'
 	ordering = ['-date_posted']
 	paginate_by = 8
-
+	
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
@@ -120,3 +120,11 @@ def about(request):
 
 def register(request):
 	return render (request, 'register/')
+
+def change_sub(request, operation, pk):
+	new_sub = User.objects.get(pk=pk)
+	if operation == 'add':
+		Subscriber.subscribe(request.user, new_sub)
+	elif operation == 'remove':
+		Subscriber.unsubscribe(request.user, new_sub)
+	return redirect('home_sub')
