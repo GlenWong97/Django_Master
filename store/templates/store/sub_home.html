@@ -68,84 +68,88 @@
   </a>
 </div>
       </div>
-       <div class="panel">
-          <a href = "{% url 'store-home'%}">
+
+      <div class="panel">
+        <span class="shape">
+          <a href="{% url 'store-home'%}">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>
-          {% if user.is_authenticated %}
-          <a  href="{% url 'store-sub_home' %}">
-          {% else %}
-          <a  href="{% url 'login' %}">
-          {% endif %}
+          </span>
+          <span class="shape">
+          <a style="background-color: white; color: rgb(16, 197, 230); border-top: solid 2px rgb(16, 197, 230);">
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
           </a>
-          <a style="background-color: white; color: rgb(16, 197, 230); border-top: solid 2px rgb(16, 197, 230);">
+          </span>
+          
+          <span class="shape">
+          {% if user.is_authenticated %}
+          <a  href="{% url 'user-posts' user.username %}">
+          {% else %}
+          <a  href="{% url 'login' %}">
+          {% endif %}
             <img src="/static/store/content.gif" alt="">
             My Content
           </a>
+          </span>
       </div>
       <p style="padding: 20px;"></p>
       <div style="padding-top: 20px;" id="main" >
-          {% if view.kwargs.username != user.username %}
-        <h1 class="mb-3">Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>  
-          {% endif %}
-        
       <section class="text-center mb-4">
         <div class="row">    
-        {% for post in post %}      
+        {% for sub in subs %}      
         
           <div class="col-lg-3 col-md-6 mb-4">            
             <div id="course_card">            
               <div class="view overlay">
-                <img style="margin-left: -10px;" src="{{ post.image.url }}" alt="">
+                <img style="margin-left: -10px;" src="{{ sub.image.url }}" alt="">
               </div>                                    
               <div>                
                 
                 <div>
                   <strong>
-                    <a class="title" href="{% url 'post-detail' post.id %}" > <span>{{ post.title }}</span> 
+                    <a class="title" href="{% url 'post-detail' sub.id %}" > <span>{{ sub.title }}</span> 
                       <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
                       </span> 
                     </a>
                   </strong>
                 </div>
-                <a href="{% url 'user-posts' post.author.username %}" class="author">
-                  {{ post.author }} 
+                <a href="{% url 'user-posts' sub.author.username %}" class="author">
+                  {{ sub.author }} 
                 </a>
                 <div class="rating">
-                {% if post.rating == 0 %}
+                {% if sub.rating == 0 %}
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
-                {% elif post.rating == 1 %}
+                {% elif sub.rating == 1 %}
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
-                {% elif post.rating == 2 %}
+                {% elif sub.rating == 2 %}
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
-                {% elif post.rating == 3 %}
+                {% elif sub.rating == 3 %}
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
-                {% elif post.rating == 4 %}
+                {% elif sub.rating == 4 %}
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
-                {% elif post.rating == 5 %}
+                {% elif sub.rating == 5 %}
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
@@ -154,18 +158,20 @@
                 {% endif %}
                 </div>
                 <div>
-                  <strong style="text-align: right;" class="price">S${{ post.price }}
+                  <strong style="text-align: right;" class="price">S${{ sub.price }}
                   </strong>
                 </div>
                 <small class="date">
-                   {{ post.date_posted|date:'d F y'}}
+                   {{ sub.date_posted|date:'d F y'}}
                 </small>
               </div>            
             </div>            
           </div>          
         
         {% endfor %}
+
  </div>
+
       </section>
       <span class="centre">
         {% if is_paginated %}

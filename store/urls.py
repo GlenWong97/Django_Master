@@ -13,12 +13,14 @@ from .views import (
     LessonListView,
     UploadLessonView,
     UserPostListView,
-    change_sub
+    change_sub,
+    SubListView
 )
 from . import views
 
 urlpatterns = [
     path('', PostListView.as_view(), name='store-home'),
+    path('sub_home', SubListView.as_view(), name='store-sub_home'),
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
     path('about/', views.about, name='store-about'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),

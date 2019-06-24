@@ -77,7 +77,11 @@
           </a>
           </span>
           <span class="shape">
-          <a href="#">
+          {% if user.is_authenticated %}
+          <a  href="{% url 'store-sub_home' %}">
+          {% else %}
+          <a  href="{% url 'login' %}">
+          {% endif %}
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
           </a>
@@ -171,16 +175,6 @@
         {% endfor %}
 
  </div>
- <h1>subs
-   {% for sub in subs %}
-    {{ sub }}
-    hi
-   {% endfor %}
-   <!-- {% for post in post %}
-   {{ post.title }}
-    hi
-   {% endfor %} -->
- </h1>
 
       </section>
       <span class="centre">

@@ -64,6 +64,24 @@ class PostListView(ListView):
 	ordering = ['-date_posted']
 	paginate_by = 8
 	
+class SubListView(ListView):
+	model = Subscriber
+	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'sub'
+	ordering = ['-current_user']
+	paginate_by = 8
+
+	def get(self, request):
+		post = Post.objects.all().order_by('-date_posted')
+		users = User.objects.exclude(id=request.user.id)
+		sub = Subscriber.objects.get(current_user=request.user)
+		subs = sub.users.all()
+
+		args={
+			'post':post, 'users':users, 'subs':subs
+		}
+		return render(request, self.template_name, args)
+
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
