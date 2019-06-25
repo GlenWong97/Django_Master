@@ -29,16 +29,6 @@ def upload(request):
 		context['url'] = fs.url(name)
 	return render(request, 'store/upload.html', context)
 
-# def upload_lesson(request):
-# 	if request.method == 'POST':
-# 		form = LessonForm(request.POST, request.FILES)
-# 		if form.is_valid():
-# 			form.save()
-# 			return redirect('')
-# 		else:
-# 			form = LessonForm()
-# 		return render(request, 'upload_lesson.html', {'form' : form})
-
 class LessonListView(ListView):
 	model = Lesson
 	template_name = 'store/uploaded_lesson.html'
@@ -97,7 +87,7 @@ class PostDetailView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-	 	context['Lesson'] = Lesson.objects.all()
+	 	context['sub'] = Subscriber.objects.get(current_user = self.request.user)
 	 	return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
