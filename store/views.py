@@ -21,7 +21,7 @@ def home(request):
 		queryset_list = queryset_list.filter(title__icontains=query)
 	context = {
 		
-		'queryset_list': queryset_list
+		
 		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
@@ -36,21 +36,12 @@ def upload(request):
 	return render(request, 'store/upload.html', context)
 
 
-def delete_lesson(request, pk):
+def delete_lesson(request):
 	if request.method == 'POST':
-		lesson = Lesson.objects.get(post__pk=post__pk)
+		lesson = Lesson.objects.get(post_id=request.POST.get('post_id'))
 		lesson.delete()
 	return redirect('/')
 
-# def upload_lesson(request):
-# 	if request.method == 'POST':
-# 		form = LessonForm(request.POST, request.FILES)
-# 		if form.is_valid():
-# 			form.save()
-# 			return redirect('')
-# 		else:
-# 			form = LessonForm()
-# 		return render(request, 'upload_lesson.html', {'form' : form})
 
 class LessonListView(ListView):
 	model = Lesson

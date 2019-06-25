@@ -17,11 +17,17 @@
 		      	{% if l.file %}
 	              	{{ l.title }}
 	           	{% else %}	           		
+	           	<h6>Not available</h6>
 	            {% endif %}
 	        </td>
 	        <td>{{ l.post.author }}</td>
-	        <td><a href="{{ l.file.url }}" class="btn btn-primary btn-sm" target="_blank">Download</a></td>
-	        <td><form method="post" action="{% url 'delete_lesson' l.pk %}">
+	        <td>{% if l.file %}	              	
+	           	<a href="{{ l.file.url }}" class="btn btn-primary btn-sm" target="_blank">Download</a>
+	           	{% else %}
+	           	<h6>Not available</h6>
+	           	{% endif %}	   
+	        </td>
+	        <td><form method="post" action="{% url 'delete_lesson' l.post_id %}">
 	        	{% csrf_token %}
 	        	<button type="submit" class="btn-danger btn-sm">Delete</button>
 	        </form></td>
