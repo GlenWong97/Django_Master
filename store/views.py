@@ -15,8 +15,13 @@ from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
 
 def home(request):
+	queryset__list = Post.objects.all()
+	query = request.GET.get("q")
+	if query:
+		queryset_list = queryset_list.filter(title__icontains=query)
 	context = {
-		'post': Post.objects.all()
+		
+		'queryset_list': queryset_list
 	}
 	return render (request, 'store/home.html', context)
 
@@ -28,6 +33,13 @@ def upload(request):
 		name = fs.save(uploaded_file.name, uploaded_file)
 		context['url'] = fs.url(name)
 	return render(request, 'store/upload.html', context)
+
+
+def delete_lesson(request, pk):
+	if request.method == 'POST':
+		lesson = Lesson.objects.get(post__pk=post__pk)
+		lesson.delete()
+	return redirect('/')
 
 # def upload_lesson(request):
 # 	if request.method == 'POST':
@@ -42,10 +54,10 @@ def upload(request):
 class LessonListView(ListView):
 	model = Lesson
 	template_name = 'store/uploaded_lesson.html'
-	context_object_name = 'lesson'
-
+	context_object_name = 'lesson'	
+		
 	def get_queryset(self):
-		return Lesson.objects.all()
+		return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
 
 class UploadLessonView(CreateView):
 	model = Lesson
@@ -54,8 +66,10 @@ class UploadLessonView(CreateView):
 	success_url = '../'
 
 	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
+		form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+		return super(UploadLessonView, self).form_valid(form)
+
+
 
 class PostListView(ListView):
 	model = Post
@@ -77,11 +91,7 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
 	model = Post
 
-	def get_context_data(self, *args, **kwargs):
-	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-	 	context['Lesson'] = Lesson.objects.all()
-	 	return context
-
+	
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['title', 'image', 'description', 'price']

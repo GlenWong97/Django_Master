@@ -30,14 +30,23 @@ class Post(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
+	@property
+	def lessons(self):
+		return self.lesson_set.all()
+    
 class Lesson(models.Model):
 	title = models.CharField(max_length=100)
 	file = models.FileField(upload_to="lesson/pdf")
 	date_posted = models.DateTimeField(default=timezone.now)
-	post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True, default=None)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
 
 	def __str__(self):
 		return self.title
 
 	def get_absolute_url(self):
 		return reverse('lesson_upload', kwargs={'pk': self.pk})
+
+	def delete(self, *args, **kwargs):
+		self.file.delete()
+		self.title.delete()
+		super().delete(*args, **kwargs)
