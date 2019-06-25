@@ -50,3 +50,22 @@ class Lesson(models.Model):
 		self.file.delete()
 		self.title.delete()
 		super().delete(*args, **kwargs)
+		
+class Subscriber(models.Model):
+	users = models.ManyToManyField(Post)
+	current_user = models.ForeignKey(User, related_name = 'owner', null=True, on_delete=models.CASCADE)
+
+	@classmethod
+	def subscribe(cls, current_user, new_sub):
+		sub, created = cls.objects.get_or_create(
+			current_user=current_user
+		)
+		sub.users.add(new_sub)
+
+	@classmethod
+	def unsubscribe(cls, current_user, new_sub):
+		sub, created = cls.objects.get_or_create(
+			current_user=current_user
+		)
+		sub.users.remove(new_sub)
+

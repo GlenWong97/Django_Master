@@ -10,7 +10,7 @@ from django.views.generic import (
 	DeleteView,
 	TemplateView
 )
-from .models import Post, Lesson
+from .models import Post, Lesson, Subscriber
 from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
 
@@ -22,6 +22,7 @@ def home(request):
 	context = {
 		
 		'queryset_list': queryset_list
+		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
 
@@ -77,6 +78,24 @@ class PostListView(ListView):
 	context_object_name = 'post'
 	ordering = ['-date_posted']
 	paginate_by = 8
+	
+class SubListView(ListView):
+	model = Subscriber
+	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'sub'
+	ordering = ['-current_user']
+	paginate_by = 8
+
+	def get(self, request):
+		post = Post.objects.all().order_by('-date_posted')
+		users = User.objects.exclude(id=request.user.id)
+		sub = Subscriber.objects.get(current_user=request.user)
+		subs = sub.users.all()
+
+		args={
+			'post':post, 'users':users, 'subs':subs
+		}
+		return render(request, self.template_name, args)
 
 class UserPostListView(ListView):
 	model = Post
@@ -130,3 +149,11 @@ def about(request):
 
 def register(request):
 	return render (request, 'register/')
+
+def change_sub(request, operation, pk):
+	new_sub = User.objects.get(pk=pk)
+	if operation == 'add':
+		Subscriber.subscribe(request.user, new_sub)
+	elif operation == 'remove':
+		Subscriber.unsubscribe(request.user, new_sub)
+	return redirect('home_sub')
