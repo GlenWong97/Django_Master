@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls'), name='store-home'),
-   
+
    # path('about/', include('store.urls')),
 ]
 

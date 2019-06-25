@@ -108,6 +108,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
 
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
 	fields = ['title', 'image', 'description', 'price']
@@ -140,9 +141,9 @@ def register(request):
 	return render (request, 'register/')
 
 def change_sub(request, operation, pk):
-	new_sub = User.objects.get(pk=pk)
+	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-	return redirect('home_sub')
+	return redirect('store-sub_home')

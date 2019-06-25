@@ -41,8 +41,9 @@
     {{ object.Lesson.title }}
     <h2 class="article-title">{{ object.title }}</h2>
 
-
     <p class="article-content">{{ object.description|linebreaks }}</p>
+    <a href="{% url 'change_sub' 'add' object.id %}">Subscribe</a>
+    <a href="{% url 'change_sub' 'remove' object.id %}">Unsubscribe</a>
   </div>
 </article>
 </div>
