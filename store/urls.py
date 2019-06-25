@@ -13,8 +13,8 @@ from .views import (
     LessonListView,
     UploadLessonView,
     UserPostListView,
-    change_sub,
-    SubListView
+    SubListView,
+    change_sub
 )
 from . import views
 
@@ -30,6 +30,9 @@ urlpatterns = [
     path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),
     path('post/<int:post_id>/lesson_delete/', views.delete_lesson, name='delete_lesson'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+
+    path('change_sub/<slug:operation>/<int:pk>', views.change_sub, name='change_sub'),
+
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
@@ -42,9 +45,8 @@ urlpatterns = [
      auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),   
     path('password-reset-complete/',
      auth_views.PasswordResetView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),   
-    url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_sub,
-         name='change_sub'),
-    path('post/new/', PostCreateView.as_view(), name='post-create'),
+   path('post/new/', PostCreateView.as_view(), name='post-create'),
+    
 ] 
 
 if settings.DEBUG:

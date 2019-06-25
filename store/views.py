@@ -101,7 +101,11 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
 	model = Post
 
-	
+	def get_context_data(self, *args, **kwargs):
+	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+	 	context['sub'] = Subscriber.objects.get(current_user = self.request.user)
+	 	return context
+
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['title', 'image', 'description', 'price']
@@ -109,6 +113,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
@@ -142,9 +147,9 @@ def register(request):
 	return render (request, 'register/')
 
 def change_sub(request, operation, pk):
-	new_sub = User.objects.get(pk=pk)
+	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-	return redirect('home_sub')
+	return redirect('store-sub_home')
