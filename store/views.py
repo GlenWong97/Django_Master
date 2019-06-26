@@ -134,6 +134,7 @@ def change_sub(request, operation, pk):
 	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
+		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-	return redirect('store-sub_home')
+		return redirect('store-sub_home')
