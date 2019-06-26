@@ -42,12 +42,13 @@
     <h2 class="article-title">{{ object.title }}</h2>
 
     <p class="article-content">{{ object.description|linebreaks }}</p>
-    <!-- {% if object.title in sub %}
-    <a href="{% url 'change_sub' 'add' object.id %}">Subscribe</a>
-    {% else %}
+    {% if object.author != user %}
+    {% if object in sub %}
     <a href="{% url 'change_sub' 'remove' object.id %}">Unsubscribe</a>
-    {% endif %} -->
-    <h1>{{ sub }}</h1>
+    {% else %}
+    <a href="{% url 'change_sub' 'add' object.id %}">Subscribe</a>
+    {% endif %}
+    {% endif %}
   </div>
 </article>
 </div>

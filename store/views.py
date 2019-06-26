@@ -87,7 +87,7 @@ class PostDetailView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-	 	context['sub'] = Subscriber.objects.get(current_user = self.request.user)
+	 	context['sub'] = ((Subscriber.objects.get(current_user = self.request.user))).users.all()
 	 	return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
