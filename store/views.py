@@ -103,7 +103,7 @@ class PostDetailView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
-	 	context['sub'] = Subscriber.objects.get(current_user = self.request.user)
+	 	context['sub'] = ((Subscriber.objects.get(current_user = self.request.user))).users.all()
 	 	return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -150,6 +150,7 @@ def change_sub(request, operation, pk):
 	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
+		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-	return redirect('store-sub_home')
+		return redirect('store-sub_home')

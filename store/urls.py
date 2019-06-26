@@ -31,7 +31,7 @@ urlpatterns = [
     path('post/<int:post_id>/lesson_delete/', views.delete_lesson, name='delete_lesson'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
-    path('change_sub/<slug:operation>/<int:pk>', views.change_sub, name='change_sub'),
+    path('post/<int:pk>/change_sub/<slug:operation>/', views.change_sub, name='change_sub'),
 
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('register/', user_views.register, name='register'),
