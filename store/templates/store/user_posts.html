@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
- 
+    
     {% else %}
     {% endif %}
       <div id="useless">
@@ -59,7 +59,7 @@
 </div>
       </div>
        <div class="panel">
-          <a href = "{% url 'store-home'%}">
+          <a href = "{% url 'store-home' %}">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>

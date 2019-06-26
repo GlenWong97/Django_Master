@@ -15,7 +15,13 @@ from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
 
 def home(request):
+	queryset__list = Post.objects.all()
+	query = request.GET.get("q")
+	if query:
+		queryset_list = queryset_list.filter(title__icontains=query)
 	context = {
+		
+		
 		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
@@ -29,13 +35,21 @@ def upload(request):
 		context['url'] = fs.url(name)
 	return render(request, 'store/upload.html', context)
 
+
+def delete_lesson(request):
+	if request.method == 'POST':
+		lesson = Lesson.objects.get(post_id=request.POST.get('post_id'))
+		lesson.delete()
+	return redirect('/')
+
+
 class LessonListView(ListView):
 	model = Lesson
 	template_name = 'store/uploaded_lesson.html'
-	context_object_name = 'lesson'
-
+	context_object_name = 'lesson'	
+		
 	def get_queryset(self):
-		return Lesson.objects.all()
+		return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
 
 class UploadLessonView(CreateView):
 	model = Lesson
@@ -44,8 +58,10 @@ class UploadLessonView(CreateView):
 	success_url = '../'
 
 	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
+		form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+		return super(UploadLessonView, self).form_valid(form)
+
+
 
 class PostListView(ListView):
 	model = Post

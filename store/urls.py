@@ -25,9 +25,10 @@ urlpatterns = [
     path('about/', views.about, name='store-about'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),
-    #path('upload/', LessonListView.as_view(), name='lesson'),
-    path('post/<int:pk>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),
+    path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),
+    
+    path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),
+    path('post/<int:post_id>/lesson_delete/', views.delete_lesson, name='delete_lesson'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
     path('post/<int:pk>/change_sub/<slug:operation>/', views.change_sub, name='change_sub'),

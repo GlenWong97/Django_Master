@@ -11,14 +11,26 @@
 	      </tr>
 	    </thead>
 	    <tbody>
-	      {% for lesson in lesson %}
+	      {% for l in lesson %}
 	      <tr>
           	<td>
-		      	{% if lesson.file %}
-	              	<img src="{{ lesson.file.url }}"  style="width:100px;">
-	           	{% else %}   
+		      	{% if l.file %}
+	              	{{ l.title }}
+	           	{% else %}	           		
+	           	<h6>Not available</h6>
 	            {% endif %}
 	        </td>
+	        <td>{{ l.post.author }}</td>
+	        <td>{% if l.file %}	              	
+	           	<a href="{{ l.file.url }}" class="btn btn-primary btn-sm" target="_blank">Download</a>
+	           	{% else %}
+	           	<h6>Not available</h6>
+	           	{% endif %}	   
+	        </td>
+	        <td><form method="post" action="{% url 'delete_lesson' l.post_id %}">
+	        	{% csrf_token %}
+	        	<button type="submit" class="btn-danger btn-sm">Delete</button>
+	        </form></td>
 	      </tr>
 	      {% endfor %}
 	    </tbody>
