@@ -44,9 +44,9 @@
     <p class="article-content">{{ object.description|linebreaks }}</p>
     {% if object.author != user %}
     {% if object in sub %}
-    <a href="{% url 'change_sub' 'remove' object.id %}">Unsubscribe</a>
+    <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' 'remove' object.id %}">Unsubscribe</a>
     {% else %}
-    <a href="{% url 'change_sub' 'add' object.id %}">Subscribe</a>
+    <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' 'add' object.id %}">Subscribe</a>
     {% endif %}
     {% endif %}
   </div>
