@@ -38,7 +38,7 @@ def upload(request):
 
 def delete_lesson(request):
 	if request.method == 'POST':
-		lesson = Lesson.objects.get(post_id=request.POST.get('post_id'))
+		lesson = Lesson.objects.get(post_id=post_id)
 		lesson.delete()
 	return redirect('/')
 
