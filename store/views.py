@@ -36,17 +36,16 @@ def upload(request):
 	return render(request, 'store/upload.html', context)
 
 
-def delete_lesson(request):
-	if request.method == 'POST':
-		lesson = Lesson.objects.get(post_id=post_id)
-		lesson.delete()
-	return redirect('/')
-
+# def delete_lesson(request, pk):
+# 	if request.method == 'POST':
+# 		lesson = Lesson.objects.get(pk=pk)
+# 		lesson.delete()
+# 	return redirect('/')
 
 class LessonListView(ListView):
 	model = Lesson
 	template_name = 'store/uploaded_lesson.html'
-	context_object_name = 'lesson'	
+	context_object_name = 'Lesson'	
 		
 	def get_queryset(self):
 		return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
@@ -61,6 +60,20 @@ class UploadLessonView(CreateView):
 		form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
 		return super(UploadLessonView, self).form_valid(form)
 
+
+class LessonDeleteView(DeleteView):
+	model = Lesson
+	template_name = 'store/lesson_confirm_delete.html'
+	success_url = '/'
+	
+
+	# def get_context_data(self, *args, **kwargs):
+	# 	context = super(LessonDeleteView, self).get_context_data(*args, **kwargs)
+	# 	context['post'] = ((Post.objects.get(current_user = self.request.user))).users.all()
+	# 	return context
+	# # def delete(self, request, *args, **kwargs):
+	# 	lesson = Lesson.objects.all()
+	# 	return self.get_object().lesson.id
 
 
 class PostListView(ListView):

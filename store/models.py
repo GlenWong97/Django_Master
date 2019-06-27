@@ -46,10 +46,10 @@ class Lesson(models.Model):
 	def get_absolute_url(self):
 		return reverse('lesson_upload', kwargs={'pk': self.pk})
 
-	def delete(self, *args, **kwargs):
-		self.file.delete()
-		self.title.delete()
-		super().delete(*args, **kwargs)
+	# def delete(self, *args, **kwargs):
+	# 	self.file.delete()
+	# 	self.title.delete()
+	# 	super().delete(*args, **kwargs)
 		
 class Subscriber(models.Model):
 	users = models.ManyToManyField(Post)

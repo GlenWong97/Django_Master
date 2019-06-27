@@ -13,6 +13,7 @@ from .views import (
     LessonListView,
     UploadLessonView,
     UserPostListView,
+    LessonDeleteView,
     SubListView,
     change_sub
 )
@@ -22,17 +23,14 @@ urlpatterns = [
     path('', PostListView.as_view(), name='store-home'),
     path('sub_home', SubListView.as_view(), name='store-sub_home'),
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
-    path('about/', views.about, name='store-about'),
+    path('about/', views.about, name='store-about'),    
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),
-    
-    path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),
-    path('post/<int:post_id>/lesson_delete/', views.delete_lesson, name='delete_lesson'),
+    path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),    
+    path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),    
+    path('post/lesson_uploaded/<int:pk>/', LessonDeleteView.as_view(), name='lesson_delete'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
-
     path('post/<int:pk>/change_sub/<slug:operation>/', views.change_sub, name='change_sub'),
-
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
@@ -45,7 +43,7 @@ urlpatterns = [
      auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),   
     path('password-reset-complete/',
      auth_views.PasswordResetView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),   
-   path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
     
 ] 
 
