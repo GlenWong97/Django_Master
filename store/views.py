@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
 from django.views.generic import (
 	ListView, 
 	DetailView, 
@@ -10,6 +12,7 @@ from django.views.generic import (
 	DeleteView,
 	TemplateView
 )
+from django.http import Http404  
 from .models import Post, Lesson, Subscriber
 from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
@@ -47,7 +50,7 @@ class LessonListView(ListView):
 	model = Lesson
 	template_name = 'store/uploaded_lesson.html'
 	context_object_name = 'lesson'	
-		
+	
 	def get_queryset(self):
 		return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
 
