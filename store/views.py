@@ -66,19 +66,9 @@ class UploadLessonView(CreateView):
 
 class LessonDeleteView(DeleteView):
 	model = Lesson
-	template_name = 'store/lesson_confirm_delete.html'
+	template_name = 'store/lesson_confirm_delete.html'	
 	success_url = '/'
 	
-
-	# def get_context_data(self, *args, **kwargs):
-	# 	context = super(LessonDeleteView, self).get_context_data(*args, **kwargs)
-	# 	context['post'] = ((Post.objects.get(current_user = self.request.user))).users.all()
-	# 	return context
-	# # def delete(self, request, *args, **kwargs):
-	# 	lesson = Lesson.objects.all()
-	# 	return self.get_object().lesson.id
-
-
 class PostListView(ListView):
 	model = Post
 	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
