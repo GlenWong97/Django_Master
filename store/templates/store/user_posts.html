@@ -79,7 +79,9 @@
       <p style="padding: 20px;"></p>
       <div style="padding-top: 20px;" id="main" >
           {% if view.kwargs.username != user.username %}
-        <h1 class="mb-3">Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>  
+        <h1>{{ view.kwargs.username }}</h1>
+        <!-- <span id="profile_pic"><img src="{{ view.kwargs.profile.image.url }}"></span> -->
+        <h3>Number of Courses: {{ page_obj.paginator.count }}</h3>  
           {% endif %}
         
       <section class="text-center mb-4">
