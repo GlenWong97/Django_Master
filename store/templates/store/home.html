@@ -103,7 +103,12 @@
                 
                 <div>
                   <strong>
-                    <a class="title" href="{% url 'post-detail' post.id %}" > <span>{{ post.title }}</span> 
+                    {% if user.is_authenticated %}
+                    <a class="title" href="{% url 'post-detail' post.id %}" >
+                    {% else %}
+                    <a class="title" href="{% url 'login' %}" >
+                    {% endif %}
+                      <span>{{ post.title }}</span> 
                       <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
                       </span> 
                     </a>
