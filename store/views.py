@@ -76,14 +76,14 @@ class PostListView(ListView):
 	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
 	ordering = ['-date_posted']
-	paginate_by = 8
+	paginate_by = 12
 	
 class SubListView(ListView):
 	model = Subscriber
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'sub'
 	ordering = ['-current_user']
-	paginate_by = 8
+	paginate_by = 12
 
 	def get(self, request):
 		post = Post.objects.all().order_by('-date_posted')
@@ -100,7 +100,7 @@ class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
-	paginate_by = 8
+	paginate_by = 12
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
