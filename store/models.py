@@ -52,7 +52,7 @@ class Lesson(models.Model):
 		super().delete(*args, **kwargs)
 		
 class Subscriber(models.Model):
-	users = models.ManyToManyField(Post)
+	users = models.ManyToManyField(Post, null=True)
 	current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
 
 	@classmethod

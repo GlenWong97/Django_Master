@@ -52,8 +52,10 @@ class LessonListView(ListView):
 	context_object_name = 'lesson'	
 	
 	def get_queryset(self):
-		return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
-
+		if 	(Post.objects.get(id=self.kwargs.get('post_id')) in ((Subscriber.objects.get(current_user = self.request.user))).users.all()) or Post.objects.get(id=self.kwargs.get('post_id')).author == self.request.user:
+			return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
+		else:
+			raise Http404
 class UploadLessonView(CreateView):
 	model = Lesson
 	fields = ['title', 'file']	
