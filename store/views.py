@@ -12,7 +12,7 @@ from django.views.generic import (
 	DeleteView,
 	TemplateView
 )
-from django.http import Http404  
+from django.http import Http404, HttpResponseRedirect
 from .models import Post, Lesson, Subscriber
 from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
@@ -69,6 +69,13 @@ class LessonDeleteView(DeleteView):
 	template_name = 'store/lesson_confirm_delete.html'	
 	success_url = '/'
 	
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		self.object.file.delete()
+		success_url = self.get_success_url()
+		self.object.delete()
+		return HttpResponseRedirect(success_url)
+
 class PostListView(ListView):
 	model = Post
 	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
@@ -141,7 +148,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	
 	def test_func(self):
 		post = self.get_object()
-		if self.request.user == post.author:
+		if self.request.user == post.author:			
 			return True
 		return False
 
