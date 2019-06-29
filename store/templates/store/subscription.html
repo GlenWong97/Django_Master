@@ -1,0 +1,39 @@
+{% load extra_filter %}
+{% for sub in subs %}      
+<div class="col-lg-3 col-md-6 mb-4">            
+  <div id="course_card">            
+    <div class="view overlay">
+      <img style="margin-left: -10px;" src="{{ sub.image.url }}" alt="">
+    </div>                                    
+    <div>                
+      
+      <div>
+        <strong>
+          <a class="title" href="{% url 'post-detail' sub.id %}" > <span>{{ sub.title }}</span> 
+            <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
+            </span> 
+          </a>
+        </strong>
+      </div>
+      <a href="{% url 'user-posts' sub.author.username %}" class="author">
+        {{ sub.author }} 
+      </a>
+      <div class="rating">
+      {% for j in sub.rating|for_ %}
+        <span class="fa fa-star checked"></span>
+      {% endfor %}
+      {% for j in 5|for_subtract:sub.rating %}
+      <span class="fa fa-star"></span>
+      {% endfor %}
+      </div>
+      <div>
+        <strong style="text-align: right;" class="price">S${{ sub.price }}
+        </strong>
+      </div>
+      <small class="date">
+         {{ sub.date_posted|date:'d F y'}}
+      </small>
+    </div>            
+  </div>            
+</div>          
+{% endfor %}

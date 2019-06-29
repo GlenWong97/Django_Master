@@ -97,9 +97,10 @@ class SubListView(ListView):
 		users = User.objects.exclude(id=request.user.id)
 		sub = Subscriber.objects.get(current_user=request.user)
 		subs = sub.users.all()
+		my_content = Post.objects.filter(author=request.user.id)
 
 		args={
-			'post':post, 'users':users, 'subs':subs
+			'post':post, 'users':users, 'subs':subs, 'mine':my_content
 		}
 		return render(request, self.template_name, args)
 	

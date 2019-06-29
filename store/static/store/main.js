@@ -13,11 +13,17 @@ function Scroll_()
     document.getElementById('main').scrollIntoView();
 }
 
-function hide() {
-  var x = document.getElementById("main1");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
+function show(z) {
+  var x = document.getElementById("random");
     x.style.display = "none";
-  }
+  var x = document.getElementById("subscription");
+    x.style.display = "none";
+  var x = document.getElementById("content");
+    x.style.display = "none";
+  var x = document.getElementById(z);
+    x.style.display = "block";
+  // document.getElementById(z+"_link").style.background = "white";
+  // document.getElementById("random_link").style.background = rgb(200, 200, 200);
+  // document.getElementById("subscription_link").style.background = rgb(200, 200, 200);
+  // document.getElementById("content_link").style.background = rgb(200, 200, 200);
 }
