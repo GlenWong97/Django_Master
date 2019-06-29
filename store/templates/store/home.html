@@ -3,6 +3,7 @@
     {% load extra_filter %}
     {% include "store/home_ext.html" %}
       <div style="padding-top: 20px;" id="main" >
+      <div id="main1">
       <section class="text-center mb-4">
         <div class="row">    
         {% for post in post %}      
@@ -54,6 +55,7 @@
  </div>
 
       </section>
+      </div>
      {% include "store/pagination.html" %}
 </div>
 {% endblock content %}

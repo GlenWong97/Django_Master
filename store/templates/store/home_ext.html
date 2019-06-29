@@ -1,4 +1,4 @@
-{% load extra_filter %}
+
 <div id="useless">
           <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -55,7 +55,8 @@
 
       <div class="panel">
         <span class="shape">
-          <a href="{% url 'store-home'%}">
+          <!-- <a href="{% url 'store-home'%}"> -->
+            <a onclick="hide(); return true;">
             <img src="/static/store/random.gif" alt="">
             Random Finds
           </a>

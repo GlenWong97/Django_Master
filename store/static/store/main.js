@@ -8,9 +8,16 @@ function myFunction() {
   }
 }
 
-
-
 function Scroll_()
 {
     document.getElementById('main').scrollIntoView();
+}
+
+function hide() {
+  var x = document.getElementById("main1");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
 }
