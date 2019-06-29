@@ -1,94 +1,7 @@
 {% extends "store/base.html" %}
-
 {% block content %}
-    {% if user.is_authenticated %}
-    
-    {% else %}
-    {% endif %}
-      <div id="useless">
-          <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    <div class="item active">
-      <div class="cover_holder">
-      <img src="/static/store/kids.jpg" alt="c0">
-      <div class="carousel-caption">
-        <!-- <h3>User-Friendly Interface</h3>
-        <p>get started now</p> -->
-      </div>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="cover_holder">
-      <img src="/static/store/teachers.jpg" alt="c1">
-      <div class="carousel-caption">
-        <!-- <h3>Teacher-approved</h3>
-        <p>for all your paedophile-needs</p> -->
-      </div>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="cover_holder">
-      <img src="/static/store/badges.jpg" alt="c2">
-      <div class="carousel-caption">
-        <!-- <h3>Tons of Content and Categories</h3>
-        <p>browse our content now</p> -->
-      </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Left and right controls -->
-  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#myCarousel" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-      </div>
-
-      <div class="panel">
-        <span class="shape">
-          <a style="background-color: white; color: rgb(16, 197, 230); border-top: solid 2px rgb(16, 197, 230);">
-            <img src="/static/store/random.gif" alt="">
-            Random Finds
-          </a>
-          </span>
-          <span class="shape">
-          {% if user.is_authenticated %}
-          <a  href="{% url 'store-sub_home' %}">
-          {% else %}
-          <a  href="{% url 'login' %}">
-          {% endif %}
-            <img src="/static/store/Subscription.gif" alt="">
-            My Subscription
-          </a>
-          </span>
-          
-          <span class="shape">
-          {% if user.is_authenticated %}
-          <a  href="{% url 'user-posts' user.username %}">
-          {% else %}
-          <a  href="{% url 'login' %}">
-          {% endif %}
-            <img src="/static/store/content.gif" alt="">
-            My Content
-          </a>
-          </span>
-      </div>
-      <p style="padding: 20px;"></p>
+    {% load extra_filter %}
+    {% include "store/home_ext.html" %}
       <div style="padding-top: 20px;" id="main" >
       <section class="text-center mb-4">
         <div class="row">    
@@ -118,44 +31,13 @@
                   {{ post.author }} 
                 </a>
                 <div class="rating">
-                {% if post.rating == 0 %}
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                {% elif post.rating == 1 %}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                {% elif post.rating == 2 %}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                {% elif post.rating == 3 %}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                {% elif post.rating == 4 %}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                {% elif post.rating == 5 %}
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                {% endif %}
-                </div>
+                    {% for j in post.rating|for_ %}
+                      <span class="fa fa-star checked"></span>
+                    {% endfor %}
+                    {% for j in 5|for_subtract:post.rating %}
+                    <span class="fa fa-star"></span>
+                    {% endfor %}
+                    </div>
                 <div>
                   <strong style="text-align: right;" class="price">S${{ post.price }}
                   </strong>
@@ -172,29 +54,6 @@
  </div>
 
       </section>
-      <span class="centre">
-        {% if is_paginated %}
-          
-          {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>  
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-          {% endif %}
-
-          {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-              <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-          
-          {% endfor %}
-      
-            {% if page_obj.has_next %}  
-              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-            {% endif %}
-      
-        {% endif %}
-      </span>
+     {% include "store/pagination.html" %}
 </div>
 {% endblock content %}

@@ -102,6 +102,8 @@ class SubListView(ListView):
 			'post':post, 'users':users, 'subs':subs
 		}
 		return render(request, self.template_name, args)
+	
+	
 
 class UserPostListView(ListView):
 	model = Post
