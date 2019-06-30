@@ -60,6 +60,7 @@
             Random Finds
             </button>
           {% if user.is_authenticated %}
+          
           <button id="subscription_link" onclick="show('subscription'); return true;">
           {% else %}
           <button  id="subscription_link" href="{% url 'login' %}">

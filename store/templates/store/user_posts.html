@@ -1,13 +1,14 @@
 {% extends "store/base.html" %}
 {% block content %}
     {% load extra_filter %}
-    {% include "store/home_ext.html" %}
+      <div style="padding-top: 80px;"></div>
       <div style="padding-top: 20px;" id="main" >
-          {% if view.kwargs.username != user.username %}
+          <!-- {% if view.kwargs.username != user.username %} -->
         <h1>{{ view.kwargs.username }}</h1>
         <!-- <span id="profile_pic"><img src="{{ view.kwargs.profile.image.url }}"></span> -->
+        {{ view.kwargs.profile }}
         <h3>Number of Courses: {{ page_obj.paginator.count }}</h3>  
-          {% endif %}
+          <!-- {% endif %} -->
         
       <section class="text-center mb-4">
         <div class="row">    
