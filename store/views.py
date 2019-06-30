@@ -86,10 +86,10 @@ class PostListView(ListView):
 	paginate_by = 12
 	
 class SubListView(ListView):
-	model = Subscriber
+	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'sub'
-	ordering = ['-current_user']
+	context_object_name = 'post'
+	ordering = ['-date_posted']
 	paginate_by = 12
 
 	def get(self, request):
@@ -104,8 +104,6 @@ class SubListView(ListView):
 		}
 		return render(request, self.template_name, args)
 	
-	
-
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
@@ -171,4 +169,4 @@ def change_sub(request, operation, pk):
 		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-		return redirect('store-sub_home')
+		return redirect('store-home')

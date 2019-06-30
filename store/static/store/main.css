@@ -293,7 +293,7 @@ body {
   position: relative;
 }
 
-.panel a{
+.panel button{
   /* font-family: 'Arimo', sans-serif; */
   float: left;
   width: 28%;
@@ -302,6 +302,8 @@ body {
   margin-left: 2.5%;
   display: block;
   color: black;
+  border: none;
+  border-top:solid 3px rgb(200, 200, 200);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -310,13 +312,15 @@ body {
   outline: none;
 }
 
-.panel a:hover{
+.panel button:hover{
   color: rgb(117, 255, 255);
+  border-top: solid 3px rgb(16, 197, 230);
 }
 
-.panel a:active {
+.panel .Active{
   color: rgb(16, 197, 230);
-  border-bottom: none;
+  border-top: solid 3px rgb(16, 197, 230);
+  background-color: white;
 }
 
 .panel img {

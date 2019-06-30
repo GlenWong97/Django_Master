@@ -22,8 +22,12 @@ function show(z) {
     x.style.display = "none";
   var x = document.getElementById(z);
     x.style.display = "block";
-  // document.getElementById(z+"_link").style.background = "white";
-  // document.getElementById("random_link").style.background = rgb(200, 200, 200);
-  // document.getElementById("subscription_link").style.background = rgb(200, 200, 200);
-  // document.getElementById("content_link").style.background = rgb(200, 200, 200);
+  var element = document.getElementById("random_link");
+  element.classList.remove("Active");
+  var element = document.getElementById("subscription_link");
+  element.classList.remove("Active");
+  var element = document.getElementById("content_link");
+  element.classList.remove("Active");
+  var element = document.getElementById(z+"_link");
+  element.classList.add("Active");
 }
