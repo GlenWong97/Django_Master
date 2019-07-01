@@ -3,18 +3,19 @@
     {% load extra_filter %}
       <div style="padding-top: 80px;"></div>
       <div style="padding-top: 20px;" id="main" >
-          <!-- {% if view.kwargs.username != user.username %} -->
+        <img src="{{ post.0.author.profile.image.url }}" id="profile_pic" style="float: right;">
         <h1>{{ view.kwargs.username }}</h1>
-        <!-- <span id="profile_pic"><img src="{{ view.kwargs.profile.image.url }}"></span> -->
-        {{ view.kwargs.profile }}
-        <h3>Number of Courses: {{ page_obj.paginator.count }}</h3>  
-          <!-- {% endif %} -->
-        
-      <section class="text-center mb-4">
+        <h4 style="float: right; margin-right: 20px;">Contact me at 
+          <span style="color: rgb(50, 197, 255);">{{ post.0.author.email }}</span>
+        </h4>
+        <h3>Number of Courses: {{ page_obj.paginator.count }}</h3>
+        <h4 style="float: right; margin-right: 20px;">Gender: {{ post.0.author.profile.gender }}</h4>
+        <h3>Bio:</h3>
+        <h6>{{ post.0.author.profile.bio }}</h6>
+        <section class="text-center mb-4"> 
         <div class="row">    
         {% for post in post %}      
-        
-          <div class="col-lg-3 col-md-6 mb-4">            
+        <div class="col-lg-3 col-md-6 mb-4">            
             <div id="course_card">            
               <div class="view overlay">
                 <img style="margin-left: -10px;" src="{{ post.image.url }}" alt="">
