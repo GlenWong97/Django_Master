@@ -3,14 +3,20 @@
   {% include "store/home_ext.html" %}
   <div style="padding-top: 20px;" id="main" >
     <section class="text-center mb-4">
-      <div class="row" id="random">    
-        {% include "store/home.html" %}
+      <div class="row" id="random"> 
+        {% for post in posts %}   
+        {% include "store/card.html" %}
+        {% endfor %}
       </div>
       <div class="row" id="subscription" style="display: none;">    
-        {% include "store/subscription.html" %}
+        {% for post in subs %}
+        {% include "store/card.html" %}
+        {% endfor %}
       </div>
       <div class="row" id="content" style="display: none;">    
-        {% include "store/mycontent.html" %}
+        {% for post in mine %}
+        {% include "store/card.html" %}
+        {% endfor %}
       </div>
     </section>
     {% include "store/pagination.html" %}

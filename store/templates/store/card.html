@@ -1,8 +1,5 @@
-        
-  {% load extra_filter %}
-        {% for post in post %}      
-        
-          <div class="col-lg-3 col-md-6 mb-4">            
+{% load extra_filter %}
+<div class="col-lg-3 col-md-6 mb-4">            
             <div id="course_card">            
               <div class="view overlay">
                 <img style="margin-left: -10px;" src="{{ post.image.url }}" alt="">
@@ -16,7 +13,11 @@
                     {% else %}
                     <a class="title" href="{% url 'login' %}" >
                     {% endif %}
+                      {% if post.title|length < 30 %}
                       <span>{{ post.title }}</span> 
+                      {% else %}
+                      <span>{{ post.title|cut:27 }}</span>
+                      {% endif %}
                       <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
                       </span> 
                     </a>
@@ -42,6 +43,4 @@
                 </small>
               </div>            
             </div>            
-          </div>          
-        
-        {% endfor %}
+          </div>   

@@ -275,7 +275,6 @@ body {
 }
 
 #useless {
-  padding-top: 70px;
   border: none;
 }
 
@@ -329,8 +328,8 @@ body {
 }
 
 #course_card img {
-  width: 200px;
-  height: 120px;
+  width: 150px;
+  height: 80px;
 }
 
 #course_card {
@@ -339,8 +338,8 @@ body {
   background-color: white;
   padding-left: 10px;
   padding-right: 10px;
-  height: 325px;
-  width: 200px;
+  height: 225px;
+  width: 150px;
   border: solid 1pt rgb(75, 65, 65);
   box-shadow: #231;
   text-align: left;
@@ -352,11 +351,12 @@ body {
 }
 
 #course_card .title{
-  font-size: 12pt;
+  font-size: 10pt;
+  line-height: 8%;
 }
 
 #course_card .price {
-  font-size: 10pt;
+  font-size: 9pt;
   position: absolute;
   bottom: 8px;
   right: 10px;
@@ -365,6 +365,7 @@ body {
 #course_card .date {
   padding-top: 20px;
   float: left;
+  font-size: 9pt;
   position: absolute;
   bottom: 10px;
 }

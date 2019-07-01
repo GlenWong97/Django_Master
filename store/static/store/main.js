@@ -14,6 +14,8 @@ function Scroll_()
 }
 
 function show(z) {
+  // var x = document.getElementById("useless");
+  //   x.style.display = "none";
   var x = document.getElementById("random");
     x.style.display = "none";
   var x = document.getElementById("subscription");

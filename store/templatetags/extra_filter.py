@@ -8,3 +8,9 @@ def for_subtract(value, arg):
 @register.filter
 def for_(value):
 	return range(value)
+@register.filter
+def length(value):
+	return len(value)
+@register.filter
+def cut(value, arg):
+	return value[0:arg] + '...'

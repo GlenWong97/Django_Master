@@ -100,7 +100,7 @@ class SubListView(ListView):
 		my_content = Post.objects.filter(author=request.user.id)
 
 		args={
-			'post':post, 'users':users, 'subs':subs, 'mine':my_content
+			'posts':post, 'users':users, 'subs':subs, 'mine':my_content
 		}
 		return render(request, self.template_name, args)
 	
