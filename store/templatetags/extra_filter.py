@@ -8,7 +8,7 @@ def for_subtract(value, arg):
 	return range(value - x)
 @register.filter
 def for_(value):
-	value = int(value)
+	value = abs(int(value))
 	return range(value)
 @register.filter
 def length(value):
@@ -27,8 +27,9 @@ def calc_rating(feedback):
 	total_rating = 0
 	number_of_rating = 0
 	for i in feedback:
-		number_of_rating += 1
-		total_rating += i.rating
+		if i.rating >= 0 and i.rating <= 5:
+			number_of_rating += 1
+			total_rating += i.rating
 	return (float(total_rating) /number_of_rating)* 20
 @register.filter
 def multiply_by(value, arg):

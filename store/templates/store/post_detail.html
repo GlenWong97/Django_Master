@@ -76,12 +76,14 @@
         <img src="{{ i.user.profile.image.url }}" id="profile_icon">
          <a class="mr-2" href= "{% url 'user-posts' i.user %}" >{{ i.user }}</a>
       <div class="rating">
+          {% if i.rating >= 0 %}
           {% for j in i.rating|for_ %}
             <span class="fa fa-star checked"></span>
           {% endfor %}
           {% for j in 5|for_subtract:i.rating %}
           <span class="fa fa-star"></span>
           {% endfor %}
+          {% endif%}
           </div>
       <h4>{{ i.comment }}</h4>
       <h5>{{ i.date_posted }}</h5>
