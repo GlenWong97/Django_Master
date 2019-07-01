@@ -4,9 +4,11 @@ register = template.Library()
 
 @register.filter
 def for_subtract(value, arg):
-	return range(value - arg)
+	x = int(arg)
+	return range(value - x)
 @register.filter
 def for_(value):
+	value = int(value)
 	return range(value)
 @register.filter
 def length(value):
@@ -17,3 +19,14 @@ def cut(value, arg):
 @register.filter
 def get_m(value):
 	return list(value.all())
+@register.filter
+def calc_rating(feedback):
+	if len(feedback.all()) == 0:
+		return 0
+	feedback = list(feedback.all())
+	total_rating = 0
+	number_of_rating = 0
+	for i in feedback:
+		number_of_rating += 1
+		total_rating += i.rating
+	return (float(total_rating) /number_of_rating)* 20

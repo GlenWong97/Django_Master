@@ -371,8 +371,11 @@ body {
 }
 
 #course_card .author{
-  color: grey;
-  font-size: 11pt;
+  color: rgb(0, 124, 207);
+  position: absolute;
+  bottom: 24px;
+  right: 10px;
+  font-size: 10pt;
 }
 
 .checked {
@@ -431,4 +434,38 @@ body {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+#comment {
+  margin-top: 20px;
+  padding: 7px;
+  border: solid 0.5px grey;
+}
+
+.star-ratings-css {
+  text-align: left;
+  unicode-bidi: bidi-override;
+  color: #353535;
+  font-size: 25px;
+  height: 25px;
+  width: 100px;
+  margin: 0;
+  position: relative;
+  padding: 0;
+  text-shadow: 0.5px 0.5px 0 #777777;
+}
+.star-ratings-css-top {
+  color: #FFD700;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+.star-ratings-css-bottom {
+  padding: 0;
+  display: block;
+  z-index: 0;
 }

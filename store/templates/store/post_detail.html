@@ -5,7 +5,11 @@
 <article class="media content-section">
   <span id="post__">  
   <img class="post_detail_image"  src="{{ post.image.url }}">
-  <fieldset class="rating">
+  <div class="star-ratings-css" style="font-size: 48px; width:220px;">
+  <div class="star-ratings-css-top" style="width: {{ object.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+</div>
+  <!-- <fieldset class="rating">
     <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
     <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
     <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
@@ -16,7 +20,7 @@
     <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
     <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
     <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-</fieldset>
+</fieldset> -->
 </span>
   <div class="media-body">
     <div class="article-metadata">
@@ -67,10 +71,20 @@
     {% endif %}
     {% endif %}
     {% for i in object.feedback|get_m %}
-      rating: {{ i.rating }} / 5 
-      {{ i.comment }}
-      by {{ i.user }}
-      on {{ i.date_posted }}
+      <div id="comment">
+        <img src="{{ i.user.profile.image.url }}" id="profile_icon">
+         <a class="mr-2" href= "{% url 'user-posts' i.user %}" >{{ i.user }}</a>
+      <div class="rating">
+          {% for j in i.rating|for_ %}
+            <span class="fa fa-star checked"></span>
+          {% endfor %}
+          {% for j in 5|for_subtract:i.rating %}
+          <span class="fa fa-star"></span>
+          {% endfor %}
+          </div>
+      <h4>{{ i.comment }}</h4>
+      <h5>{{ i.date_posted }}</h5>
+    </div>
     {% endfor %}
   </div>
 </article>

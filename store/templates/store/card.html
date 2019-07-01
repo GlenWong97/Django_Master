@@ -23,12 +23,16 @@
                     </a>
                   </strong>
                 </div>
+
+                 <div class="star-ratings-css">
+                <div class="star-ratings-css-top" style="width: {{ post.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                </div>
+                
                 <a href="{% url 'user-posts' post.author.username %}" class="author">
-                  {{ post.author }} 
+                  by {{ post.author }} 
                 </a>
-                {% for i in post.feedback|get_m %}
-                  {{ i.comment }}
-                {% endfor %}
+
                <div>
                   <strong style="text-align: right;" class="price">S${{ post.price }}
                   </strong>
