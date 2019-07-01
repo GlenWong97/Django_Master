@@ -1,5 +1,6 @@
 {% extends "store/base.html" %}
 {% block content %}
+{% load extra_filter %}
 <div id="main">   
 <article class="media content-section">
   <span id="post__">  
@@ -40,8 +41,21 @@
       {% endif %}      
     {{ object.Lesson.title }}
     <h2 class="article-title">{{ object.title }}</h2>
-
+    {% if object.description|length < 200 %}
     <p class="article-content">{{ object.description|linebreaks }}</p>
+    {% else %}
+    <p class="article-content">
+      <!-- <span id="shortened_desc" style="display: none;">
+        {{ object.description|cut:200|linebreaks }}
+      </span>
+      <span id="desc">{{ object.description|cut:200|linebreaks }}</span> 
+      <span id="expanded_desc" style="display: none;">
+        {{ object.description|linebreaks }}
+      </span>
+      <button id="toggle_desc" onclick="expandcontent(); return true;">more</button> -->
+     {{ object.description|linebreaks }}
+    </p>
+    {% endif %}
     {% if object.author != user %}
     {% if object in sub %}
     <div>

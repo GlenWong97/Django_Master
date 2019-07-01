@@ -26,15 +26,7 @@
                 <a href="{% url 'user-posts' post.author.username %}" class="author">
                   {{ post.author }} 
                 </a>
-                <div class="rating">
-                    {% for j in post.rating|for_ %}
-                      <span class="fa fa-star checked"></span>
-                    {% endfor %}
-                    {% for j in 5|for_subtract:post.rating %}
-                    <span class="fa fa-star"></span>
-                    {% endfor %}
-                    </div>
-                <div>
+               <div>
                   <strong style="text-align: right;" class="price">S${{ post.price }}
                   </strong>
                 </div>

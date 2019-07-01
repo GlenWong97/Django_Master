@@ -33,3 +33,21 @@ function show(z) {
   var element = document.getElementById(z+"_link");
   element.classList.add("Active");
 }
+
+function expandcontent() {
+  var x = document.getElementById("shortened_desc");
+  var w = document.getElementById("desc");
+  var y = document.getElementById("expanded_desc");
+  var z = document.getElementById("toggle_desc");
+  if (z.textContent == 'more') {
+    w.style.display = "none";
+    x.style.display = "none";
+    y.style.display = "block";
+    z.textContent = "less";
+  }
+  else {
+    x.style.display = "block";
+    y.style.display = "none";
+    z.textContent = "more";
+  }
+}
