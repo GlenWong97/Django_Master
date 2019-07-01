@@ -5,7 +5,11 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
+class Feedback(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	comment = models.CharField(max_length = 100)
+	rating = models.DecimalField(decimal_places=2, max_digits=3)
+	date_posted = models.DateTimeField(default=timezone.now)
 
 class Post(models.Model):
 	title = models.CharField(max_length=100)
@@ -14,7 +18,7 @@ class Post(models.Model):
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	rating = models.IntegerField(default = 0)
+	feedback = models.ManyToManyField(Feedback)
 	
 	def __str__(self):
 		return self.title
@@ -52,7 +56,7 @@ class Lesson(models.Model):
 	# 	super().delete(*args, **kwargs)
 		
 class Subscriber(models.Model):
-	users = models.ManyToManyField(Post, null=True)
+	users = models.ManyToManyField(Post)
 	current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
 
 	@classmethod
