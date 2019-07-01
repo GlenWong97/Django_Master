@@ -30,3 +30,6 @@ def calc_rating(feedback):
 		number_of_rating += 1
 		total_rating += i.rating
 	return (float(total_rating) /number_of_rating)* 20
+@register.filter
+def multiply_by(value, arg):
+	return round(value * arg, 2)

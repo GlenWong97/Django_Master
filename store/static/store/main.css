@@ -292,7 +292,7 @@ body {
   position: relative;
 }
 
-.panel button{
+.panel button, .panel a{
   /* font-family: 'Arimo', sans-serif; */
   float: left;
   width: 28%;
@@ -312,7 +312,7 @@ body {
   outline: none;
 }
 
-.panel button:hover{
+.panel button:hover, .panel a:hover{
   color: rgb(117, 255, 255);
   border-top: solid 3px rgb(16, 197, 230);
 }
@@ -418,10 +418,18 @@ body {
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 
 #post__ {
-  height: 180px;
+  display: block;
+  position: relative;
+  height: 200px;
   width: 200px;
   overflow: hidden;
   margin-right: 30px;
+}
+
+#post__ h6 {
+  position: absolute;
+  left: 7px;
+  bottom: 0px;
 }
 
 #post__ img {

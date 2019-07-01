@@ -11,9 +11,9 @@ class Profile(models.Model):
             ('Male', 'Male'),
             ('Female', 'Female'),
             ('Others', 'Others'),
-            ('Justin Lu', 'Justin Lu')
+            ('-', '-')
         ],
-        default = 'Justin Lu'
+        default = '-'
     )
     bio = models.CharField(max_length = 1000, blank = True, default = '-')
     def __str__(self):

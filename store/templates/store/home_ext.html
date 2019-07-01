@@ -63,7 +63,7 @@
           
           <button id="subscription_link" onclick="show('subscription'); return true;">
           {% else %}
-          <button  id="subscription_link" href="{% url 'login' %}">
+          <a href="{% url 'login' %}">
           {% endif %}
             <img src="/static/store/Subscription.gif" alt="">
             My Subscription
@@ -73,7 +73,7 @@
           <!-- <a  href="{% url 'user-posts' user.username %}"> -->
           <button id="content_link" onclick="show('content'); return true;">
           {% else %}
-          <button  id="content_link" href="{% url 'login' %}">
+          <a href="{% url 'login' %}">
           {% endif %}
             <img src="/static/store/content.gif" alt="">
             My Content
