@@ -93,16 +93,23 @@ class SubListView(ListView):
 	paginate_by = 12
 
 	def get(self, request):
-		post = Post.objects.all().order_by('-date_posted')
-		users = User.objects.exclude(id=request.user.id)
-		sub = Subscriber.objects.get(current_user=request.user)
-		subs = sub.users.all()
-		my_content = Post.objects.filter(author=request.user.id)
+		if request.user.is_authenticated:
+			post = Post.objects.all().order_by('-date_posted')
+			users = User.objects.exclude(id=request.user.id)
+			sub = Subscriber.objects.get(current_user=request.user)
+			subs = sub.users.all()
+			my_content = Post.objects.filter(author=request.user.id)
 
-		args={
-			'posts':post, 'users':users, 'subs':subs, 'mine':my_content
-		}
-		return render(request, self.template_name, args)
+			args={
+				'posts':post, 'users':users, 'subs':subs, 'mine':my_content
+			}
+			return render(request, self.template_name, args)
+		else:
+			post = Post.objects.all().order_by('-date_posted')
+			args={
+				'posts':post, 
+			}			
+			return render(request, self.template_name, args)
 	
 class UserPostListView(ListView):
 	model = Post
