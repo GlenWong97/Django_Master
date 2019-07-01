@@ -26,6 +26,9 @@
                 <a href="{% url 'user-posts' post.author.username %}" class="author">
                   {{ post.author }} 
                 </a>
+                {% for i in post.feedback|get_m %}
+                  {{ i.comment }}
+                {% endfor %}
                <div>
                   <strong style="text-align: right;" class="price">S${{ post.price }}
                   </strong>

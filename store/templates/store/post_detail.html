@@ -66,6 +66,12 @@
     <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' object.id 'add' %}">Subscribe</a>
     {% endif %}
     {% endif %}
+    {% for i in object.feedback|get_m %}
+      rating: {{ i.rating }} / 5 
+      {{ i.comment }}
+      by {{ i.user }}
+      on {{ i.date_posted }}
+    {% endfor %}
   </div>
 </article>
 </div>

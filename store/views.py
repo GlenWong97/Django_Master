@@ -13,7 +13,7 @@ from django.views.generic import (
 	TemplateView
 )
 from django.http import Http404, HttpResponseRedirect
-from .models import Post, Lesson, Subscriber
+from .models import Post, Lesson, Subscriber, Feedback
 from .forms import LessonForm
 from django.urls import reverse, reverse_lazy
 
@@ -23,8 +23,6 @@ def home(request):
 	if query:
 		queryset_list = queryset_list.filter(title__icontains=query)
 	context = {
-		
-		
 		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
@@ -99,7 +97,6 @@ class SubListView(ListView):
 			sub = Subscriber.objects.get(current_user=request.user)
 			subs = sub.users.all()
 			my_content = Post.objects.filter(author=request.user.id)
-
 			args={
 				'posts':post, 'users':users, 'subs':subs, 'mine':my_content
 			}

@@ -14,3 +14,6 @@ def length(value):
 @register.filter
 def cut(value, arg):
 	return value[0:arg] + '...'
+@register.filter
+def get_m(value):
+	return list(value.all())
