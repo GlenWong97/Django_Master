@@ -51,3 +51,17 @@ function expandcontent() {
     z.textContent = "more";
   }
 }
+
+function toggle_comment() {
+  var y = document.getElementById("fade_Screen");
+  var x = document.getElementById("create_comment_window");
+  var z = document.getElementById("togglecomment");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+  else {
+    x.style.display ="none";
+    y.style.display= "none";
+  }
+}

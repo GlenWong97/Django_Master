@@ -136,7 +136,7 @@ class PostDetailView(DetailView):
 			comment = form.cleaned_data['comment']
 			rating = form.cleaned_data['rating']
 			form = CommentForm()
-			return redirect('store-home')
+			return HttpResponseRedirect(self.request.path_info)
 
 		args = {'form':form, 'comment':comment, 'rating':rating}
 		return render(request, self.template_name, args)
