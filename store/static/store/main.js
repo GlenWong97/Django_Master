@@ -35,20 +35,18 @@ function show(z) {
 }
 
 function expandcontent() {
-  var x = document.getElementById("shortened_desc");
   var w = document.getElementById("desc");
   var y = document.getElementById("expanded_desc");
   var z = document.getElementById("toggle_desc");
-  if (z.textContent == 'more') {
+  if (z.textContent == '▼') {
     w.style.display = "none";
-    x.style.display = "none";
     y.style.display = "block";
-    z.textContent = "less";
+    z.textContent = "▲ ";
   }
   else {
-    x.style.display = "block";
+    w.style.display = "block";
     y.style.display = "none";
-    z.textContent = "more";
+    z.textContent = "▼";
   }
 }
 

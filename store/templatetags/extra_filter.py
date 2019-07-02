@@ -15,7 +15,13 @@ def length(value):
 	return len(value)
 @register.filter
 def cut(value, arg):
+	if arg >= len(value):
+		return value
 	return value[0:arg] + '...'
+@register.filter
+def cutb(value, arg):
+	x = len(value) - 1
+	return value[arg:x]
 @register.filter
 def get_m(value):
 	return list(value.all())

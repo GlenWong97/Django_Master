@@ -54,15 +54,12 @@
     <p class="article-content">{{ object.description|linebreaks }}</p>
     {% else %}
     <p class="article-content">
-      <!-- <span id="shortened_desc" style="display: none;">
-        {{ object.description|cut:200|linebreaks }}
+      <span id="desc">{{ object.description|cut:200|linebreaks }}  
+        <button id="toggle_desc" style="width: 100%; border: none; outline: none;" onclick="expandcontent(); return true;">▼</button>
       </span>
-      <span id="desc">{{ object.description|cut:200|linebreaks }}</span> 
       <span id="expanded_desc" style="display: none;">
-        {{ object.description|linebreaks }}
+        {{ object.description|cutb:200|linebreaks }}
       </span>
-      <button id="toggle_desc" onclick="expandcontent(); return true;">more</button> -->
-     {{ object.description|linebreaks }}
     </p>
     {% endif %}
     {% if object.author != user %}
