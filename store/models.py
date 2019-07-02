@@ -11,6 +11,15 @@ class Feedback(models.Model):
 	rating = models.DecimalField(decimal_places=2, max_digits=3)
 	date_posted = models.DateTimeField(default=timezone.now)
 
+	def __str__(self):
+		return self.comment
+
+	def get_absolute_url(self):
+		return reverse('comment_upload', kwargs={'pk' : self.pk})
+	
+	def save(self, *args, **kwargs):
+         super(Feedback, self).save(*args, **kwargs)
+
 class Post(models.Model):
 	title = models.CharField(max_length=100)
 	image = models.ImageField(default = 'default0.jpg', upload_to='course_image/')
@@ -73,3 +82,5 @@ class Subscriber(models.Model):
 		)
 		sub.users.remove(new_sub)
 
+	def __str__(self):
+		return self.current_user

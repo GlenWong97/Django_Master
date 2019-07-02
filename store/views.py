@@ -14,7 +14,7 @@ from django.views.generic import (
 )
 from django.http import Http404, HttpResponseRedirect
 from .models import Post, Lesson, Subscriber, Feedback
-from .forms import LessonForm
+from .forms import LessonForm, CommentForm
 from django.urls import reverse, reverse_lazy
 
 def home(request):
@@ -61,8 +61,7 @@ class UploadLessonView(CreateView):
 
 	def form_valid(self, form):
 		form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
-		return super(UploadLessonView, self).form_valid(form)
-
+		return super(UploadLessonView, self).form_valid(form)	
 
 class LessonDeleteView(DeleteView):
 	model = Lesson
@@ -124,7 +123,23 @@ class PostDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
 	 	context['sub'] = ((Subscriber.objects.get(current_user = self.request.user))).users.all()
+	 	context['form'] = CommentForm()
 	 	return context
+
+	def post(self, request, pk):
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			feedback = form.save(commit = False)
+			feedback.user = request.user
+			feedback.save()
+			get_object_or_404(Post, pk=pk).feedback.add(feedback)
+			comment = form.cleaned_data['comment']
+			rating = form.cleaned_data['rating']
+			form = CommentForm()
+			return redirect('store-home')
+
+		args = {'form':form, 'comment':comment, 'rating':rating}
+		return render(request, self.template_name, args)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post

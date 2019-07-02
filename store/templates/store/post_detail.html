@@ -1,6 +1,7 @@
 {% extends "store/base.html" %}
 {% block content %}
 {% load extra_filter %}
+{% load crispy_forms_tags %}
 <div id="main">   
 <article class="media content-section">
   <span id="post__">  
@@ -90,6 +91,11 @@
     </div>
     {% endfor %}
   </div>
+  <form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form | crispy }}
+			<button class="btn btn-secondary" type="submit" >submit</button>
+		</form>
 </article>
 </div>
 {% endblock content %}

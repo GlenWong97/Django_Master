@@ -15,7 +15,7 @@ from .views import (
     UserPostListView,
     LessonDeleteView,
     SubListView,
-    change_sub
+    change_sub,
 )
 from . import views
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
     path('about/', views.about, name='store-about'),    
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    # path('post/<int:post_id>/comment_upload/', UploadCommentView.as_view(), name='comment_upload'),    
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),    
     path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),    
