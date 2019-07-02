@@ -82,7 +82,7 @@ class PostListView(ListView):
 	model = Post
 	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
-	ordering = ['-date_posted']
+	ordering = ['date_posted']
 	paginate_by = 12
 	
 class SubListView(ListView):
