@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'search.apps.SearchConfig',
     'store.apps.StoreConfig',
-    'star_ratings'
     # 'django_elasticsearch_dsl'
 ]
 
