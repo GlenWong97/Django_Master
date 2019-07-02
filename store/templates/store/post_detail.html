@@ -2,6 +2,7 @@
 {% block content %}
 {% load extra_filter %}
 {% load crispy_forms_tags %}
+{% load ratings %}
 <div id="main">   
 <article class="media content-section">
   <span id="post__">  
@@ -10,19 +11,7 @@
   <div class="star-ratings-css-top" style="width: {{ object.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
   <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
 </div>
- <h6>rating: {{ object.feedback|calc_rating|multiply_by:0.05 }} from {{ object.feedback|get_m|length }} users</h6>
-  <!-- <fieldset class="rating">
-    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-    <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-    <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-    <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-    <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-</fieldset> -->
+ <h6>rating: {{ object.feedback|calc_rating|multiply_by:0.05 }} from {{ object.feedback|get_m|legit_count }} users</h6>
 </span>
   <div class="media-body">
     <div class="article-metadata">
@@ -32,9 +21,9 @@
       <p>
         <h6> ${{ object.price}} </h6>
       </p>
-      {% if object.author == user or object in sub %}
-    <button id="togglecomment" style="float: right;" onclick="toggle_comment(); return true;">Give a Review</button>
-  {% endif %}
+    {% if object.author == user or object in sub %}
+    <button id="togglecomment" style="float: right;" onclick="toggle_comment(); return true;">Give A Review</button>
+    {% endif %}
       {% if object.author == user %}
         <div>
           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
@@ -93,12 +82,39 @@
   </div>
   
   <div style="display:none;" id="create_comment_window">
-  <form method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			{{ form | crispy }}
-      <button style="float: right;" class="btn btn-secondary" onclick="toggle_comment(); return true;">cancel</button>
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- <h6 style="float:right;">*existing review will be overwritten
+        <br>*rating is between 0 and 5;
+        <br> -anything else will be counted
+        <br> -as a neutral comment
+      </h6> -->
+      <br>
+      <input type="radio" id="no_rating" name="rating" value="-1" checked>-no rating
+      {% if object in sub %}
+      <fieldset class="rating">
+        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+      </fieldset>
+      {% else %}
+        <h6>You are the owner <br>(you cannot vote but can reply to feedback)</h6>
+      {% endif %}
+      <br>
+        <label for="comment">*feedback</label>
+      <br>
+        <input type="text" name="comment">
+      <br>
+      <button style="float: right;" class="btn btn-secondary" onclick="toggle_comment(); return false;">cancel</button>
       <button class="btn btn-secondary" type="submit" >submit</button>
     </form>
+    <!-- <form method="POST">{% csrf_token %}
+      <input type="text" name="rating" placeholder="rating">
+      
+       <button class="btn btn-secondary" type="submit" >submit</button>
+    </form> -->
   </div>
   <div style="display: none;" id="fade_Screen"></div>
 </article>

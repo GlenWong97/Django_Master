@@ -27,16 +27,23 @@ def get_m(value):
 	return list(value.all())
 @register.filter
 def calc_rating(feedback):
-	if len(feedback.all()) == 0:
-		return 0
 	feedback = list(feedback.all())
 	total_rating = 0
 	number_of_rating = 0
 	for i in feedback:
 		if i.rating >= 0 and i.rating <= 5:
-			number_of_rating += 1
 			total_rating += i.rating
+			number_of_rating += 1
+	if number_of_rating == 0:
+		return 0
 	return (float(total_rating) /number_of_rating)* 20
 @register.filter
 def multiply_by(value, arg):
 	return round(value * arg, 2)
+@register.filter
+def legit_count(value):
+	n = 0
+	for i in value:
+		if i.rating >= 0:
+			n += 1
+	return n

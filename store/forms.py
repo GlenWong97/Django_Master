@@ -9,4 +9,4 @@ class LessonForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Feedback
-		fields = ('comment', 'rating')
+		fields = ('rating', 'comment')

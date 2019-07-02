@@ -8,7 +8,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Feedback(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	comment = models.CharField(max_length = 100)
-	rating = models.DecimalField(decimal_places=2, max_digits=3)
+	rating = models.DecimalField(default=-1, decimal_places=2, max_digits=3)
 	date_posted = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):

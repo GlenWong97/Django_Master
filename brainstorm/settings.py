@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'search.apps.SearchConfig',
     'store.apps.StoreConfig',
+    'star_ratings'
     # 'django_elasticsearch_dsl'
 ]
 
@@ -73,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+         ],
         },
     },
 ]

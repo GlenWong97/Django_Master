@@ -129,6 +129,10 @@ class PostDetailView(DetailView):
 	def post(self, request, pk):
 		form = CommentForm(request.POST)
 		if form.is_valid():
+			try:
+				Feedback.objects.get(user = request.user).delete()
+			except Feedback.DoesNotExist:
+				None
 			feedback = form.save(commit = False)
 			feedback.user = request.user
 			feedback.save()
