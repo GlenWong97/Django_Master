@@ -13,8 +13,8 @@ from django.views.generic import (
 	TemplateView
 )
 from django.http import Http404, HttpResponseRedirect
-from .models import Post, Lesson, Subscriber
-from .forms import LessonForm
+from .models import Post, Lesson, Subscriber, Feedback
+from .forms import LessonForm, CommentForm
 from django.urls import reverse, reverse_lazy
 
 def home(request):
@@ -23,8 +23,6 @@ def home(request):
 	if query:
 		queryset_list = queryset_list.filter(title__icontains=query)
 	context = {
-		
-		
 		'post': Post.objects.all(), 'subs' : subs, 'users': users, 'lesson': Lesson.objects.all()
 	}
 	return render (request, 'store/home.html', context)
@@ -63,8 +61,7 @@ class UploadLessonView(CreateView):
 
 	def form_valid(self, form):
 		form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
-		return super(UploadLessonView, self).form_valid(form)
-
+		return super(UploadLessonView, self).form_valid(form)	
 
 class LessonDeleteView(DeleteView):
 	model = Lesson
@@ -86,23 +83,30 @@ class PostListView(ListView):
 	paginate_by = 12
 	
 class SubListView(ListView):
-	model = Subscriber
+	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'sub'
-	ordering = ['-current_user']
+	context_object_name = 'post'
+	ordering = ['-date_posted']
 	paginate_by = 12
 
 	def get(self, request):
-		post = Post.objects.all().order_by('-date_posted')
-		users = User.objects.exclude(id=request.user.id)
-		sub = Subscriber.objects.get(current_user=request.user)
-		subs = sub.users.all()
-
-		args={
-			'post':post, 'users':users, 'subs':subs
-		}
-		return render(request, self.template_name, args)
-
+		if request.user.is_authenticated:
+			post = Post.objects.all().order_by('-date_posted')
+			users = User.objects.exclude(id=request.user.id)
+			sub = Subscriber.objects.get(current_user=request.user)
+			subs = sub.users.all()
+			my_content = Post.objects.filter(author=request.user.id)
+			args={
+				'posts':post, 'users':users, 'subs':subs, 'mine':my_content
+			}
+			return render(request, self.template_name, args)
+		else:
+			post = Post.objects.all().order_by('-date_posted')
+			args={
+				'posts':post, 
+			}			
+			return render(request, self.template_name, args)
+	
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
@@ -119,7 +123,27 @@ class PostDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 	 	context = super(PostDetailView, self).get_context_data(*args, **kwargs)
 	 	context['sub'] = ((Subscriber.objects.get(current_user = self.request.user))).users.all()
+	 	context['form'] = CommentForm()
 	 	return context
+
+	def post(self, request, pk):
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			try:
+				Feedback.objects.get(user = request.user).delete()
+			except Feedback.DoesNotExist:
+				None
+			feedback = form.save(commit = False)
+			feedback.user = request.user
+			feedback.save()
+			get_object_or_404(Post, pk=pk).feedback.add(feedback)
+			comment = form.cleaned_data['comment']
+			rating = form.cleaned_data['rating']
+			form = CommentForm()
+			return HttpResponseRedirect(self.request.path_info)
+
+		args = {'form':form, 'comment':comment, 'rating':rating}
+		return render(request, self.template_name, args)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
@@ -168,4 +192,4 @@ def change_sub(request, operation, pk):
 		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
-		return redirect('store-sub_home')
+		return redirect('store-home')

@@ -1,0 +1,45 @@
+{% load extra_filter %}
+<div class="col-lg-3 col-md-6 mb-4">            
+            <div id="course_card">            
+              <div class="view overlay">
+                <img style="margin-left: -10px;" src="{{ post.image.url }}" alt="">
+              </div>                                    
+              <div>                
+                
+                <div>
+                  <strong>
+                    {% if user.is_authenticated %}
+                    <a class="title" href="{% url 'post-detail' post.id %}" >
+                    {% else %}
+                    <a class="title" href="{% url 'login' %}" >
+                    {% endif %}
+                      {% if post.title|length < 30 %}
+                      <span>{{ post.title }}</span> 
+                      {% else %}
+                      <span>{{ post.title|cut:27 }}</span>
+                      {% endif %}
+                      <span  style="background-color: rgb(253, 98, 98);" class="badge badge-pill danger-color">NEW
+                      </span> 
+                    </a>
+                  </strong>
+                </div>
+
+                 <div class="star-ratings-css">
+                <div class="star-ratings-css-top" style="width: {{ post.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                </div>
+                
+                <a href="{% url 'user-posts' post.author.username %}" class="author">
+                  by {{ post.author }} 
+                </a>
+
+               <div>
+                  <strong style="text-align: right;" class="price">S${{ post.price }}
+                  </strong>
+                </div>
+                <small class="date">
+                   {{ post.date_posted|date:'d F y'}}
+                </small>
+              </div>            
+            </div>            
+          </div>   

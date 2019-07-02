@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (
-	PostListView, 
+	# PostListView, 
 	PostDetailView,
 	PostCreateView,
 	PostUpdateView,
@@ -15,16 +15,18 @@ from .views import (
     UserPostListView,
     LessonDeleteView,
     SubListView,
-    change_sub
+    change_sub,
 )
 from . import views
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='store-home'),
-    path('sub_home', SubListView.as_view(), name='store-sub_home'),
+    # path('', PostListView.as_view(), name='store-home'),
+    # path('sub_home', SubListView.as_view(), name='store-sub_home'),
+    path('', SubListView.as_view(), name='store-home'),
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
     path('about/', views.about, name='store-about'),    
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    # path('post/<int:post_id>/comment_upload/', UploadCommentView.as_view(), name='comment_upload'),    
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),    
     path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),    

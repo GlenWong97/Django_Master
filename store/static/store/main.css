@@ -86,7 +86,7 @@ body {
 }
 
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav input[type=text] {float: left;}
   .topnav a.icon {
@@ -96,7 +96,7 @@ body {
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive a.icon {
     position: absolute;
@@ -112,7 +112,7 @@ body {
 
 .nav2 {
   background-color: rgb(174, 216, 255);
-  display: block;
+  display: none;
   margin-top: -5px;
   padding-top: 0;
   width: 100%;
@@ -275,7 +275,6 @@ body {
 }
 
 #useless {
-  padding-top: 70px;
   border: none;
 }
 
@@ -293,15 +292,18 @@ body {
   position: relative;
 }
 
-.panel a{
+.panel button, .panel a{
   /* font-family: 'Arimo', sans-serif; */
   float: left;
   width: 28%;
   background-color:  rgb(200, 200, 200);
   margin-right: 2.5%;
   margin-left: 2.5%;
+  overflow: hidden;
   display: block;
   color: black;
+  border: none;
+  border-top:solid 3px rgb(200, 200, 200);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -310,13 +312,15 @@ body {
   outline: none;
 }
 
-.panel a:hover{
+.panel button:hover, .panel a:hover{
   color: rgb(117, 255, 255);
+  border-top: solid 3px rgb(16, 197, 230);
 }
 
-.panel a:active {
+.panel .Active{
   color: rgb(16, 197, 230);
-  border-bottom: none;
+  border-top: solid 3px rgb(16, 197, 230);
+  background-color: white;
 }
 
 .panel img {
@@ -325,8 +329,8 @@ body {
 }
 
 #course_card img {
-  width: 200px;
-  height: 120px;
+  width: 150px;
+  height: 80px;
 }
 
 #course_card {
@@ -335,8 +339,8 @@ body {
   background-color: white;
   padding-left: 10px;
   padding-right: 10px;
-  height: 325px;
-  width: 200px;
+  height: 225px;
+  width: 150px;
   border: solid 1pt rgb(75, 65, 65);
   box-shadow: #231;
   text-align: left;
@@ -348,11 +352,11 @@ body {
 }
 
 #course_card .title{
-  font-size: 12pt;
+  font-size: 10pt;
 }
 
 #course_card .price {
-  font-size: 10pt;
+  font-size: 9pt;
   position: absolute;
   bottom: 8px;
   right: 10px;
@@ -361,13 +365,17 @@ body {
 #course_card .date {
   padding-top: 20px;
   float: left;
+  font-size: 9pt;
   position: absolute;
   bottom: 10px;
 }
 
 #course_card .author{
-  color: grey;
-  font-size: 11pt;
+  color: rgb(0, 124, 207);
+  position: absolute;
+  bottom: 24px;
+  right: 10px;
+  font-size: 10pt;
 }
 
 .checked {
@@ -375,9 +383,9 @@ body {
 }
 
 .rating {
-  float: none;
   padding: 0;
   margin: 0;
+  float: right;
 }
 
 .rating > input { display: none; } 
@@ -410,10 +418,18 @@ body {
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 
 #post__ {
-  height: 180px;
+  display: block;
+  position: relative;
+  height: 200px;
   width: 200px;
   overflow: hidden;
   margin-right: 30px;
+}
+
+#post__ h6 {
+  position: absolute;
+  left: 7px;
+  bottom: 0px;
 }
 
 #post__ img {
@@ -426,4 +442,62 @@ body {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+#comment {
+  margin-top: 20px;
+  padding: 7px;
+  border: solid 0.5px grey;
+}
+
+.star-ratings-css {
+  text-align: left;
+  unicode-bidi: bidi-override;
+  color: #353535;
+  font-size: 25px;
+  height: 25px;
+  width: 104px;
+  margin: 0;
+  position: relative;
+  padding: 0;
+  text-shadow: 0.5px 0.5px 0 #777777;
+}
+.star-ratings-css-top {
+  color: #FFD700;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+.star-ratings-css-bottom {
+  padding: 0;
+  display: block;
+  z-index: 0;
+}
+
+#fade_Screen{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.623);
+  z-index: 99;
+}
+
+#create_comment_window {
+  position: fixed;
+  top: 100px;
+  margin: 5% auto; /* Will not center vertically and won't work in IE6/7. */
+  left: 0;
+  right: 0; 
+  z-index: 100;
+  width: 30%;
+  min-width: 350px;
+  border: solid 2px black;
+  background-color: white;
+  padding: 10px;
 }

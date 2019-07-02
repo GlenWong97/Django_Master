@@ -1,21 +1,17 @@
 {% extends "store/base.html" %}
 {% block content %}
+{% load extra_filter %}
+{% load crispy_forms_tags %}
+{% load ratings %}
 <div id="main">   
 <article class="media content-section">
   <span id="post__">  
   <img class="post_detail_image"  src="{{ post.image.url }}">
-  <fieldset class="rating">
-    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-    <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-    <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-    <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-    <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-</fieldset>
+  <div class="star-ratings-css" style="font-size: 48px; width:200px;">
+  <div class="star-ratings-css-top" style="width: {{ object.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+</div>
+ <h6>rating: {{ object.feedback|calc_rating|multiply_by:0.05 }} from {{ object.feedback|get_m|legit_count }} users</h6>
 </span>
   <div class="media-body">
     <div class="article-metadata">
@@ -25,6 +21,9 @@
       <p>
         <h6> ${{ object.price}} </h6>
       </p>
+    {% if object.author == user or object in sub %}
+    <button id="togglecomment" style="float: right;" onclick="toggle_comment(); return true;">Give A Review</button>
+    {% endif %}
       {% if object.author == user %}
         <div>
           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
@@ -40,8 +39,18 @@
       {% endif %}      
     {{ object.Lesson.title }}
     <h2 class="article-title">{{ object.title }}</h2>
-
+    {% if object.description|length < 200 %}
     <p class="article-content">{{ object.description|linebreaks }}</p>
+    {% else %}
+    <p class="article-content">
+      <span id="desc">{{ object.description|cut:200|linebreaks }}  
+        <button id="toggle_desc" style="width: 100%; border: none; outline: none;" onclick="expandcontent(); return true;">▼</button>
+      </span>
+      <span id="expanded_desc" style="display: none;">
+        {{ object.description|cutb:200|linebreaks }}
+      </span>
+    </p>
+    {% endif %}
     {% if object.author != user %}
     {% if object in sub %}
     <div>
@@ -52,7 +61,62 @@
     <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' object.id 'add' %}">Subscribe</a>
     {% endif %}
     {% endif %}
+    {% for i in object.feedback|get_m %}
+      <div id="comment">
+        <img src="{{ i.user.profile.image.url }}" id="profile_icon">
+         <a class="mr-2" href= "{% url 'user-posts' i.user %}" >{{ i.user }}</a>
+      <div class="rating">
+          {% if i.rating >= 0 %}
+          {% for j in i.rating|for_ %}
+            <span class="fa fa-star checked"></span>
+          {% endfor %}
+          {% for j in 5|for_subtract:i.rating %}
+          <span class="fa fa-star"></span>
+          {% endfor %}
+          {% endif%}
+          </div>
+      <h4>{{ i.comment }}</h4>
+      <h5>{{ i.date_posted }}</h5>
+    </div>
+    {% endfor %}
   </div>
+  
+  <div style="display:none;" id="create_comment_window">
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- <h6 style="float:right;">*existing review will be overwritten
+        <br>*rating is between 0 and 5;
+        <br> -anything else will be counted
+        <br> -as a neutral comment
+      </h6> -->
+      <br>
+      <input type="radio" id="no_rating" name="rating" value="-1" checked>-no rating
+      {% if object in sub %}
+      <fieldset class="rating">
+        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+      </fieldset>
+      {% else %}
+        <h6>You are the owner <br>(you cannot vote but can reply to feedback)</h6>
+      {% endif %}
+      <br>
+        <label for="comment">*feedback</label>
+      <br>
+        <input type="text" name="comment">
+      <br>
+      <button style="float: right;" class="btn btn-secondary" onclick="toggle_comment(); return false;">cancel</button>
+      <button class="btn btn-secondary" type="submit" >submit</button>
+    </form>
+    <!-- <form method="POST">{% csrf_token %}
+      <input type="text" name="rating" placeholder="rating">
+      
+       <button class="btn btn-secondary" type="submit" >submit</button>
+    </form> -->
+  </div>
+  <div style="display: none;" id="fade_Screen"></div>
 </article>
 </div>
 {% endblock content %}
