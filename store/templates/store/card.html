@@ -24,7 +24,7 @@
       </div>
 
       <div class="star-ratings-css">
-          <div class="star-ratings-css-top" style="width: {{ post.feedback|calc_rating }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <div class="star-ratings-css-top" style="width: {{  post.n_rating|multiply_by:0.2 }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
           <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       </div>
                     

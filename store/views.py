@@ -128,23 +128,33 @@ class PostDetailView(DetailView):
 	 	return context
 
 	def post(self, request, pk):
+		post_x = Post.objects.get(pk=pk)
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			try:
-				Feedback.objects.get(user = request.user).delete()
+				post_x.feedback.get(user = request.user).delete()
 			except Feedback.DoesNotExist:
 				None
 			feedback = form.save(commit = False)
 			feedback.user = request.user
-			feedback.save()
-			get_object_or_404(Post, pk=pk).feedback.add(feedback)
+			if len(feedback.comment) or feedback.rating != -1:
+				feedback.save()
+				get_object_or_404(Post, pk=pk).feedback.add(feedback)
 			comment = form.cleaned_data['comment']
 			rating = form.cleaned_data['rating']
 			form = CommentForm()
-			return HttpResponseRedirect(self.request.path_info)
-
-		args = {'form':form, 'comment':comment, 'rating':rating}
-		return render(request, self.template_name, args)
+			r = 0
+			n = 0
+			for i in list(post_x.feedback.all()):
+				if i.rating <= 5 and i.rating >=1:
+					n += 1
+					r += i.rating
+			if n == 0:
+				post_x.n_rating = 0
+			else:
+				post_x.n_rating = 100 * r / n
+			post_x.save()
+		return HttpResponseRedirect(self.request.path_info)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post

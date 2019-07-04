@@ -7,12 +7,12 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Feedback(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	comment = models.CharField(max_length = 100)
+	comment = models.CharField(max_length = 100, blank=True)
 	rating = models.DecimalField(default=-1, decimal_places=2, max_digits=3)
 	date_posted = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		return self.comment
+		return str(self.user) + " : " + str(self.comment) + " - " + str(self.rating)
 
 	def get_absolute_url(self):
 		return reverse('comment_upload', kwargs={'pk' : self.pk})

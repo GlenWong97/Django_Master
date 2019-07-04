@@ -40,6 +40,7 @@ def calc_rating(feedback):
 @register.filter
 def multiply_by(value, arg):
 	return round(value * arg, 2)
+
 @register.filter
 def legit_count(value):
 	n = 0
