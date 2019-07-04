@@ -85,33 +85,24 @@ class PostListView(ListView):
 class SubListView(ListView):
 	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'post'
-	ordering = ['-date_posted']
-	paginate_by = 12
+	context_object_name = 'posts'
+	paginate_by = 4
 
-	def get(self, request):
-		if request.user.is_authenticated:
-			post = Post.objects.all().order_by('-date_posted')
-			users = User.objects.exclude(id=request.user.id)
-			sub = Subscriber.objects.get(current_user=request.user)
-			subs = sub.users.all()
-			my_content = Post.objects.filter(author=request.user.id)
-			args={
-				'posts':post, 'users':users, 'subs':subs, 'mine':my_content
-			}
-			return render(request, self.template_name, args)
-		else:
-			post = Post.objects.all().order_by('-date_posted')
-			args={
-				'posts':post, 
-			}			
-			return render(request, self.template_name, args)
-	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['posts'] = Post.objects.all().order_by('-date_posted')
+		if self.request.user.is_authenticated:
+			context['users'] = User.objects.exclude(id=self.request.user.id)
+			sub = Subscriber.objects.get(current_user=self.request.user)
+			context['subs'] = sub.users.all()
+			context['mine'] = Post.objects.filter(author=self.request.user.id)
+		return context
+
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
-	paginate_by = 12
+	paginate_by = 4
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))

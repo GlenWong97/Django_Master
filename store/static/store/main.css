@@ -138,15 +138,14 @@ body {
 }
 
 .select-css {
-    float: left;
+    outline: none;
+    float: right;
     display: block;
     font-size: 13px;
     font-weight: 600;
     color: rgb(24, 0, 131);
     /* padding: .6em 1.4em .5em .8em; */
     margin-right: 3%;
-    width: 15%;
-    height: 30px;
     box-sizing: border-box;
     border: solid rgb(16, 197, 230);
     /* box-shadow: 0 1px 0 1px rgb(16, 197, 230); */
@@ -157,16 +156,15 @@ body {
    }
 .select-css::-ms-expand {
     display: none;
+    border: solid 1px grey;
 }
 .select-css:hover {
     border-color: #333;
 }
 .select-css:focus {
-    border-color: #aaa;
     /* box-shadow: 0 0 1px 3px rgba(4, 163, 255, 0.7);
     box-shadow: 0 0 0 3px -moz-mac-focusring; */
     color: rgb(0, 0, 0); 
-    outline: none;
 }
 .select-css option {
     font-weight:normal;

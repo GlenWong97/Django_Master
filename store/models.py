@@ -28,6 +28,8 @@ class Post(models.Model):
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	feedback = models.ManyToManyField(Feedback)
+	n_rating = models.IntegerField(default=0)
+	n_subs = models.IntegerField(default=0)
 	
 	def __str__(self):
 		return self.title

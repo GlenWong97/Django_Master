@@ -1,10 +1,20 @@
 {% extends "store/base.html" %}
 {% block content %}
+  {% load extra_filter %}
   {% include "store/home_ext.html" %}
   <div style="padding-top: 20px;" id="main" >
-    <section class="text-center mb-4">
+    <div style="width: 100%; height:50px;">
+      <select id="sorter" class="select-css" onchange="get_order(); return true;">
+        <option value="-date_posted" selected>Newest</option>
+        <option value="n_rating">Rating</option>
+        <option value="n_subs">Subscribers</option>
+        <option value="price">Cost</option>
+      </select>
+      </div>
+    {% for sortby in "-date_posted price n_rating n_subs"|split_this %}
+    <section class="text-center mb-4" id="{{ sortby }}" {% if sortby != '-date_posted' %} style="display: none;" {% endif %}>
       <div class="row" id="random"> 
-        {% for post in posts %}   
+        {% for post in posts|order_by:sortby %}   
         {% include "store/card.html" %}
         {% endfor %}
       </div>
@@ -12,7 +22,7 @@
         {% if not subs %}
         <h2>You have not subscribed to any course :/</h2>
         {% endif %} 
-        {% for post in subs %}
+        {% for post in subs|order_by:sortby %}
         {% include "store/card.html" %}
         {% endfor %}
       </div>
@@ -20,11 +30,12 @@
         {% if not mine %}
         <h2>You have not published anything :/</h2>
         {% endif %}   
-        {% for post in mine %}
+        {% for post in mine|order_by:sortby %}
         {% include "store/card.html" %}
         {% endfor %}
       </div>
     </section>
+    {% endfor %}
     {% include "store/pagination.html" %}
 </div>
 {% endblock content %}

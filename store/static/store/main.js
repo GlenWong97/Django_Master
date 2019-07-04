@@ -63,3 +63,17 @@ function toggle_comment() {
     y.style.display= "none";
   }
 }
+
+function get_order() {
+  var x = document.getElementById("sorter").value;
+  var a = document.getElementById("price")
+  var b = document.getElementById("-date_posted")
+  var d = document.getElementById("n_rating")
+  var e = document.getElementById("n_subs")
+  var y = document.getElementById(x)
+  a.style.display = "none";
+  b.style.display = "none";
+  d.style.display = "none";
+  e.style.display = "none";
+  y.style.display= "block";
+}

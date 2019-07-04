@@ -47,3 +47,11 @@ def legit_count(value):
 		if i.rating >= 0:
 			n += 1
 	return n
+@register.filter
+def order_by(queryset, args):
+    args = [x.strip() for x in args.split(',')]
+    return queryset.order_by(*args)
+
+@register.filter
+def split_this(value):
+	return value.split()
