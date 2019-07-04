@@ -39,16 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'search.apps.SearchConfig',
     'store.apps.StoreConfig',
-    # 'django_elasticsearch_dsl'
+    'chat',
+    'channels'
 ]
-
-ELASTICSEARCH_DSL = {
-    'default': {
-        'host': 'localhost:9200'   
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'brainstorm.wsgi.application'
-
+ASGI_APPLICATION = "brainstorm.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

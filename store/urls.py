@@ -1,11 +1,12 @@
 from django.urls import path
 from django.conf.urls import url
 from users import views as user_views
+from chat import views as chat_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (
-	# PostListView, 
+	PostListView, 
 	PostDetailView,
 	PostCreateView,
 	PostUpdateView,
@@ -19,10 +20,11 @@ from .views import (
 )
 from . import views
 
-urlpatterns = [
-    # path('', PostListView.as_view(), name='store-home'),
+urlpatterns = [    
     # path('sub_home', SubListView.as_view(), name='store-sub_home'),
     path('', SubListView.as_view(), name='store-home'),
+    path('search/', PostListView.as_view(), name='store-search'),
+    path('chat/', chat_views.index, name='chat'),
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
     path('about/', views.about, name='store-about'),    
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),

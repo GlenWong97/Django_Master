@@ -77,20 +77,30 @@ class LessonDeleteView(DeleteView):
 
 class PostListView(ListView):
 	model = Post
-	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'post'
-	ordering = ['date_posted']
+	template_name = 'store/search.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'searchpost'
+	ordering = ['-date_posted']
 	paginate_by = 12
-	
+
+	def get_queryset(self, *args, **kwargs):
+		object_list = super(PostListView, self).get_queryset(*args, **kwargs)
+		search = self.request.GET.get('q', None)
+		if search:
+			object_list = object_list.filter(title__icontains = search)		
+		return object_list
+
+		
+
 class SubListView(ListView):
 	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'post'
+	context_object_name = 'posts'
 	ordering = ['-date_posted']
 	paginate_by = 12
 
 	def get(self, request):
 		if request.user.is_authenticated:
+			paginate_by = 12
 			post = Post.objects.all().order_by('-date_posted')
 			users = User.objects.exclude(id=request.user.id)
 			sub = Subscriber.objects.get(current_user=request.user)
@@ -102,11 +112,13 @@ class SubListView(ListView):
 			return render(request, self.template_name, args)
 		else:
 			post = Post.objects.all().order_by('-date_posted')
+			paginate_by = 12
 			args={
 				'posts':post, 
 			}			
 			return render(request, self.template_name, args)
 	
+
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
