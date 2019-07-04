@@ -38,6 +38,19 @@
       <small class="date">
         {{ post.date_posted|date:'d F y'}}
       </small>
+    </div>
+    <div id = "sub_icon">
+      <span id="number_icon">
+      <h5>
+        {% if post.n_subs < 1000 %}
+        {{ post.n_subs }} 
+        {% elif post.n_subs < 99990 %}
+        {{ post.n_subs|multiply_byS:0.001 }}K
+        {% else %}
+        {{ post.n_subs|multiply_byS:0.000001 }}M
+        {% endif %}
+      </h5>
+      </span>
     </div>            
   </div>            
 </div>   

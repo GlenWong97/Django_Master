@@ -80,7 +80,7 @@ class PostListView(ListView):
 	template_name = 'store/search.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'searchpost'
 	ordering = ['-date_posted']
-	paginate_by = 12
+	paginate_by = 4
 
 	def get_queryset(self, *args, **kwargs):
 		object_list = super(PostListView, self).get_queryset(*args, **kwargs)

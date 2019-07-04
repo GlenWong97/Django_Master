@@ -1,5 +1,5 @@
 from django import template
-
+import math
 register = template.Library()
 
 @register.filter
@@ -56,3 +56,40 @@ def order_by(queryset, args):
 @register.filter
 def split_this(value):
 	return value.split()
+
+@register.filter
+def sort_by(Thing, args):
+	if args == 'price':
+		return sorted(Thing, key=lambda t: t.price)
+	elif args == '-date_posted':
+		return sorted(Thing, key=lambda t: t.date_posted, reverse=True)
+	elif args == '-n_subs':
+		return sorted(Thing, key=lambda t: t.n_subs, reverse=True)
+	elif args == '-n_rating':
+		return sorted(Thing, key=lambda t: t.n_rating, reverse=True)
+	else:
+		return False
+@register.filter
+def add_(x, y):
+	return x + y
+
+@register.filter
+def sigdig(value, digits = 3):
+    order = int(math.floor(math.log10(math.fabs(value))))
+    places = digits - order - 1
+    if places > 0:
+        fmtstr = "%%.%df" % (places)
+    else:
+        fmtstr = "%.0f"
+    return fmtstr % (round(value, places))
+@register.filter
+def multiply_byS(value, arg):
+	digits = 2
+	value = float(value) * arg
+	order = int(math.floor(math.log10(math.fabs(value))))
+	places = digits - order - 1
+	if places > 0:
+		fmtstr = "%%.%df" % (places)
+	else:
+		fmtstr = "%.0f"
+	return fmtstr % (round(value, places))
