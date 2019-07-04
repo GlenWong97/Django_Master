@@ -1,0 +1,14 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div style="padding-top: 60px;"></div> 
+ <div style="padding-top: 20px;" id="main" >
+	<section class="text-center mb-4">
+	      <div class="row" id="random"> 
+	        {% for post in searchpost %}   
+	        	{% include "store/card.html" %}
+	        {% endfor %}
+	      </div>
+	</section>
+</div>
+
+{% endblock content %}

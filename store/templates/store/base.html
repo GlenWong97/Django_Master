@@ -44,9 +44,9 @@
   </a>
   
   <div id="search">
-    <form method='GET' action=''>
+    <form method='GET' action="{% url 'store-search' %}">
       <input type="text" name='q' placeholder="">
-      <button id='search_holder'>
+      <button type="submit" id='search_holder'>
         <img src="/static/store/search_icon.gif" id="search_icon">        
       </button>
     </form>

@@ -77,11 +77,20 @@ class LessonDeleteView(DeleteView):
 
 class PostListView(ListView):
 	model = Post
-	template_name = 'store/home.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'post'
+	template_name = 'store/search.html' # <app>/<model>_<viewtype>.html
+	context_object_name = 'searchpost'
 	ordering = ['-date_posted']
 	paginate_by = 12
-	
+
+	def get_queryset(self, *args, **kwargs):
+		object_list = super(PostListView, self).get_queryset(*args, **kwargs)
+		search = self.request.GET.get('q', None)
+		if search:
+			object_list = object_list.filter(title__icontains = search)		
+		return object_list
+
+		
+
 class SubListView(ListView):
 	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
@@ -97,6 +106,7 @@ class SubListView(ListView):
 			context['subs'] = sub.users.all()
 			context['mine'] = Post.objects.filter(author=self.request.user.id)
 		return context
+
 
 class UserPostListView(ListView):
 	model = Post
