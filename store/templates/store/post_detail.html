@@ -12,6 +12,7 @@
   <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
 </div>
  <h6>rating: {{ object.feedback|calc_rating|multiply_by:0.05 }} from {{ object.feedback|get_m|legit_count }} users</h6>
+ <h4>{{ object.n_subs }} Subscribers</h4>
 </span>
   <div class="media-body">
     <div class="article-metadata">
@@ -73,7 +74,7 @@
           {% for j in 5|for_subtract:i.rating %}
           <span class="fa fa-star"></span>
           {% endfor %}
-          {% endif%}
+          {% endif %}
           </div>
       <h4>{{ i.comment }}</h4>
       <h5>{{ i.date_posted }}</h5>

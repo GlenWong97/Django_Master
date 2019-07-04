@@ -99,7 +99,7 @@ class SubListView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['posts'] = Post.objects.all().order_by('-date_posted')
+		context['posts'] = Post.objects.all()
 		if self.request.user.is_authenticated:
 			context['users'] = User.objects.exclude(id=self.request.user.id)
 			sub = Subscriber.objects.get(current_user=self.request.user)
@@ -190,7 +190,11 @@ def change_sub(request, operation, pk):
 	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
+		new_sub.n_subs += 1
+		new_sub.save()
 		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
+		new_sub.n_subs -= 1
+		new_sub.save()
 		return redirect('store-home')

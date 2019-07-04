@@ -353,7 +353,7 @@ body {
   font-size: 10pt;
 }
 
-#course_card .price {
+#course_card .pricE {
   font-size: 9pt;
   position: absolute;
   bottom: 8px;
@@ -418,13 +418,20 @@ body {
 #post__ {
   display: block;
   position: relative;
-  height: 200px;
+  height: 250px;
   width: 200px;
   overflow: hidden;
   margin-right: 30px;
 }
 
 #post__ h6 {
+  position: absolute;
+  left: 7px;
+  bottom: 50px;
+}
+
+#post__ h4 {
+  color: red;
   position: absolute;
   left: 7px;
   bottom: 0px;
@@ -499,3 +506,4 @@ body {
   background-color: white;
   padding: 10px;
 }
+

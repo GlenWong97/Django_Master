@@ -6,19 +6,19 @@
     <div style="width: 100%; height:50px;">
       <select id="sorter" class="select-css" onchange="get_order(); return true;">
         <option value="-date_posted" selected>Newest</option>
-        <option value="n_rating">Rating</option>
-        <option value="n_subs">Subscribers</option>
+        <option value="-n_rating">Rating</option>
+        <option value="-n_subs">Subscribers</option>
         <option value="price">Cost</option>
       </select>
       </div>
-    {% for sortby in "-date_posted price n_rating n_subs"|split_this %}
-    <section class="text-center mb-4" id="{{ sortby }}" {% if sortby != '-date_posted' %} style="display: none;" {% endif %}>
-      <div class="row" id="random"> 
+    {% for sortby in "price -date_posted -n_rating -n_subs"|split_this %}
+    <section class="text-center mb-4 {{ sortby }}" {% if sortby != '-date_posted' %} style="display: none;" {% endif %}>
+      <div class="row random"> 
         {% for post in posts|order_by:sortby %}   
         {% include "store/card.html" %}
         {% endfor %}
       </div>
-      <div class="row" id="subscription" style="display: none;">
+      <div class="row subscription" style="display: none;">
         {% if not subs %}
         <h2>You have not subscribed to any course :/</h2>
         {% endif %} 
@@ -26,7 +26,7 @@
         {% include "store/card.html" %}
         {% endfor %}
       </div>
-      <div class="row" id="content" style="display: none;"> 
+      <div class="row content" style="display: none;"> 
         {% if not mine %}
         <h2>You have not published anything :/</h2>
         {% endif %}   

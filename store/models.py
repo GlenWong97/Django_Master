@@ -70,6 +70,9 @@ class Subscriber(models.Model):
 	users = models.ManyToManyField(Post)
 	current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
 
+	def __str__(self):
+		return self.current_user.username
+
 	@classmethod
 	def subscribe(cls, current_user, new_sub):
 		sub, created = cls.objects.get_or_create(
@@ -83,6 +86,3 @@ class Subscriber(models.Model):
 			current_user=current_user
 		)
 		sub.users.remove(new_sub)
-
-	def __str__(self):
-		return self.current_user
