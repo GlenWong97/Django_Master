@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
     'chat',
-     # 'channels'
+    'dynamic_models'
+    # 'channels'
 ]
 
 MIDDLEWARE = [

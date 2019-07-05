@@ -4,6 +4,13 @@ from django.urls import reverse
 from PIL import Image
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from dynamic_models.models import AbstractModelSchema, AbstractFieldSchema
+
+class ModelSchema(AbstractModelSchema):
+    pass
+
+class FieldSchema(AbstractFieldSchema):
+    pass
 
 class Feedback(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -48,7 +55,43 @@ class Post(models.Model):
 	@property
 	def lessons(self):
 		return self.lesson_set.all()
-    
+
+class Quiz(models.Model):
+	title = models.CharField(max_length=30)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
+	time = models.IntegerField()
+	t_score = models.IntegerField()
+
+	def __str__(self):
+		return self.title
+	
+	@property
+	def questions(self):
+		return self.question_set.all()
+
+	@property
+	def results(self):
+		return self.result_set.all()
+
+class Result(models.Model):
+	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)
+	user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, blank=False)
+	score = models.IntegerField()
+
+	def __str__(self):
+		return str(self.quiz) + ": " + str(self.user)
+
+class Question(models.Model):
+	title = models.CharField(max_length=30)
+	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)	
+	choices = models.CharField(max_length=50)
+	time = models.IntegerField()
+	answer = models.CharField(max_length=50)
+	user_answer = models.CharField(max_length=40)
+
+	def __str__(self):
+		return self.title
+
 class Lesson(models.Model):
 	title = models.CharField(max_length=100)
 	file = models.FileField(upload_to="lesson/pdf")
