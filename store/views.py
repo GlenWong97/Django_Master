@@ -53,6 +53,19 @@ class LessonListView(ListView):
 			return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
 		else:
 			raise Http404
+
+class InteractiveListView(ListView):
+	model = Post
+	template_name = 'store/interactive.html'
+	context_object_name = 'post'	
+		
+	def get_queryset(self):
+		args = {}
+		if 	(Post.objects.get(id=self.kwargs.get('post_id')) in ((Subscriber.objects.get(current_user = self.request.user))).users.all()) or Post.objects.get(id=self.kwargs.get('post_id')).author == self.request.user:
+			return render(self.request, self.template_name, args)
+		else:
+			raise Http404
+		
 class UploadLessonView(CreateView):
 	model = Lesson
 	fields = ['title', 'file']	

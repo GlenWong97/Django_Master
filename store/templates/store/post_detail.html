@@ -56,6 +56,7 @@
     {% if object in sub %}
     <div>
           <a class="btn btn-default" href="{% url 'lesson_uploaded' object.id %}">Currently uploaded material</a>
+          <a class="btn btn-default" href="{% url 'interactive' object.id %}">START</a>
         </div>
     <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' object.id 'remove' %}">Unsubscribe</a>
     {% else %}

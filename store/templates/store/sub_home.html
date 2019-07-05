@@ -19,20 +19,24 @@
         {% endfor %}
       </div>
       <div class="row subscription" style="display: none;">
+        {% if user.is_authenticated %}
         {% if not subs %}
         <h2>You have not subscribed to any course :/</h2>
-        {% endif %} 
+        {% endif %}
         {% for post in subs|order_by:sortby %}
         {% include "store/card.html" %}
         {% endfor %}
+        {% endif %}
       </div>
       <div class="row content" style="display: none;"> 
+        {% if user.is_authenticated %}
         {% if not mine %}
         <h2>You have not published anything :/</h2>
         {% endif %}   
         {% for post in mine|order_by:sortby %}
         {% include "store/card.html" %}
         {% endfor %}
+        {% endif %}
       </div>
     </section>
     {% endfor %}
