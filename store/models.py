@@ -57,6 +57,7 @@ class Post(models.Model):
 		return self.lesson_set.all()
 
 class Quiz(models.Model):
+	index = models.IntegerField(default=0)
 	title = models.CharField(max_length=30)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
 	time = models.IntegerField()
@@ -82,12 +83,19 @@ class Result(models.Model):
 		return str(self.quiz) + ": " + str(self.user)
 
 class Question(models.Model):
-	title = models.CharField(max_length=30)
+	qn_type_choices = [
+		('radio','radio'),
+		('text','text'),
+		('checkbox','checkbox'),
+	]
+	title = models.CharField(max_length=250)
+	index = models.IntegerField(default=0)
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)	
-	choices = models.CharField(max_length=50)
+	choices = models.CharField(max_length=250, null=True, blank=True)
 	time = models.IntegerField()
-	answer = models.CharField(max_length=50)
-	user_answer = models.CharField(max_length=40)
+	TYPE = models.CharField(default="radio", choices=qn_type_choices, max_length= 10)
+	answer = models.CharField(max_length=250)
+	user_answer = models.CharField(max_length=40, null=True, blank=True)
 
 	def __str__(self):
 		return self.title

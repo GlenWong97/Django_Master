@@ -93,3 +93,6 @@ def multiply_byS(value, arg):
 	else:
 		fmtstr = "%.0f"
 	return fmtstr % (round(value, places))
+@register.filter
+def strtolist(s1, separator):
+	return s1.split(separator)

@@ -1,0 +1,22 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load extra_filter %}
+<div id="main">
+    <h2>{{ question.0.quiz }}</h2>
+    <br>
+    {% for qn in question %}
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{ qn.title }}
+        <br>
+        {% if qn.TYPE == 'text' %}
+            Answer: <input type="{{ qn.TYPE }}" name="{{ qn.title }}"><br>
+        {% else %}
+        {% for choice in qn.choices|strtolist:'~' %}
+            <input type="{{ qn.TYPE }}" name="{{ qn.title }}" value="{{ choice }}"> {{ choice }}<br>    
+        {% endfor %}
+        {% endif %}
+        <br>
+    {% endfor %}
+</div>
+{% endblock content %}

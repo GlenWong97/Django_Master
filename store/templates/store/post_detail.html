@@ -86,11 +86,6 @@
   <div style="display:none;" id="create_comment_window">
   <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <!-- <h6 style="float:right;">*existing review will be overwritten
-        <br>*rating is between 0 and 5;
-        <br> -anything else will be counted
-        <br> -as a neutral comment
-      </h6> -->
       <br>
       <input type="radio" id="no_rating" name="rating" value="-1" checked>-no rating
       {% if object in sub %}

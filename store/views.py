@@ -13,7 +13,7 @@ from django.views.generic import (
 	TemplateView
 )
 from django.http import Http404, HttpResponseRedirect
-from .models import Post, Lesson, Subscriber, Feedback
+from .models import Post, Lesson, Subscriber, Feedback, Question, Quiz, Result
 from .forms import LessonForm, CommentForm
 from django.urls import reverse, reverse_lazy
 
@@ -55,16 +55,26 @@ class LessonListView(ListView):
 			raise Http404
 
 class InteractiveListView(ListView):
-	model = Post
+	model = Quiz
 	template_name = 'store/interactive.html'
-	context_object_name = 'post'	
+	context_object_name = 'quizes'
 		
 	def get_queryset(self):
-		args = {}
 		if 	(Post.objects.get(id=self.kwargs.get('post_id')) in ((Subscriber.objects.get(current_user = self.request.user))).users.all()) or Post.objects.get(id=self.kwargs.get('post_id')).author == self.request.user:
-			return render(self.request, self.template_name, args)
+			return Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index')
 		else:
 			raise Http404
+
+class QuestionListView(ListView):
+	model = Question
+	template_name = 'store/quiz.html'
+	context_object_name = 'question'
+	paginate_by = 4
+
+	def get_queryset(self):
+		# user = get_object_or_404(User, username=self.kwargs.get('username'))
+		return Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')
+
 		
 class UploadLessonView(CreateView):
 	model = Lesson
