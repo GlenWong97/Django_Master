@@ -61,8 +61,8 @@ class Quiz(models.Model):
 	title = models.CharField(max_length=30)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
 	time = models.IntegerField()
-	t_score = models.IntegerField()
-
+	random = models.BooleanField(default=0, null=True, blank=True)
+	
 	def __str__(self):
 		return self.title
 	
@@ -75,10 +75,22 @@ class Quiz(models.Model):
 		return self.result_set.all()
 
 class Result(models.Model):
+	q1 = models.CharField(max_length=50, null=True, blank=True)
+	q2 = models.CharField(max_length=50, null=True, blank=True)
+	q3 = models.CharField(max_length=50, null=True, blank=True)
+	q4 = models.CharField(max_length=50, null=True, blank=True)
+	q5 = models.CharField(max_length=50, null=True, blank=True)
+	q6 = models.CharField(max_length=50, null=True, blank=True)
+	q7 = models.CharField(max_length=50, null=True, blank=True)
+	q8 = models.CharField(max_length=50, null=True, blank=True)
+	q9 = models.CharField(max_length=50, null=True, blank=True)
+	q10 = models.CharField(max_length=50, null=True, blank=True)
+	attempt = models.IntegerField(default=1)
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)
-	user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, blank=False)
+	user = models.CharField(max_length=100)
 	score = models.IntegerField()
-
+	t_score = models.IntegerField(null=True)
+	
 	def __str__(self):
 		return str(self.quiz) + ": " + str(self.user)
 
@@ -88,15 +100,14 @@ class Question(models.Model):
 		('text','text'),
 		('checkbox','checkbox'),
 	]
-	title = models.CharField(max_length=250)
-	index = models.IntegerField(default=0)
+	title = models.CharField(null=False, blank= False, max_length=250)
+	index = models.IntegerField(blank=True, null=True)
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)	
 	choices = models.CharField(max_length=250, null=True, blank=True)
-	time = models.IntegerField()
+	time = models.IntegerField(default=0, blank=True)
 	TYPE = models.CharField(default="radio", choices=qn_type_choices, max_length= 10)
-	answer = models.CharField(max_length=250)
-	user_answer = models.CharField(max_length=40, null=True, blank=True)
-
+	answer = models.CharField(max_length=250, null=False, blank=False)
+	
 	def __str__(self):
 		return self.title
 

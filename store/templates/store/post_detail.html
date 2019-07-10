@@ -45,11 +45,11 @@
     {% else %}
     <p class="article-content">
       <span id="desc">{{ object.description|cut:200|linebreaks }}  
-        <button id="toggle_desc" style="width: 100%; border: none; outline: none;" onclick="expandcontent(); return true;">▼</button>
-      </span>
+        </span>
       <span id="expanded_desc" style="display: none;">
         {{ object.description|cutb:200|linebreaks }}
       </span>
+      <button id="toggle_desc" style="width: 100%; border: none; outline: none;" onclick="expandcontent(); return true;">▼</button>
     </p>
     {% endif %}
     {% if object.author != user %}

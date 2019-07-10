@@ -10,12 +10,14 @@ from django.views.generic import (
 	CreateView,
 	UpdateView,
 	DeleteView,
-	TemplateView
+	TemplateView,
+	View
 )
 from django.http import Http404, HttpResponseRedirect
 from .models import Post, Lesson, Subscriber, Feedback, Question, Quiz, Result
-from .forms import LessonForm, CommentForm
+from .forms import LessonForm, CommentForm, Ans_sheet, QuizForm
 from django.urls import reverse, reverse_lazy
+from django.forms import formset_factory, inlineformset_factory
 
 def home(request):
 	queryset__list = Post.objects.all()
@@ -65,17 +67,53 @@ class InteractiveListView(ListView):
 		else:
 			raise Http404
 
+class ResultListView(ListView):
+	model = Result
+	template_name = 'store/result_page.html'
+	context_object_name = 'results'
+		
+	def get_queryset(self):
+		return Result.objects.filter(user=self.request.user).order_by('-id')
+
 class QuestionListView(ListView):
 	model = Question
 	template_name = 'store/quiz.html'
 	context_object_name = 'question'
-	paginate_by = 4
+	
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['form'] = Ans_sheet()
+		context['quiz'] = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		if Quiz.objects.get(id=self.kwargs.get('quiz_id')).random:
+			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('?')
+		else:
+			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')
+		return context
+	
+	def post(self, request, post_id, quiz_id):
+		num_attempt = len(Result.objects.filter(user=request.user))
+		form = Ans_sheet(request.POST)
+		ans = form.save(commit = False)
+		ans.user = request.user
+		ans.quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		ans.score = 0
+		ans.attempt = num_attempt + 1
+		question_list = list(Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index'))
+		total_score = len(question_list)
+		ans.t_score = total_score
+		#dumb ass code
+		qn = -1
+		for attr, value in ans.__dict__.items():
+			# print(attr, value, qn)
+			if qn > 0 and qn <= total_score and value == question_list[qn - 1].answer:
+				ans.score += 1
+			elif qn > total_score:
+				break
+			qn += 1			
+		# print(str(ans.score) + "/" + str(total_score))
+		ans.save()
+		return redirect('result_page')
 
-	def get_queryset(self):
-		# user = get_object_or_404(User, username=self.kwargs.get('username'))
-		return Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')
-
-		
 class UploadLessonView(CreateView):
 	model = Lesson
 	fields = ['title', 'file']	
@@ -212,6 +250,32 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 			return True
 		return False
 
+class QuizFormView(View):
+	Question_EditSet = inlineformset_factory(Quiz, Question, fields=('title', 'choices','TYPE', 'answer','index'), extra=2, max_num=10, can_delete=True)
+	template_name="store/quiz_draft.html"
+	def get(self, request, *args, **kwargs):
+		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		context={
+			'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
+			'quiz_form': QuizForm(),
+			'quiz':quiz
+		}
+		return render(request, self.template_name, context)
+
+	def post(self, request, *args, **kwargs):
+		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		question_editform = self.Question_EditSet(request.POST, request.FILES, instance=quiz, queryset=quiz.question_set.order_by("index"))
+		if question_editform.is_valid():
+			question_editform.save()
+			return redirect('../../')
+		else:
+			print("**New form not valid***")
+			context={
+				'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
+				'quiz_form': QuizForm(),
+				'quiz':quiz
+			}
+			return render(request, self.template_name, context)
 
 def about(request):
 	return render (request, 'store/about.html')
