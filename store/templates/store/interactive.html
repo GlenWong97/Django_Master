@@ -1,0 +1,13 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div id="main">
+    <h1>Welcome to Bra!nteractive!</h1>
+    <ol>
+    {% for quiz in quizes %}
+        <li>
+        <a href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a>
+        </li>
+    {% endfor %}
+</ol>
+</div>
+{% endblock content %}

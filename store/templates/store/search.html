@@ -1,14 +1,25 @@
 {% extends "store/base.html" %}
 {% block content %}
-<div style="padding-top: 60px;"></div> 
+{% load extra_filter %}
+<div style="padding-top: 60px;"></div>
  <div style="padding-top: 20px;" id="main" >
-	<section class="text-center mb-4">
-	      <div class="row" id="random"> 
-	        {% for post in searchpost %}   
+	<div style="width: 100%; height:50px;">
+      <select id="sorter" class="select-css" onchange="get_order(); return true;">
+        <option value="-date_posted" selected>Newest</option>
+        <option value="-n_rating">Rating</option>
+        <option value="-n_subs">Subscribers</option>
+        <option value="price">Cost</option>
+      </select>
+</div>
+	{% for sortby in "price -date_posted -n_rating -n_subs"|split_this %}
+	<section class="text-center mb-4 {{ sortby }}" {% if sortby != '-date_posted' %} style="display: none;" {% endif %}>
+		  <div class="row"> 
+	        {% for post in searchpost|sort_by:sortby %}
 	        	{% include "store/card.html" %}
 	        {% endfor %}
-	      </div>
+		  </div>
 	</section>
+	{% endfor %}
+	{% include "store/pagination.html" %}
 </div>
-
 {% endblock content %}

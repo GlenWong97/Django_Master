@@ -1,0 +1,29 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load extra_filter %}
+{% load mathfilters %}
+<div id="main">
+    <h2>{{ question.0.quiz }}</h2>
+    <br>
+    <ol>
+    {% for qn in question %}
+    <li>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{ qn.title }}
+        <br>
+        {% if qn.TYPE == 'text' %}
+            Answer: <input type="{{ qn.TYPE }}" name="q{{ forloop.counter }}"><br>
+        {% else %}
+        {% for choice in qn.choices|strtolist:'~' %}
+            <input type="{{ qn.TYPE }}" name="q{{ forloop.parentloop.counter }}" value="{{ choice }}"> {{ choice }}<br>    
+        {% endfor %}
+        {% endif %}
+        <br>
+    {% endfor %}
+    <button type="submit">submit</button>
+    </form>
+    </li>
+    </ol>
+</div>
+{% endblock content %}

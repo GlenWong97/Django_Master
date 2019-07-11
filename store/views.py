@@ -10,12 +10,14 @@ from django.views.generic import (
 	CreateView,
 	UpdateView,
 	DeleteView,
-	TemplateView
+	TemplateView,
+	View
 )
 from django.http import Http404, HttpResponseRedirect
-from .models import Post, Lesson, Subscriber, Feedback
-from .forms import LessonForm, CommentForm
+from .models import Post, Lesson, Subscriber, Feedback, Question, Quiz, Result
+from .forms import LessonForm, CommentForm, Ans_sheet, QuizForm
 from django.urls import reverse, reverse_lazy
+from django.forms import formset_factory, inlineformset_factory
 
 def home(request):
 	queryset__list = Post.objects.all()
@@ -53,6 +55,65 @@ class LessonListView(ListView):
 			return Lesson.objects.filter(post_id=self.kwargs.get('post_id'))
 		else:
 			raise Http404
+
+class InteractiveListView(ListView):
+	model = Quiz
+	template_name = 'store/interactive.html'
+	context_object_name = 'quizes'
+		
+	def get_queryset(self):
+		if 	(Post.objects.get(id=self.kwargs.get('post_id')) in ((Subscriber.objects.get(current_user = self.request.user))).users.all()) or Post.objects.get(id=self.kwargs.get('post_id')).author == self.request.user:
+			return Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index')
+		else:
+			raise Http404
+
+class ResultListView(ListView):
+	model = Result
+	template_name = 'store/result_page.html'
+	context_object_name = 'results'
+		
+	def get_queryset(self):
+		return Result.objects.filter(user=self.request.user).order_by('-id')
+
+class QuestionListView(ListView):
+	model = Question
+	template_name = 'store/quiz.html'
+	context_object_name = 'question'
+	
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['form'] = Ans_sheet()
+		context['quiz'] = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		if Quiz.objects.get(id=self.kwargs.get('quiz_id')).random:
+			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('?')
+		else:
+			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')
+		return context
+	
+	def post(self, request, post_id, quiz_id):
+		num_attempt = len(Result.objects.filter(user=request.user))
+		form = Ans_sheet(request.POST)
+		ans = form.save(commit = False)
+		ans.user = request.user
+		ans.quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		ans.score = 0
+		ans.attempt = num_attempt + 1
+		question_list = list(Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index'))
+		total_score = len(question_list)
+		ans.t_score = total_score
+		#dumb ass code
+		qn = -1
+		for attr, value in ans.__dict__.items():
+			# print(attr, value, qn)
+			if qn > 0 and qn <= total_score and value == question_list[qn - 1].answer:
+				ans.score += 1
+			elif qn > total_score:
+				break
+			qn += 1			
+		# print(str(ans.score) + "/" + str(total_score))
+		ans.save()
+		return redirect('result_page')
+
 class UploadLessonView(CreateView):
 	model = Lesson
 	fields = ['title', 'file']	
@@ -80,7 +141,7 @@ class PostListView(ListView):
 	template_name = 'store/search.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'searchpost'
 	ordering = ['-date_posted']
-	paginate_by = 12
+	paginate_by = 4
 
 	def get_queryset(self, *args, **kwargs):
 		object_list = super(PostListView, self).get_queryset(*args, **kwargs)
@@ -95,35 +156,24 @@ class SubListView(ListView):
 	model = Post
 	template_name = 'store/sub_home.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'posts'
-	ordering = ['-date_posted']
-	paginate_by = 12
+	paginate_by = 4
 
-	def get(self, request):
-		if request.user.is_authenticated:
-			paginate_by = 12
-			post = Post.objects.all().order_by('-date_posted')
-			users = User.objects.exclude(id=request.user.id)
-			sub = Subscriber.objects.get(current_user=request.user)
-			subs = sub.users.all()
-			my_content = Post.objects.filter(author=request.user.id)
-			args={
-				'posts':post, 'users':users, 'subs':subs, 'mine':my_content
-			}
-			return render(request, self.template_name, args)
-		else:
-			post = Post.objects.all().order_by('-date_posted')
-			paginate_by = 12
-			args={
-				'posts':post, 
-			}			
-			return render(request, self.template_name, args)
-	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['posts'] = Post.objects.all()
+		if self.request.user.is_authenticated:
+			context['users'] = User.objects.exclude(id=self.request.user.id)
+			sub = Subscriber.objects.get(current_user=self.request.user)
+			context['subs'] = sub.users.all()
+			context['mine'] = Post.objects.filter(author=self.request.user.id)
+		return context
+
 
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'store/user_posts.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'post'
-	paginate_by = 12
+	paginate_by = 4
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -139,23 +189,33 @@ class PostDetailView(DetailView):
 	 	return context
 
 	def post(self, request, pk):
+		post_x = Post.objects.get(pk=pk)
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			try:
-				Feedback.objects.get(user = request.user).delete()
+				post_x.feedback.get(user = request.user).delete()
 			except Feedback.DoesNotExist:
 				None
 			feedback = form.save(commit = False)
 			feedback.user = request.user
-			feedback.save()
-			get_object_or_404(Post, pk=pk).feedback.add(feedback)
+			if len(feedback.comment) or feedback.rating != -1:
+				feedback.save()
+				get_object_or_404(Post, pk=pk).feedback.add(feedback)
 			comment = form.cleaned_data['comment']
 			rating = form.cleaned_data['rating']
 			form = CommentForm()
-			return HttpResponseRedirect(self.request.path_info)
-
-		args = {'form':form, 'comment':comment, 'rating':rating}
-		return render(request, self.template_name, args)
+			r = 0
+			n = 0
+			for i in list(post_x.feedback.all()):
+				if i.rating <= 5 and i.rating >=1:
+					n += 1
+					r += i.rating
+			if n == 0:
+				post_x.n_rating = 0
+			else:
+				post_x.n_rating = 100 * r / n
+			post_x.save()
+		return HttpResponseRedirect(self.request.path_info)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
@@ -190,6 +250,32 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 			return True
 		return False
 
+class QuizFormView(View):
+	Question_EditSet = inlineformset_factory(Quiz, Question, fields=('title', 'choices','TYPE', 'answer','index'), extra=2, max_num=10, can_delete=True)
+	template_name="store/quiz_draft.html"
+	def get(self, request, *args, **kwargs):
+		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		context={
+			'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
+			'quiz_form': QuizForm(),
+			'quiz':quiz
+		}
+		return render(request, self.template_name, context)
+
+	def post(self, request, *args, **kwargs):
+		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		question_editform = self.Question_EditSet(request.POST, request.FILES, instance=quiz, queryset=quiz.question_set.order_by("index"))
+		if question_editform.is_valid():
+			question_editform.save()
+			return redirect('../../')
+		else:
+			print("**New form not valid***")
+			context={
+				'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
+				'quiz_form': QuizForm(),
+				'quiz':quiz
+			}
+			return render(request, self.template_name, context)
 
 def about(request):
 	return render (request, 'store/about.html')
@@ -201,7 +287,11 @@ def change_sub(request, operation, pk):
 	new_sub = Post.objects.get(pk=pk)
 	if operation == 'add':
 		Subscriber.subscribe(request.user, new_sub)
+		new_sub.n_subs += 1
+		new_sub.save()
 		return redirect('../../')
 	elif operation == 'remove':
 		Subscriber.unsubscribe(request.user, new_sub)
+		new_sub.n_subs -= 1
+		new_sub.save()
 		return redirect('store-home')

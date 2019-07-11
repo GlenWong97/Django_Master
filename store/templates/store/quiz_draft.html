@@ -1,0 +1,38 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load static from staticfiles %}
+{% load extra_filter %}
+<div id="main">
+<div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+          <fieldset>
+          <legend style="text-align: center;" >Quiz name: {{ quiz.title }} </legend>
+            {{ question_edit.management_form }}
+            
+            {% if question_edit.errors %}
+            {% for field in question_edit %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in question_edit.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% for question in question_edit %}
+            <div class="link-formset">
+              {{ question.as_p }}
+            </div>
+            <br> 
+            {% endfor %}
+          <button class="btn btn-secondary" type="submit" >Confirm Changes</button>
+        </fieldset>
+        </form>
+</div>
+{% endblock content %}
