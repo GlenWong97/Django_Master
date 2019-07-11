@@ -25,7 +25,7 @@ SECRET_KEY = 'inryh!ti6-*v3u!h+gw0bl^*b3im)*gto2afu8zsg1)zmn!dv%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
-    'chat',
+    'chat.apps.ChatConfig',
     'channels'
 ]
 
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'brainstorm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,3 +140,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('b.r.a.i.n.s.t.o.r.m.12345678900987654321')
 EMAIL_HOST_PASSWORD = os.environ.get('stormbrain')
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+            # "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')]
+        },
+    },
+}
