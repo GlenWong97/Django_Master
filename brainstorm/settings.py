@@ -137,6 +137,8 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'store-home'
 LOGIN_URL='login'
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

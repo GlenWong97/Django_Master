@@ -2,12 +2,25 @@
 {% block content %}
 <div id="main">
     <h1>Welcome to Bra!nteractive!</h1>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+            {{error}}
+    </div>
+    {% endif %}
     <ol>
     {% for quiz in quizes %}
         <li>
-        <a href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a>
+        <a style="float:left; margin-right: 10px;" href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a>
+        <a style="text-decoration: none;" href="{% url 'quiz_draft' quiz.post.id quiz.id %}"> <button class="btn btn-secondary">edit</button> </a>
         </li>
     {% endfor %}
+    <li>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input style="float:left; margin-top: -2px; margin-right: 10px;" type="text" name="title" placeholder="quiz name">
+        <button class="btn btn-secondary" type="submit" >add</button>
+    </form>
+</li>
 </ol>
 </div>
 {% endblock content %}

@@ -96,3 +96,10 @@ def multiply_byS(value, arg):
 @register.filter
 def strtolist(s1, separator):
 	return s1.split(separator)
+@register.filter
+def divide_by(value, arg):
+	if int(arg) == 0:
+		return 0
+	digits = 3
+	value = float(value) / float(arg)
+	return round(value, digits)

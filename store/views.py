@@ -15,7 +15,7 @@ from django.views.generic import (
 )
 from django.http import Http404, HttpResponseRedirect
 from .models import Post, Lesson, Subscriber, Feedback, Question, Quiz, Result
-from .forms import LessonForm, CommentForm, Ans_sheet, QuizForm
+from .forms import LessonForm, CommentForm, Ans_sheet, QuizForm, AddQuiz
 from django.urls import reverse, reverse_lazy
 from django.forms import formset_factory, inlineformset_factory
 
@@ -60,57 +60,78 @@ class InteractiveListView(ListView):
 	model = Quiz
 	template_name = 'store/interactive.html'
 	context_object_name = 'quizes'
-		
-	def get_queryset(self):
+	def get_context_data(self, *args, **kwargs):
 		if 	(Post.objects.get(id=self.kwargs.get('post_id')) in ((Subscriber.objects.get(current_user = self.request.user))).users.all()) or Post.objects.get(id=self.kwargs.get('post_id')).author == self.request.user:
-			return Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index')
+			context = super(InteractiveListView, self).get_context_data(*args, **kwargs)
+			context['quizes'] = Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index')
+			context['form'] = AddQuiz()
+			context['error'] = ""
+			return context
+		raise Http404
+	 	
+	def post(self, request, post_id):
+		print("post reached")
+		form = AddQuiz(request.POST)
+		if form.is_valid():
+			instance = form.save(commit=False)
+			instance.post = Post.objects.get(id=post_id)
+			instance.time = 0
+			quiz_id = instance.save()
+			return redirect('quiz_draft', post_id = post_id, quiz_id= instance.id)
 		else:
-			raise Http404
-
+			return render(request, 'store/interactive.html', {'form':AddQuiz(), 'quizes':Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index'),  'error':"Quiz must have a title!"})
+		
 class ResultListView(ListView):
 	model = Result
 	template_name = 'store/result_page.html'
 	context_object_name = 'results'
 		
 	def get_queryset(self):
-		return Result.objects.filter(user=self.request.user).order_by('-id')
+		if self.request.user.is_authenticated:
+			return Result.objects.filter(user=self.request.user).order_by('-id')
+		raise Http404
+
+q_list = 0 
 
 class QuestionListView(ListView):
 	model = Question
 	template_name = 'store/quiz.html'
 	context_object_name = 'question'
-	
 	def get_context_data(self, *args, **kwargs):
+		global q_list
 		context = super().get_context_data(**kwargs)
 		context['form'] = Ans_sheet()
 		context['quiz'] = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		n = Quiz.objects.get(id=self.kwargs.get('quiz_id')).number 
 		if Quiz.objects.get(id=self.kwargs.get('quiz_id')).random:
-			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('?')
+			q_list = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('?')[:n]
 		else:
-			context['question'] = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')
+			q_list = Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index')[:n]
+		context['question'] = q_list
 		return context
 	
 	def post(self, request, post_id, quiz_id):
-		num_attempt = len(Result.objects.filter(user=request.user))
+		global q_list
+		num_attempt = len(Result.objects.filter(user=request.user).filter(quiz	=quiz_id))
 		form = Ans_sheet(request.POST)
 		ans = form.save(commit = False)
 		ans.user = request.user
 		ans.quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
 		ans.score = 0
 		ans.attempt = num_attempt + 1
-		question_list = list(Quiz.objects.get(id=self.kwargs.get('quiz_id')).questions.order_by('index'))
-		total_score = len(question_list)
+		question_list = list(q_list)
+		total_score = len(question_list) if len(question_list) < ans.quiz.number else ans.quiz.number
 		ans.t_score = total_score
 		#dumb ass code
 		qn = -1
 		for attr, value in ans.__dict__.items():
-			# print(attr, value, qn)
+			print(attr, value, qn)
 			if qn > 0 and qn <= total_score and value == question_list[qn - 1].answer:
 				ans.score += 1
 			elif qn > total_score:
 				break
 			qn += 1			
-		# print(str(ans.score) + "/" + str(total_score))
+		print(str(ans.score) + "/" + str(total_score))
 		ans.save()
 		return redirect('result_page')
 
@@ -251,31 +272,38 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 		return False
 
 class QuizFormView(View):
-	Question_EditSet = inlineformset_factory(Quiz, Question, fields=('title', 'choices','TYPE', 'answer','index'), extra=2, max_num=10, can_delete=True)
+	Question_EditSet = inlineformset_factory(Quiz, Question, fields=('title', 'choices','TYPE', 'answer','index'), extra=40, max_num=40, can_delete=True)
 	template_name="store/quiz_draft.html"
 	def get(self, request, *args, **kwargs):
 		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		existing_qn = len(quiz.questions)
 		context={
 			'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
-			'quiz_form': QuizForm(),
-			'quiz':quiz
+			'quiz_form': QuizForm(instance=quiz),
+			'quiz':quiz,
+			'error':"",
+			'existing_qns':existing_qn
 		}
 		return render(request, self.template_name, context)
 
 	def post(self, request, *args, **kwargs):
 		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
+		existing_qn = len(quiz.questions)
+		quiz_form = QuizForm(request.POST, instance=quiz)
 		question_editform = self.Question_EditSet(request.POST, request.FILES, instance=quiz, queryset=quiz.question_set.order_by("index"))
-		if question_editform.is_valid():
+		errortext = "Error, please ensure Title and Answer fields are filled up, number should be between 1 and 20"
+		if quiz_form.is_valid() and question_editform.is_valid():	
+			quiz_form.save()
 			question_editform.save()
-			return redirect('../../')
-		else:
-			print("**New form not valid***")
-			context={
+			errortext = "quiz has been successfully updated!"
+		context={
 				'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
-				'quiz_form': QuizForm(),
-				'quiz':quiz
-			}
-			return render(request, self.template_name, context)
+				'quiz_form': QuizForm(instance=quiz),
+				'quiz':quiz,
+				'error':errortext,
+				'existing_qns':existing_qn
+		}
+		return render(request, self.template_name, context)
 
 def about(request):
 	return render (request, 'store/about.html')
