@@ -6,7 +6,7 @@ from django.views.generic.edit import FormMixin
 from django.views.generic import DetailView, ListView
 from .forms import ComposeForm
 from .models import Thread, ChatMessage
-
+from django.contrib.auth.models import User
 
 class InboxView(LoginRequiredMixin, ListView):
     template_name = 'chat/inbox.html'
@@ -15,7 +15,7 @@ class InboxView(LoginRequiredMixin, ListView):
 
 
 class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
-    template_name = 'chat/thread.html'
+    template_name = 'chat/base.html'
     form_class = ComposeForm
     success_url = './'
 
