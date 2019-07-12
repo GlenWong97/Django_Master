@@ -1,26 +1,53 @@
 {% extends "store/base.html" %}
 {% block content %}
+{% load mathfilters %}
 <div id="main">
-    <h1>Welcome to Bra!nteractive!</h1>
+    <!-- <h1>Welcome to Bra!nteractive!</h1> -->
     {% if error %}
     <div class="alert alert-danger" role="alert">
             {{error}}
     </div>
     {% endif %}
-    <ol>
+    <div style="width: 100%; background-color: rgb(170, 255, 196); font-size: 17pt; text-align: center;">
+    <strong>Quizes from '<a style="font-size: 22pt; color: darkslateblue;" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>'</strong>
+    </div>
+    <table style="width: 100%">
+    {% if quizes %}
     {% for quiz in quizes %}
-        <li>
-        <a style="float:left; margin-right: 10px;" href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a>
-        <a style="text-decoration: none;" href="{% url 'quiz_draft' quiz.post.id quiz.id %}"> <button class="btn btn-secondary">edit</button> </a>
-        </li>
+    {% if forloop.counter|mod:2 == 0 %}
+    <tr style="height: 40px; background-color: white; width: 100%;" >
+    {% else %}
+    <tr style="height: 40px; background-color: rgb(236, 236, 236); width: 100%;" >
+    {% endif %}
+        <td style="width: 40px; padding-left: 10px;"> {{ forloop.counter }}) </td>
+        <td><a style="margin-right: 10px; font-weight: 600; color: rgb(15, 138, 196)" href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a></td>
+        <td><a href="{% url 'score_chart' quiz.post.id quiz.id %}"><img style="height: 30px;" src="/static/store/score_chart.png"></a></td>
+        {% if request.user == quizes.0.post.author %}
+        <td> <a style="text-decoration: none;" href="{% url 'quiz_draft' quiz.post.id quiz.id %}">
+            <img style="width: 23px;" src="/static/store/edit.png"
+            onmouseover="this.src='/static/store/edit_cfm.png'"
+            onmouseout="this.src='/static/store/edit.png'" > </a></td>
+        <td> <a style="text-decoration: none;" href="{% url 'delete_quiz' quiz.post.id quiz.id %}" >
+            <img style="width: 23px;" src="/static/store/delete.png"
+            onmouseover="this.src='/static/store/delete_cfm.png'"
+            onmouseout="this.src='/static/store/delete.png'" ></a></td>
+        {% endif %}    
+    </tr>
     {% endfor %}
-    <li>
+    {% elif request.user != post.author %}
+    <h2>Sorry there are no quizes for this course :/</h2>
+    {% endif %}
+    {% if request.user == post.author %}
+    <tr style="height: 55px; background-color: rgb(255, 232, 232); width: 100%;">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input style="float:left; margin-top: -2px; margin-right: 10px;" type="text" name="title" placeholder="quiz name">
-        <button class="btn btn-secondary" type="submit" >add</button>
+        <td style="padding-left:10px;">{{ quizes|length|add:1 }})</td>
+        <td><input style="float:left; margin-top:3px; margin-right: 10px;" type="text" name="title" placeholder="quiz name"></td>
+        <td></td>
+        <td colspan="2"> <button style="width: 50%; margin-left: auto; margin-right: auto;" class="btn btn-secondary" type="submit" >add</button></td>
     </form>
-</li>
-</ol>
+    {% endif %}
+</tr>
+</table>
 </div>
 {% endblock content %}

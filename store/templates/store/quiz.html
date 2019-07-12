@@ -2,10 +2,36 @@
 {% block content %}
 {% load extra_filter %}
 {% load mathfilters %}
+<script>
+setInterval(function(){decrement_timer()}, 1000);
+function decrement_timer() {
+    x = document.getElementById("timerthing");
+    if (parseInt(x.textContent) > 0) {
+        x.textContent = (parseInt(x.textContent) - 1);
+    }
+    else {
+        terminate_this();
+    }
+}
+function terminate_this() {
+    document.getElementById("quiz_thing").submit();// Form submission
+}
+window.onload=decrement_timer;
+// window.onbeforeunload = function() {
+//     return true;
+// };
+</script>
 <div id="main">
+    {% if question.0.quiz.time %}
+        <h2 style="position: fixed; top:20%; right:20%;
+         background-color: rgb(252, 136, 136);
+          color: black; font-weight: 600">Time left: 
+          <span id="timerthing">{{ question.0.quiz.time }}</span>s</h2>
+    {% endif %} 
+    {% if question %}
     <legend> <h1>{{ question.0.quiz }}</h1> </legend>
     <ol>
-    <form method="POST" enctype="multipart/form-data">
+    <form id="quiz_thing" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% for qn in question %}
     <li>
@@ -24,5 +50,8 @@
     <button type="submit">submit</button>
     </form>
     </ol>
+    {% else %}
+    <h2>Sorry, this quiz is still under construction :/</h2>
+    {% endif %}
 </div>
 {% endblock content %}

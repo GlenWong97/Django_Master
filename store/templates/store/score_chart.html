@@ -1,0 +1,57 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load extra_filter %}
+<div id="main">
+    {% if results %}
+    <a style="float:right;" href="{% url 'interactive' results.0.quiz.post.id %}">Back to Bra!nteractive</a>
+    <a href="{% url 'quiz' results.0.quiz.post.id results.0.quiz.id%}"><h1>{{results.0.quiz.title}}</h1></a> 
+    <legend>Top 10 users</legend>
+    <table id="result_chart" style="width:100%;">
+        <tr>
+            <th style="width: 100px;">Rank</th>
+            <th>User</th>
+            <th>Attempt</th>
+            <th>Score</th>
+            <th>Percentage</th>
+        </tr>
+        
+       {% for result in results %}
+       <tr style="background-color: rgb(255, 255, {{ forloop.counter|multiply_by:30 }});">
+            <td> <strong>{{ forloop.counter }}</strong> </td>
+        <td> <a href="{% url 'user-posts' result.user %}">{{result.user}}</a> </td>
+        <td> #{{result.attempt}} </td>
+        <td> {{result.score}}/{{result.t_score}} </td>
+        <td> {{ result.score|divide_by:result.t_score|multiply_by:100 }}%</td> 
+    </tr>
+        {% endfor %}
+    </table>
+    {% if results %}
+        {% else %} 
+        <h2 style="text-align: center;">You have not taken any quizes :/</h2>
+        {% endif %}    
+    {% else %}
+    <h2>Nobody has attempted this quiz yet :/</h2>
+    {% endif %}
+    <br><br>
+    <legend>All Results</legend>
+    <table id="result_chart" style="width:100%;">
+        <tr>
+                <th style="width: 100px;">Most Recent</th>
+                <th>User</th>
+                <th>Attempt</th>
+                <th>Score</th>
+                <th>Percentage</th>
+            </tr>
+            
+            {% for result in results_all %}
+            <tr class="{% if result.score|divide_by:result.t_score|multiply_by:100 < 50 %} red_row {% else %} green_row {% endif %}">
+                <td> <strong>{{ forloop.counter }}</strong> </td>
+            <td> <a href="{% url 'user-posts' result.user %}">{{result.user}}</a> </td>
+            <td> #{{result.attempt}} </td>
+            <td> {{result.score}}/{{result.t_score}} </td>
+            <td> {{ result.score|divide_by:result.t_score|multiply_by:100 }}%</td> 
+        </tr>
+            {% endfor %}
+        </table>
+</div>
+{% endblock content %}

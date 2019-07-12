@@ -14,12 +14,12 @@ class CommentForm(forms.ModelForm):
 class Ans_sheet(forms.ModelForm):
 	class Meta:
 		model = Result
-		fields = ('q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12','q13','q14','q15','q16','q17','q18','q19','q20')
+		fields = ('q1',)
 
 class QuizForm(forms.ModelForm):
 	class Meta:
 		model = Quiz
-		fields = ('title', 'random', 'number', 'index')
+		fields = ('title', 'random', 'number', 'index','time')
 
 class AddQuiz(forms.ModelForm):
 	class Meta:

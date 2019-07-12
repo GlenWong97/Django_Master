@@ -60,9 +60,9 @@ class Quiz(models.Model):
 	index = models.IntegerField(default=0, blank=True)
 	title = models.CharField(max_length=30)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
-	time = models.IntegerField()
+	time = models.IntegerField(validators=[MinValueValidator(5)], blank=True, null=True, default=None)
 	random = models.BooleanField(default=False, blank=True)
-	number = models.IntegerField(default=20, blank=True, validators=[MinValueValidator(1), MaxValueValidator(20)])
+	number = models.IntegerField(default=20, blank=True, validators=[MinValueValidator(1)])
 	def __str__(self):
 		return self.title
 	
@@ -74,27 +74,13 @@ class Quiz(models.Model):
 	def results(self):
 		return self.result_set.all()
 
+	@classmethod
+	def delete_this(cls, id):
+		to_delete = cls.objects.filter(id=id)
+		to_delete.delete()
+
 class Result(models.Model):
 	q1 = models.CharField(max_length=50, null=True, blank=True)
-	q2 = models.CharField(max_length=50, null=True, blank=True)
-	q3 = models.CharField(max_length=50, null=True, blank=True)
-	q4 = models.CharField(max_length=50, null=True, blank=True)
-	q5 = models.CharField(max_length=50, null=True, blank=True)
-	q6 = models.CharField(max_length=50, null=True, blank=True)
-	q7 = models.CharField(max_length=50, null=True, blank=True)
-	q8 = models.CharField(max_length=50, null=True, blank=True)
-	q9 = models.CharField(max_length=50, null=True, blank=True)
-	q10 = models.CharField(max_length=50, null=True, blank=True)
-	q11 = models.CharField(max_length=50, null=True, blank=True)
-	q12 = models.CharField(max_length=50, null=True, blank=True)
-	q13 = models.CharField(max_length=50, null=True, blank=True)
-	q14 = models.CharField(max_length=50, null=True, blank=True)
-	q15 = models.CharField(max_length=50, null=True, blank=True)
-	q16 = models.CharField(max_length=50, null=True, blank=True)
-	q17 = models.CharField(max_length=50, null=True, blank=True)
-	q18 = models.CharField(max_length=50, null=True, blank=True)
-	q19 = models.CharField(max_length=50, null=True, blank=True)
-	q20 = models.CharField(max_length=50, null=True, blank=True)
 	attempt = models.IntegerField(default=1)
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)
 	user = models.CharField(max_length=100)

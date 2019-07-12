@@ -17,10 +17,12 @@ from .views import (
     LessonDeleteView,
     SubListView,
     change_sub,
+    delete_quiz,
     InteractiveListView,
     QuestionListView,
     ResultListView,
-    QuizFormView
+    QuizFormView,
+    ScoreListView
 )
 from . import views
 
@@ -37,7 +39,8 @@ urlpatterns = [
     path('post/<int:post_id>/lesson_upload/', UploadLessonView.as_view(), name='lesson_upload'),   
     path('post/<int:post_id>/interactive/', InteractiveListView.as_view(), name='interactive'),
     path('my_results/', ResultListView.as_view(), name='result_page'), 
-    path('post/<int:post_id>/interactive/<int:quiz_id>/', QuestionListView.as_view(), name='quiz'),      
+    path('post/<int:post_id>/interactive/<int:quiz_id>/', QuestionListView.as_view(), name='quiz'),  
+    path('post/<int:post_id>/score_chart/<int:quiz_id>/', ScoreListView.as_view(), name='score_chart'),      
     path('post/<int:post_id>/lesson_uploaded/', LessonListView.as_view(), name='lesson_uploaded'),    
     path('post/lesson_uploaded/<int:pk>/', LessonDeleteView.as_view(), name='lesson_delete'),
     path('lesson_uploaded/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
@@ -55,7 +58,8 @@ urlpatterns = [
     path('password-reset-complete/',
      auth_views.PasswordResetView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),   
     path('post/new/', PostCreateView.as_view(), name='post-create'),
-    path('post/<int:post_id>/interactive/<int:quiz_id>/quiz_draft/',QuizFormView.as_view(), name='quiz_draft')
+    path('post/<int:post_id>/interactive/<int:quiz_id>/quiz_draft/',QuizFormView.as_view(), name='quiz_draft'),
+    path('post/<int:post_id>/interactive/delete_quiz/<int:quiz_id>/', views.delete_quiz, name='delete_quiz')
 ] 
 
 if settings.DEBUG:

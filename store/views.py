@@ -18,6 +18,9 @@ from .models import Post, Lesson, Subscriber, Feedback, Question, Quiz, Result
 from .forms import LessonForm, CommentForm, Ans_sheet, QuizForm, AddQuiz
 from django.urls import reverse, reverse_lazy
 from django.forms import formset_factory, inlineformset_factory
+import datetime
+
+now = datetime.datetime.now()
 
 def home(request):
 	queryset__list = Post.objects.all()
@@ -66,6 +69,7 @@ class InteractiveListView(ListView):
 			context['quizes'] = Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index')
 			context['form'] = AddQuiz()
 			context['error'] = ""
+			context['post'] = Post.objects.get(id=self.kwargs.get('post_id'))
 			return context
 		raise Http404
 	 	
@@ -79,7 +83,7 @@ class InteractiveListView(ListView):
 			quiz_id = instance.save()
 			return redirect('quiz_draft', post_id = post_id, quiz_id= instance.id)
 		else:
-			return render(request, 'store/interactive.html', {'form':AddQuiz(), 'quizes':Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index'),  'error':"Quiz must have a title!"})
+			return render(request, 'store/interactive.html', {'form':AddQuiz(), 'quizes':Quiz.objects.filter(post_id=self.kwargs.get('post_id')).order_by('index'),  'error':"Quiz must have a title!", 'post':Post.objects.get(id=self.kwargs.get('post_id'))})
 		
 class ResultListView(ListView):
 	model = Result
@@ -89,6 +93,36 @@ class ResultListView(ListView):
 	def get_queryset(self):
 		if self.request.user.is_authenticated:
 			return Result.objects.filter(user=self.request.user).order_by('-id')
+		raise Http404
+
+class ScoreListView(ListView):
+	model = Result
+	template_name = 'store/score_chart.html'
+	context_object_name = 'results'
+		
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		if self.request.user.is_authenticated:
+			top_list = list(Result.objects.filter(quiz=self.kwargs.get('quiz_id')).order_by('-score'))
+			n = len(top_list)
+			i = 0
+			while i < n:
+				print(top_list[i].user)
+				j = i + 1
+				while j < n:
+					print("here", i, j)
+					if top_list[i].user == top_list[j].user:
+						print(top_list.pop(j))
+						n = len(top_list)
+						print(n,j)
+					elif top_list[i].score == top_list[j].score and top_list[i].attempt > top_list[j].attempt:
+						top_list[i], top_list[j] = top_list[j], top_list[i]	
+					else:
+						j += 1
+				i += 1		
+				context['results'] = top_list[:10]
+				context['results_all'] = Result.objects.filter(quiz=self.kwargs.get('quiz_id')).order_by('-id')
+			return context
 		raise Http404
 
 q_list = 0 
@@ -122,15 +156,11 @@ class QuestionListView(ListView):
 		question_list = list(q_list)
 		total_score = len(question_list) if len(question_list) < ans.quiz.number else ans.quiz.number
 		ans.t_score = total_score
-		#dumb ass code
-		qn = -1
-		for attr, value in ans.__dict__.items():
-			print(attr, value, qn)
-			if qn > 0 and qn <= total_score and value == question_list[qn - 1].answer:
-				ans.score += 1
-			elif qn > total_score:
-				break
-			qn += 1			
+		for qn in range(1,total_score + 1):
+			value = request.POST.getlist('q' + str(qn))
+			print(qn, value)
+			if len(value) > 0 and sorted(value) == sorted((question_list[qn - 1]).answer.split("~")):
+				ans.score += 1			
 		print(str(ans.score) + "/" + str(total_score))
 		ans.save()
 		return redirect('result_page')
@@ -271,15 +301,27 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 			return True
 		return False
 
+# class QuizDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+# 	model = Quiz	
+# 	success_url = "/"
+	
+# 	def test_func(self):
+# 		post = self.get_object()
+# 		if self.request.user == post.author:			
+# 			return True
+# 		return False
+
 class QuizFormView(View):
 	Question_EditSet = inlineformset_factory(Quiz, Question, fields=('title', 'choices','TYPE', 'answer','index'), extra=40, max_num=40, can_delete=True)
 	template_name="store/quiz_draft.html"
 	def get(self, request, *args, **kwargs):
+		if request.user != Post.objects.get(id=self.kwargs.get('post_id')).author:
+			raise Http404
 		quiz = Quiz.objects.get(id=self.kwargs.get('quiz_id'))
 		existing_qn = len(quiz.questions)
 		context={
 			'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
-			'quiz_form': QuizForm(instance=quiz),
+			'quiz_form': QuizForm(instance=quiz, initial={'time': None}),
 			'quiz':quiz,
 			'error':"",
 			'existing_qns':existing_qn
@@ -292,6 +334,12 @@ class QuizFormView(View):
 		quiz_form = QuizForm(request.POST, instance=quiz)
 		question_editform = self.Question_EditSet(request.POST, request.FILES, instance=quiz, queryset=quiz.question_set.order_by("index"))
 		errortext = "Error, please ensure Title and Answer fields are filled up, number should be between 1 and 20"
+		x = request.POST.getlist("remove")
+		print(x)
+		if x == ['mine']: 
+			Result.objects.filter(user=request.user).filter(quiz=quiz).delete()
+		elif x ==['all']:
+			Result.objects.filter(quiz=quiz).delete()
 		if quiz_form.is_valid() and question_editform.is_valid():	
 			quiz_form.save()
 			question_editform.save()
@@ -323,3 +371,7 @@ def change_sub(request, operation, pk):
 		new_sub.n_subs -= 1
 		new_sub.save()
 		return redirect('store-home')
+
+def delete_quiz(request, post_id, quiz_id):
+	Quiz.delete_this(id=quiz_id)
+	return redirect('../../')
