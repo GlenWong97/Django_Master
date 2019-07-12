@@ -1,10 +1,33 @@
 {% extends "store/base.html" %}
 {% block content %}
+{% load extra_filter %}
 <div id="main">
-    <h1>My Scores</h1>
+    <legend> <h1>My Scores</h1> </legend>
+    <h6>*click on quiz title to reattempt quiz</h6>
+    <table id="result_chart" style="width:100%;">
+        <tr>
+            <th>Quiz Title</th>
+            <th>Attempt</th>
+            <th>Score</th>
+            <th>Percentage</th>
+            <th>Course</th>
+            <th>By</th>
+        </tr>
+        
        {% for result in results %}
-       <br>
-        Quiz: {{result.quiz.title}} Attempt: #{{result.attempt}},  Score: {{result.score}}/{{result.t_score}}
-       {% endfor %}
-    </div>
+       <tr class="{% if result.score|divide_by:result.t_score|multiply_by:100 < 50 %} red_row {% else %} green_row {% endif %}">
+        <td> <a href="{% url 'quiz' result.quiz.post.id result.quiz.id %}">{{result.quiz.title}}</a> </td>
+        <td> #{{result.attempt}} </td>
+        <td> {{result.score}}/{{result.t_score}} </td>
+        <td> {{ result.score|divide_by:result.t_score|multiply_by:100 }}%</td>
+        <td> <a href="{% url 'post-detail' result.quiz.post.id %}"><small>{{result.quiz.post.title}}</small></a> </td>    
+        <td> <a href="{% url 'user-posts' result.quiz.post.author %}"><small>{{result.quiz.post.author}}</small></a> </td>
+    </tr>
+        {% endfor %}
+    </table>
+    {% if results %}
+        {% else %} 
+        <h2 style="text-align: center;">You have not taken any quizes :/</h2>
+        {% endif %}    
+</div>
 {% endblock content %}

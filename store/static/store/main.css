@@ -539,3 +539,56 @@ body {
   height: 33px;
   background-color: red;
 }
+
+#result_chart {
+  font-size: 12pt;
+  border-collapse:collapse;
+  border:1px solid white;
+}
+
+#result_chart small {
+  font-size: 8pt;
+}
+
+#result_chart td:not(:first-child), #result_chart th:not(:first-child){
+  text-align: center;
+}
+
+#result_chart td:first-child, #result_chart th:first-child{
+  padding-left: 6px;
+}
+
+#result_chart th{
+  background-color: #333;
+  font-size: 11pt;
+  color: whitesmoke;
+}
+#result_chart td{
+  border:1px solid white;
+}
+
+#result_chart a{
+  color: rgb(24, 0, 131);
+  font-weight: 600;
+}
+
+.green_row{
+  background-color: rgb(78, 253, 122);
+}
+.red_row{
+  background-color: rgb(247, 115, 115);
+}
+
+.floating_left_icon {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+}
+
+#add_button{
+  width:70px; 
+  height:28px;
+  background: url("/static/store/add_button.png") no-repeat;
+  background-size: 70px;
+  padding: 0px;
+}

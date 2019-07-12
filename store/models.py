@@ -57,12 +57,12 @@ class Post(models.Model):
 		return self.lesson_set.all()
 
 class Quiz(models.Model):
-	index = models.IntegerField(default=0)
+	index = models.IntegerField(default=0, blank=True)
 	title = models.CharField(max_length=30)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
 	time = models.IntegerField()
-	random = models.BooleanField(default=0, null=True, blank=True)
-	
+	random = models.BooleanField(default=False, blank=True)
+	number = models.IntegerField(default=20, blank=True, validators=[MinValueValidator(1), MaxValueValidator(20)])
 	def __str__(self):
 		return self.title
 	
@@ -85,6 +85,16 @@ class Result(models.Model):
 	q8 = models.CharField(max_length=50, null=True, blank=True)
 	q9 = models.CharField(max_length=50, null=True, blank=True)
 	q10 = models.CharField(max_length=50, null=True, blank=True)
+	q11 = models.CharField(max_length=50, null=True, blank=True)
+	q12 = models.CharField(max_length=50, null=True, blank=True)
+	q13 = models.CharField(max_length=50, null=True, blank=True)
+	q14 = models.CharField(max_length=50, null=True, blank=True)
+	q15 = models.CharField(max_length=50, null=True, blank=True)
+	q16 = models.CharField(max_length=50, null=True, blank=True)
+	q17 = models.CharField(max_length=50, null=True, blank=True)
+	q18 = models.CharField(max_length=50, null=True, blank=True)
+	q19 = models.CharField(max_length=50, null=True, blank=True)
+	q20 = models.CharField(max_length=50, null=True, blank=True)
 	attempt = models.IntegerField(default=1)
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=False, blank=False)
 	user = models.CharField(max_length=100)
@@ -92,7 +102,7 @@ class Result(models.Model):
 	t_score = models.IntegerField(null=True)
 	
 	def __str__(self):
-		return str(self.quiz) + ": " + str(self.user)
+		return str(self.quiz) + ": " + str(self.user) + "-attempt #" + str(self.attempt)
 
 class Question(models.Model):
 	qn_type_choices = [

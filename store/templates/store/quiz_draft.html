@@ -3,11 +3,27 @@
 {% load static from staticfiles %}
 {% load extra_filter %}
 <div id="main">
-<div>
+    {% if error %}
+    <div class={% if error.0 == "E"  %}"alert alert-danger"{% else %}"alert alert-success"{% endif %} role="alert">
+            {{error}}
+    </div>
+    {% endif %}
+  <div>
+    <a href="../../">Back to Interactive</a>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
           <fieldset>
-          <legend style="text-align: center;" >Quiz name: {{ quiz.title }} </legend>
+          <legend style="text-align: center;" >Quiz name: <a style="font-size: 18pt; font-weight: 600;" href="../">{{ quiz.title }}</a> </legend>
+            <fieldset style="float: right; width: 35%;">
+              <legend>Edit Quiz' Properties</legend>
+              <span>{{ quiz_form.as_p }}</span>
+              <h6>(number refers to number of questions shown in a quiz <br> [max 20])</h6>
+            </fieldset>
+            <fieldset style="float: left; width: 45%;  position: relative; display: block;">
+                <span style="position: absolute; bottom: 40px; right: 0px;">
+                   <button type="button" style="overflow: initial; background:none; border-radius: 50px; outline: none;" onclick="add_another_qn(); return true;"><span id="add_button"></span></button>
+                    </span>
+              <legend>Edit Quiz' Questions</legend>
             {{ question_edit.management_form }}
             
             {% if question_edit.errors %}
@@ -24,14 +40,34 @@
                 </div>
                 {% endfor %}
             {% endif %}
-
+          <div id="expandable_form">
+            <ol>
             {% for question in question_edit %}
-            <div class="link-formset">
-              {{ question.as_p }}
+              {% if forloop.counter > existing_qns|add:1 %}
+            <div id="qnE_{{forloop.counter}}" class="link-formset" style="display: none;">
+              {% else %}
+            <div id="qnE_{{forloop.counter}}" class="link-formset" style="display: block;">
+              {% endif %}
+              <li>{{ question.as_p }}</li>
+              <br> 
             </div>
-            <br> 
             {% endfor %}
-          <button class="btn btn-secondary" type="submit" >Confirm Changes</button>
+          </ol>
+          </div>
+          <script type="text/javascript">
+              function add_another_qn() {
+                for (i = 1; i <= 40; i ++) {
+                //   document.getElementById("qnE_" + str(i)).style.display = "block";
+                var x = document.getElementById("qnE_" + i.toString());
+                  if (x.style.display == "none") {
+                    x.style.display = "block";
+                    break;
+                  }
+                }
+              }
+              </script>
+              <button class="btn btn-secondary" type="submit" >Confirm Changes</button>
+            </fieldset>
         </fieldset>
         </form>
 </div>
