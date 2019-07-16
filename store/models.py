@@ -60,7 +60,7 @@ class Quiz(models.Model):
 	index = models.IntegerField(default=0, blank=True)
 	title = models.CharField(max_length=30)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
-	time = models.IntegerField(validators=[MinValueValidator(5)], blank=True, null=True, default=None)
+	time = models.IntegerField(validators=[MinValueValidator(0)], blank=True, null=True, default=20)
 	random = models.BooleanField(default=False, blank=True)
 	number = models.IntegerField(default=20, blank=True, validators=[MinValueValidator(1)])
 	def __str__(self):

@@ -79,7 +79,7 @@ class InteractiveListView(ListView):
 		if form.is_valid():
 			instance = form.save(commit=False)
 			instance.post = Post.objects.get(id=post_id)
-			instance.time = 0
+			instance.time = None
 			quiz_id = instance.save()
 			return redirect('quiz_draft', post_id = post_id, quiz_id= instance.id)
 		else:
@@ -98,7 +98,7 @@ class ResultListView(ListView):
 class ScoreListView(ListView):
 	model = Result
 	template_name = 'store/score_chart.html'
-	context_object_name = 'results'
+	context_object_name = 'result_'
 		
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -321,7 +321,7 @@ class QuizFormView(View):
 		existing_qn = len(quiz.questions)
 		context={
 			'question_edit': self.Question_EditSet(instance=quiz, queryset=quiz.question_set.order_by("index")),
-			'quiz_form': QuizForm(instance=quiz, initial={'time': None}),
+			'quiz_form': QuizForm(instance=quiz),
 			'quiz':quiz,
 			'error':"",
 			'existing_qns':existing_qn

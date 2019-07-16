@@ -90,8 +90,9 @@
   {% endif %}
   {% block content %}{% endblock %}
 </div>
+{% if user.is_authenticated %}
 <div class="floating_left_icon"><a href="{% url 'result_page' %}"><img src="/static/store/exam.png" style="width: 55px;"></a></div>
-
+{% endif %}
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </html>

@@ -9,6 +9,17 @@
     </div>
     {% endif %}
   <div>
+    <script>
+    function appear() {
+      if (document.getElementById("help_sheet").style.display == "none") {
+        document.getElementById("help_sheet").style.display = "block";
+      }
+      else {
+        document.getElementById("help_sheet").style.display = "none";  
+      }
+    }
+    </script>
+    <button style="float: right; background:none; outline: none; border: none;" onclick="appear();"><img style="width: 30px;" src="/static/store/help.jpg"></button>
     <a href="../../">Back to Interactive</a>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
