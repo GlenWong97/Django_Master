@@ -3,7 +3,7 @@
 {% load extra_filter %}
 <div id="main">
     {% if results %}
-    <a style="float:right;" href="{% url 'interactive' results.0.quiz.post.id %}">Back to Bra!nteractive</a>
+    <a style="float:right;" href="{% url 'interactive' results.0.quiz.post.id %}">Back to quiz list</a>
     <a href="{% url 'quiz' results.0.quiz.post.id results.0.quiz.id%}"><h1>{{results.0.quiz.title}}</h1></a> 
     <legend>Top 10 users</legend>
     <table id="result_chart" style="width:100%;">

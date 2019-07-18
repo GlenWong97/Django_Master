@@ -29,7 +29,7 @@
     {% else %}
     <tr style="background-color: rgb(236, 236, 236); width: 100%;" >
     {% endif %}
-        <td style="width: 40px; padding-left: 10px;"> {{ forloop.counter }}) </td>
+        <td style="width: 40px; "> {{ forloop.counter }} </td>
         <td><a style="margin-right: 10px; font-weight: 600; color: rgb(15, 138, 196)" href="{% url 'quiz' quiz.post.id quiz.id %}">{{ quiz.title }}</a></td>
         <td><a href="{% url 'score_chart' quiz.post.id quiz.id %}"><img style="height: 20px;" src="/static/store/score_chart.png"></a></td>
         {% if request.user == quizes.0.post.author %}
@@ -44,14 +44,11 @@
         {% endif %}    
     </tr>
     {% endfor %}
-    {% elif request.user != post.author %}
-    <h2>Sorry there are no quizes for this course :/</h2>
-    {% endif %}
     {% if request.user == post.author %}
     <tr style="background-color: rgb(255, 232, 232); width: 100%;">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <td>{{ quizes|length|add:1 }})</td>
+        <td style="width: 40px; text-align:left; padding-left:6px;">{{ quizes|length|add:1 }}</td>
         <td><input type="text" name="title" placeholder="quiz name"></td>
         <td></td>
         <td colspan="2"> <button style="width: 50%; margin-left: auto; margin-right: auto;" class="btn btn-secondary" type="submit" >add</button></td>
@@ -59,5 +56,8 @@
     {% endif %}
 </tr>
 </table>
+{% elif request.user != post.author %}
+    <h2>Sorry there are no quizes for this course :/</h2>
+    {% endif %}
 </div>
 {% endblock content %}
