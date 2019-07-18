@@ -9,15 +9,35 @@
     </div>
     {% endif %}
   <div>
-    <a href="../../">Back to Interactive</a>
+    <script>
+    function appear() {
+      if (document.getElementById("fade_Screen").style.display == "none") {
+        document.getElementById("fade_Screen").style.display = "block";
+      }
+      else {
+        document.getElementById("fade_Screen").style.display = "none";  
+      }
+    }
+    </script>
+      <div style="display: none;" id="fade_Screen">
+      <img onclick="appear();" src="/static/store/help_sheet_TYPE.png" style="height: 400px; margin-left: auto; margin-right: auto; display: block;margin-top: 10%;">
+      </div>
+    <button style="float: right; background:none; outline: none; border: none;" onclick="appear();"><img style="width: 30px;" src="/static/store/help.jpg"></button>
+    <a href="../../">Back to quiz list</a>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
           <fieldset>
           <legend style="text-align: center;" >Quiz name: <a style="font-size: 18pt; font-weight: 600;" href="../">{{ quiz.title }}</a> </legend>
             <fieldset style="float: right; width: 35%;">
+              
               <legend>Edit Quiz' Properties</legend>
               <span>{{ quiz_form.as_p }}</span>
-              <h6>(number refers to number of questions shown in a quiz <br> [max 20])</h6>
+              <h6>*time limit of quiz in seconds <br> *leave this as blank if there is no time limit</h6>
+              <br><input type="radio" name="remove" value="" checked="checked"><strong style="margin-left:10px;">Leave all results</strong>
+              <br><input type="radio" name="remove" value="mine"><strong style="margin-left:10px;">Remove your results</strong>
+              <br><input type="radio" name="remove" value="all"><strong style="margin-left:10px;">Remove all results</strong>
+              <br>
+              <br><a href="{% url 'score_chart' quiz.post.id quiz.id %}" class="btn btn-success">view high scores</a>
             </fieldset>
             <fieldset style="float: left; width: 45%;  position: relative; display: block;">
                 <span style="position: absolute; bottom: 40px; right: 0px;">
@@ -66,9 +86,9 @@
                 }
               }
               </script>
-              <button class="btn btn-secondary" type="submit" >Confirm Changes</button>
-            </fieldset>
+              </fieldset>
         </fieldset>
+        <span style="z-index: 98; width:15%; display: block; margin-left: auto; margin-right: auto;"><button class="btn btn-secondary" type="submit" >Confirm Changes</button></span>
         </form>
 </div>
 {% endblock content %}

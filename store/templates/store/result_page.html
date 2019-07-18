@@ -6,6 +6,7 @@
     <h6>*click on quiz title to reattempt quiz</h6>
     <table id="result_chart" style="width:100%;">
         <tr>
+            <th style="width: 40px;">scores</th>
             <th>Quiz Title</th>
             <th>Attempt</th>
             <th>Score</th>
@@ -16,6 +17,7 @@
         
        {% for result in results %}
        <tr class="{% if result.score|divide_by:result.t_score|multiply_by:100 < 50 %} red_row {% else %} green_row {% endif %}">
+        <td><a href="{% url 'score_chart' result.quiz.post.id result.quiz.id %}"><img style="height: 18px;" src="/static/store/score_chart.png"></a></td>
         <td> <a href="{% url 'quiz' result.quiz.post.id result.quiz.id %}">{{result.quiz.title}}</a> </td>
         <td> #{{result.attempt}} </td>
         <td> {{result.score}}/{{result.t_score}} </td>

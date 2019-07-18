@@ -32,12 +32,11 @@
         </div>
         
         <div>
-          <a class="btn btn-default" href="{% url 'lesson_upload' object.id %}">Upload material</a>
+          <a class="btn btn-success" href="{% url 'lesson_upload' object.id %}">Upload material</a>
+          <a class="btn btn-primary" href="{% url 'interactive' object.id %}">Quizes</a>
         </div>
         <div>
           <a class="btn btn-default" href="{% url 'lesson_uploaded' object.id %}">Currently uploaded material</a>
-          <a class="btn btn-default" href="{% url 'interactive' object.id %}">START</a>
-        
         </div>    
       {% endif %}      
     {{ object.Lesson.title }}
@@ -57,14 +56,14 @@
     {% if object.author != user %}
     {% if object in sub %}
     <div>
+        <a style="width: 170px;" class="btn btn-danger" href="{% url 'change_sub' object.id 'remove' %}">Unsubscribe</a>
           <a class="btn btn-default" href="{% url 'lesson_uploaded' object.id %}">Currently uploaded material</a>
-          <a class="btn btn-default" href="{% url 'interactive' object.id %}">START</a>
-        </div>
-    <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' object.id 'remove' %}">Unsubscribe</a>
-    {% else %}
-    <a style="width: 170px" class="brk-btn" href="{% url 'change_sub' object.id 'add' %}">Subscribe</a>
+          <a class="btn btn-primary" href="{% url 'interactive' object.id %}">Quizes</a>
+   {% else %}
+    <a style="width: 170px;" class="btn btn-success" href="{% url 'change_sub' object.id 'add' %}">Subscribe</a>
     {% endif %}
     {% endif %}
+    </div>
     {% for i in object.feedback|get_m %}
       <div id="comment">
         <img src="{{ i.user.profile.image.url }}" id="profile_icon">

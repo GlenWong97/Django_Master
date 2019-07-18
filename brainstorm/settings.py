@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'chat.apps.ChatConfig',
     'channels',
-    'dynamic_models'
+    'dynamic_models',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
